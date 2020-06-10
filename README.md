@@ -1,1 +1,1 @@
-# Halo-Wars-Reborn is a three person-developer project
+# Halo-Wars-Reborn is a three person-developer project by Iván04, Headcrab and Dopey
