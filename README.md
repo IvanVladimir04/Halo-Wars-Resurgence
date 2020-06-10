@@ -1,1 +1,1 @@
-# Halo-Wars-Reborn
+# Halo-Wars-Reborn is a three person-developer project
