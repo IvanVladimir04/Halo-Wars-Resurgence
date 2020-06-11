@@ -1,0 +1,8 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models/halowars/flamer/flamethrower_df"
+	"$halflambert" "1"
+	"$nodecal" "1"
+
+
+}

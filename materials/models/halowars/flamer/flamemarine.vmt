@@ -1,0 +1,39 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models/halowars/flamer/flamemarine_01_df"
+	"$halflambert" "1"
+	"$nodecal" "1"
+
+	"$envmap" "models/halowars/shared/cyborg_reflection_armor.hdr"
+	"$envmapmask" "models/halowars/flamer/flamemarine_01_mask"
+	"$envmaptint"	"{185 165 25}"
+	"$multipass" 1
+	"$envmapcontrast"		"0.3"
+	"$envmapsaturation "	"0.4"
+
+	"$blendtintbybasealpha"	"1"
+
+	Proxies
+	{
+		PlayerColor
+		{
+			resultVar	$color2 // pass the player color value to Gmod
+			default		0.23 0.35 0.41 // unused for now.
+		}
+		Clamp
+		{
+			min 0.15
+			max 1
+			srcVar1 "$color"
+			resultVar "$phongtint"
+		}
+		Clamp
+		{
+			min 0.25
+			max 1
+			srcVar1 "$color"
+			resultVar "$envmaptint"
+		}
+	}
+
+}
