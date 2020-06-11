@@ -9,7 +9,7 @@
 	"$phongfresnelranges" "[.7 .82 31]"
 	"$halflambert" "1"
 	"$nodecal" "1"
-
+	"$nocull"		"1"
 
 	"$blendtintbybasealpha"	"1"
 
