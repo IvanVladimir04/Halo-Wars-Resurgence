@@ -1,8 +1,13 @@
 "VertexLitGeneric"
 {
 	"$baseTexture" "models/halowars/flamer/flamethrower_df"
+	"$bumpmap" "models/halowars/flamer/flamethrower_nm"
+	"$phong" 1
+	"$phongboost" "0.85"
+	"$phongexponent" "7"
+	"$phongtint" "{230 255 215}"
+	"$phongfresnelranges" "[.7 .82 31]"
 	"$halflambert" "1"
 	"$nodecal" "1"
-
 
 }
