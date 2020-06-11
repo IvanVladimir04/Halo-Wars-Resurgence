@@ -1,0 +1,15 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models/halowars/brute/bruteshot_01_df"
+	"$bumpmap"	"models/halowars/brute/bruteshot_01_nm"
+	"$phong" 1
+	"$phongboost" "1.15"
+	"$phongexponent" "2"
+	"$phongtint" "{230 225 255}"
+	"$phongfresnelranges" "[.7 .82 31]"
+
+	"$halflambert" "1"
+	"$nodecal" "1"
+
+
+}

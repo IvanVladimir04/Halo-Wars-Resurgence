@@ -1,12 +1,13 @@
 "VertexLitGeneric"
 {
 	"$baseTexture" "models/halowars/flamer/flamemarine_01_df"
-	"$bumpmap" "models/halowars/flamer/flamemarine_01_nm"
-	"$phong" 1
-	"$phongboost" "0.85"
-	"$phongexponent" "7"
-	"$phongtint" "{230 255 215}"
-	"$phongfresnelranges" "[.7 .82 31]"
+	"$bumpmap" "models/halowars/flamer/flamemarine_visor_01_nm"
+	"$envmap" "models/halowars/shared/cyborg_reflection_armor.hdr"
+	"$normalmapalphaenvmapmask"	"1"
+	"$envmaptint"	"{185 135 5}"
+	"$multipass" 1
+	"$envmapcontrast"		"0.45"
+	"$envmapsaturation "	"0.85"
 	"$halflambert" "1"
 	"$nodecal" "1"
 
