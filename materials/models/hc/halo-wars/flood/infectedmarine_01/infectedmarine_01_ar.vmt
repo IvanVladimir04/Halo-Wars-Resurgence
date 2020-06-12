@@ -1,0 +1,24 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/hc/halo-wars/unsc/assault_rifle_01/assault_rifle_01_d"
+                "$bumpmap" "models/hc/halo-wars/unsc/assault_rifle_01/assault_rifle_01_d_nrm"
+	"$phongexponenttexture" "models/hc/halo-wars/unsc/assault_rifle_01/assault_rifle_01_d_spec"
+
+	"$model" 1
+	"$halflambert" 1
+	"$nodecal" 1
+
+	"$phong" 1
+	"$phongboost" 2.44
+	"$phongfresnelranges"  "[.17 .15 .12]"
+
+	"$phongalbedotint" 0
+	
+	"$detail"  "detail\noise_detail_01"
+	"$detailscale" 15
+	"$detailblendfactor" 1
+	"$detailblendmode" 0
+
+	"$selfillum"	 "1"
+	"$selfillummask"	"models/hc/halo-wars/unsc/assault_rifle_01/assault_rifle_01_d_ems"
+}
