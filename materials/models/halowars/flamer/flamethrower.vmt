@@ -10,4 +10,5 @@
 	"$halflambert" "1"
 	"$nodecal" "1"
 	"$nocull"		"1"
+	"$blendtintbybasealpha"	"1"
 }
