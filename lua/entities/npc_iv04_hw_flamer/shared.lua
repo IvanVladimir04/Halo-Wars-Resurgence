@@ -12,6 +12,8 @@ ENT.Faction = "FACTION_UNSC"
 ENT.MoveSpeed = 80
 ENT.MoveSpeedMultiplier = 2 -- When running, the move speed will be x times faster
 
+ENT.PrintName = "Flamethrower"
+
 ENT.FlameRange = 300
 
 ENT.FriendlyToPlayers = true
