@@ -1,0 +1,15 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models/halowars/spartan/mini_gun_01_df"
+	"$bumpmap"	"models/halowars/spartan/mini_gun_01_nm"
+	"$phong" 1
+	"$phongboost" "1.45"
+	"$phongexponent" "12"
+	"$phongtint" "{170 225 115}"
+	"$phongfresnelranges" "[.7 .82 31]"
+	"$nocull"		"1"
+	"$halflambert" "1"
+	"$nodecal" "1"
+	"$blendtintbybasealpha"	"1"
+
+}

@@ -1,0 +1,18 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models/halowars/warthog/unsc_windshield_01_df"
+//	"$bumpmap" "models/halowars/warthog/warthog_01_nm"
+	"$envmap" "models/halowars/shared/cyborg_reflection_armor.hdr"
+	"$envmaptint"	"{175 135 105}"
+	"$multipass" 1
+	"$envmapcontrast"		"0.45"
+	"$envmapsaturation "	"0.15"
+	"$color2"		"{55 65 255}"
+	"$halflambert" "1"
+	"$nodecal" "1"
+	"$nocull"		"0"
+	"$color2"		"[1 1.8 2]"
+	"$blendtintbybasealpha"	"1"
+
+	
+}
