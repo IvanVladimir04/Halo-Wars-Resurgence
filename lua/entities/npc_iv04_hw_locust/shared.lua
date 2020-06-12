@@ -1,28 +1,29 @@
 AddCSLuaFile()
 ENT.Base 			= "npc_iv04_base"
-ENT.Models  = {"models/halowars1/unsc/flamer.mdl"}
-ENT.StartHealth = 50
+ENT.Models  = {"models/halowars1/covenant/locust.mdl"}
+ENT.StartHealth = 200
 ENT.Relationship = 4
 ENT.MeleeDamage = 30
 ENT.RunAnim = {ACT_RUN}
 ENT.SightType = 2
 ENT.BehaviourType = 3
-ENT.Faction = "FACTION_UNSC"
+ENT.Faction = "FACTION_COVENANT"
 --ENT.MeleeSoundTbl = {"npc/zombie/zo_attack1.wav","npc/zombie/zo_attack2.wav"}
-ENT.MoveSpeed = 80
-ENT.MoveSpeedMultiplier = 2 -- When running, the move speed will be x times faster
+ENT.MoveSpeed = 160
+ENT.MoveSpeedMultiplier = 1 -- When running, the move speed will be x times faster
 
-ENT.PrintName = "Flamethrower"
+ENT.PrintName = "Locust"
 
-ENT.FlameRange = 300
+ENT.ToastRange = 900
 
 ENT.FriendlyToPlayers = true
 
-ENT.SightDistance = 512
+ENT.SightDistance = 1024
 
 function ENT:OnInitialize()
+	self:SetBloodColor(BLOOD_COLOR_MECH)
 	if !self.Color then
-		self:SetColor(Color(0,140,9,255))
+		self:SetColor(Color(245,0,255,255))
 	end
 end
 
@@ -31,11 +32,11 @@ function ENT:CustomBehaviour(ent)
 	if !IsValid(ent) then return end
 	--print(ent)
 	local range = self:GetRangeSquaredTo(ent)
-	if range < self.FlameRange^2 then
-		return self:Grill(ent)
+	if range < self.ToastRange^2 then
+		return self:Toast(ent)
 	else
 		self:StopParticles()
-		self.Grilling = false
+		self.Toasting = false
 		self:StartMovingAnimations(self.RunAnim[1],self.MoveSpeed*self.MoveSpeedMultiplier)
 		return self:ChaseEnt(ent)
 	end
@@ -43,51 +44,50 @@ end
 
 ENT.IsUpgraded = false
 
-function ENT:Grill(ent)
+function ENT:Toast(ent)
 	ent = ent or self.Enemy
 	if !IsValid(ent) then return end
-	if !self.Grilling then
-		self.Grilling = true
-		self:PlaySequenceAndWait("Prefire")
+	if !self.Toasting then
+		self.Toasting = true
+		--self:PlaySequenceAndWait("Prefire")
 	end
 	self:Face(ent)
-	local seq = "Attack "..math.random(1,2)..""
-	local effect = "flame_halowars_flame"
-	if self.IsUpgraded then seq = "Attack Napalm" effect = "flame_halowars_napalm" end
-	ParticleEffectAttach( effect, PATTACH_POINT_FOLLOW, self, 1 )
-	local id, len = self:LookupSequence(seq)
-	for i = 1, len*5 do
-		timer.Simple( 0.2*i, function()
+	--local seq = "Attack "..math.random(1,2)..""
+	--local effect = "flame_halowars_flame"
+	--if self.IsUpgraded then seq = "Attack Napalm" effect = "flame_halowars_napalm" end
+	--ParticleEffectAttach( effect, PATTACH_POINT_FOLLOW, self, 1 )
+	local id, len = self:LookupSequence("Attack")
+	for i = 1, len*10 do
+		timer.Simple( 0.1*i, function()
 			if IsValid(self) then
-				self:Burn()
+				self:FireAt()
 			end
 		end )
 	end
 	self:PlaySequenceAndWait(id)
-	if !IsValid(self.Enemy) then
+	--[[if !IsValid(self.Enemy) then
 		self:StopParticles()
-	end
+	end]]
 end
 
-function ENT:Burn()
+function ENT:FireAt()
+	if !IsValid(self.Enemy) then return end
 	local att = self:GetAttachment(1)
 	local start = att.Pos
 	local normal = att.Ang:Forward()
-	for k, v in pairs(ents.FindInCone(start,normal,self.FlameRange,math.cos( math.rad( 30 ) ))) do
-		if v:Health() > 1 and self:CheckRelationships(v) != "friend" then
-			local num = math.random(2,5)
-			if self.IsUpgraded then
-				num = num+math.random(2,5)
-			end
-			dm = DamageInfo()
-			dm:SetDamage( num/2 )
-			dm:SetAttacker(self)
-			dm:SetInflictor(self)
-			dm:SetDamageType( DMG_BURN )
-			v:TakeDamageInfo( dm )
-			v:Ignite(num)
-		end
+	local bullet = {}
+	bullet.Num = 1
+	bullet.Src = start
+	bullet.Dir = (self.Enemy:WorldSpaceCenter()-start):GetNormalized()
+	bullet.Spread =  Vector( 0.01, 0.01 )
+	bullet.Tracer = 1
+	bullet.Force = 1
+	bullet.TracerName = "effect_osw_tracer_sniper_outlaw"
+	bullet.Damage = 4
+	bullet.Callback = function(attacker, tr, info) -- Small function to set it as we are who caused the damage
+
 	end
+	self:FireBullets(bullet)
 end
 
 function ENT:Face(ent)
@@ -121,8 +121,8 @@ function ENT:ChaseEnt(ent) -- Modified MoveToPos to integrate some stuff
 				return "Lost Enemy"
 			end
 			local see = self:IsLineOfSightClear(ent)
-			if dist < self.FlameRange^2 and see then
-				return self:Grill(ent)
+			if dist < self.ToastRange^2 and see then
+				return self:Toast(ent)
 			end
 		end
 		if ent:IsPlayer() then
@@ -165,13 +165,7 @@ function ENT:DoKilledAnim()
 	--self:PlaySequenceAndWait(anim, 1)
 end
 
-
-function ENT:GetInfected()
-
-end
-
 function ENT:CreateRagdoll(dmg)
-	if dmg:GetAttacker().IsHWPopcorn then return self:GetInfected() end
 	local corpse = ents.Create("prop_dynamic")
 	corpse:SetPos(self:GetPos())
 	corpse:SetModel(self:GetModel())
@@ -211,8 +205,8 @@ function ENT:CreateRagdoll(dmg)
 	end
 end
 
-list.Set( "NPC", "npc_iv04_hw_flamer", {
-	Name = "Flamethrower",
-	Class = "npc_iv04_hw_flamer",
+list.Set( "NPC", "npc_iv04_hw_locust", {
+	Name = "Locust",
+	Class = "npc_iv04_hw_locust",
 	Category = "Halo Wars Resurgence"
 } )

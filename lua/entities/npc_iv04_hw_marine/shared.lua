@@ -1,24 +1,26 @@
 AddCSLuaFile()
 ENT.Base 			= "npc_iv04_base"
-ENT.Models  = {"models/halowars1/unsc/flamer.mdl"}
+ENT.Models  = {"models/halowars1/unsc/marine.mdl"}
 ENT.StartHealth = 50
 ENT.Relationship = 4
 ENT.MeleeDamage = 30
-ENT.RunAnim = {ACT_RUN}
+ENT.WanderAnim = {ACT_RUN}
 ENT.SightType = 2
 ENT.BehaviourType = 3
 ENT.Faction = "FACTION_UNSC"
 --ENT.MeleeSoundTbl = {"npc/zombie/zo_attack1.wav","npc/zombie/zo_attack2.wav"}
-ENT.MoveSpeed = 80
-ENT.MoveSpeedMultiplier = 2 -- When running, the move speed will be x times faster
+ENT.MoveSpeed = 160
+ENT.MoveSpeedMultiplier = 1 -- When running, the move speed will be x times faster
 
-ENT.PrintName = "Flamethrower"
+ENT.PrintName = "Marine"
 
-ENT.FlameRange = 300
+ENT.AttackRange = 500
 
 ENT.FriendlyToPlayers = true
 
 ENT.SightDistance = 512
+
+ENT.WepDamage = 7
 
 function ENT:OnInitialize()
 	if !self.Color then
@@ -31,10 +33,9 @@ function ENT:CustomBehaviour(ent)
 	if !IsValid(ent) then return end
 	--print(ent)
 	local range = self:GetRangeSquaredTo(ent)
-	if range < self.FlameRange^2 then
-		return self:Grill(ent)
+	if range < self.AttackRange^2 then
+		return self:Shoot(ent)
 	else
-		self:StopParticles()
 		self.Grilling = false
 		self:StartMovingAnimations(self.RunAnim[1],self.MoveSpeed*self.MoveSpeedMultiplier)
 		return self:ChaseEnt(ent)
@@ -43,57 +44,77 @@ end
 
 ENT.IsUpgraded = false
 
-function ENT:Grill(ent)
+function ENT:Shoot(ent)
 	ent = ent or self.Enemy
 	if !IsValid(ent) then return end
-	if !self.Grilling then
-		self.Grilling = true
-		self:PlaySequenceAndWait("Prefire")
+	if !self.Shooting then
+		self.Shooting = true
+		--self:PlaySequenceAndWait("Prefire")
 	end
 	self:Face(ent)
-	local seq = "Attack "..math.random(1,2)..""
-	local effect = "flame_halowars_flame"
-	if self.IsUpgraded then seq = "Attack Napalm" effect = "flame_halowars_napalm" end
-	ParticleEffectAttach( effect, PATTACH_POINT_FOLLOW, self, 1 )
+	local seq = "Attack Assault Rifle "..math.random(1,2)..""
+	--local effect = "flame_halowars_flame"
+	--if self.IsUpgraded then seq = "Attack Napalm" effect = "flame_halowars_napalm" end
+	--ParticleEffectAttach( effect, PATTACH_POINT_FOLLOW, self, 1 )
 	local id, len = self:LookupSequence(seq)
-	for i = 1, len*5 do
-		timer.Simple( 0.2*i, function()
+	for i = 1, len*2 do
+		timer.Simple( 0.4*i, function()
 			if IsValid(self) then
-				self:Burn()
+				self:FireAt()
 			end
 		end )
 	end
 	self:PlaySequenceAndWait(id)
-	if !IsValid(self.Enemy) then
-		self:StopParticles()
+	if math.random(1,2) == 1 then
+		self:PlaySequenceAndWait("Idle Combat "..math.random(1,5).."")
 	end
+	--[[if !IsValid(self.Enemy) then
+		self:StopParticles()
+	end]]
 end
 
-function ENT:Burn()
+function ENT:FireAt()
 	local att = self:GetAttachment(1)
 	local start = att.Pos
 	local normal = att.Ang:Forward()
-	for k, v in pairs(ents.FindInCone(start,normal,self.FlameRange,math.cos( math.rad( 30 ) ))) do
-		if v:Health() > 1 and self:CheckRelationships(v) != "friend" then
-			local num = math.random(2,5)
-			if self.IsUpgraded then
-				num = num+math.random(2,5)
-			end
-			dm = DamageInfo()
-			dm:SetDamage( num/2 )
-			dm:SetAttacker(self)
-			dm:SetInflictor(self)
-			dm:SetDamageType( DMG_BURN )
-			v:TakeDamageInfo( dm )
-			v:Ignite(num)
-		end
+	local bullet = {}
+	bullet.Num = 1
+	bullet.Src = start
+	bullet.Dir = self:GetAimVector()
+	bullet.Spread =  Vector( 0.01, 0.01 )
+	bullet.Tracer = 1
+	bullet.Force = 1
+	--bullet.TracerName = self.TracerName
+	bullet.Damage = self.WepDamage
+	bullet.Callback = function(attacker, tr, info) -- Small function to set it as we are who caused the damage
+
 	end
+	self:FireBullets(bullet)
 end
 
 function ENT:Face(ent)
 	if !IsValid(ent) then return end
 	local ang = (ent:GetPos()-self:GetPos()):GetNormalized():Angle()
 	self:SetAngles(Angle(self:GetAngles().p,ang.y,self:GetAngles().r))
+end
+
+function ENT:Wander()
+	if self.IsControlled then return end
+	if math.random(1,2) == 1 then
+		self:WanderToPosition( (self:GetPos() + Vector( math.Rand( -1, 1 ), math.Rand( -1, 1 ), 0 ) * self.WanderDistance), self.WanderAnim[math.random(1,#self.WanderAnim)], self.MoveSpeed )
+	else
+		if self:GetActivity() != ACT_IDLE then
+			self:StartActivity(ACT_IDLE)
+		end
+		for i = 1, 5 do
+			self:SearchEnemy()
+			if !IsValid(self.Enemy) then
+				coroutine.wait(0.3)
+			else
+				return
+			end
+		end
+	end
 end
 
 function ENT:ChaseEnt(ent) -- Modified MoveToPos to integrate some stuff
@@ -121,8 +142,8 @@ function ENT:ChaseEnt(ent) -- Modified MoveToPos to integrate some stuff
 				return "Lost Enemy"
 			end
 			local see = self:IsLineOfSightClear(ent)
-			if dist < self.FlameRange^2 and see then
-				return self:Grill(ent)
+			if dist < self.AttackRange^2 and see then
+				return self:Shoot(ent)
 			end
 		end
 		if ent:IsPlayer() then
@@ -170,6 +191,35 @@ function ENT:GetInfected()
 
 end
 
+function ENT:DetermineDeath(dmg)
+	local seq
+	--print(dmg:GetDamageType())
+	if dmg:GetDamageType() == DMG_BULLET then
+	
+		seq = "Death Machinegun "..math.random(1,3)..""
+		
+	elseif dmg:GetDamageType() == DMG_SLASH then
+	
+		seq = "Death Melee "..math.random(1,4)..""
+		
+	elseif ( dmg:GetDamageType() == DMG_BURN or self:IsOnFire() ) then
+	
+		seq = "Death Fire "..math.random(1,3)..""
+		
+		
+	else
+		
+		if math.random(1,2) == 1 then
+			seq = "Death "..math.random(1,4)..""
+		else
+			seq = "Death Headshot "..math.random(1,5)..""
+		end
+	
+	end
+	
+	return seq
+end
+
 function ENT:CreateRagdoll(dmg)
 	if dmg:GetAttacker().IsHWPopcorn then return self:GetInfected() end
 	local corpse = ents.Create("prop_dynamic")
@@ -177,9 +227,11 @@ function ENT:CreateRagdoll(dmg)
 	corpse:SetModel(self:GetModel())
 	corpse:SetAngles(self:GetAngles())
 	corpse:Spawn()
+	corpse:SetColor(self:GetColor())
 	corpse:Activate()
 	corpse:ResetSequenceInfo()
-	corpse:SetSequence("Death")
+	local seq = self:DetermineDeath(dmg)
+	corpse:SetSequence(seq)
 	corpse:SetCycle(1)
 	--corpse.IsOSWCorpse = true
 	corpse.Faction = self.Faction
@@ -211,8 +263,8 @@ function ENT:CreateRagdoll(dmg)
 	end
 end
 
-list.Set( "NPC", "npc_iv04_hw_flamer", {
-	Name = "Flamethrower",
-	Class = "npc_iv04_hw_flamer",
+list.Set( "NPC", "npc_iv04_hw_marine", {
+	Name = "Marine",
+	Class = "npc_iv04_hw_marine",
 	Category = "Halo Wars Resurgence"
 } )
