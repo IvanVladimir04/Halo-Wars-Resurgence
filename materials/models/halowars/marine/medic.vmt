@@ -1,7 +1,7 @@
 "VertexLitGeneric"
 {
-	"$baseTexture" "models/halowars/warthog/warthog_01_df"
-	"$bumpmap" "models/halowars/warthog/warthog_01_nm"
+	"$baseTexture" "models/halowars/marine/medic_01_df"
+	"$bumpmap" "models/halowars/marine/marine_01_nm"
 	"$phong" 1
 	"$phongboost" "0.85"
 	"$phongexponent" "7"
@@ -10,11 +10,8 @@
 	"$halflambert" "1"
 	"$nodecal" "1"
 	"$nocull"		"1"
-	"$rimlight" 1
-	$rimlightboost          .2
-	"$rimlightexponent"       7
+
 	"$blendtintbybasealpha"	"1"
-//	"$color2"		"[1.5 1.5 1.5]"
 
 	Proxies
 	{
