@@ -1,0 +1,23 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/hc/halo-wars/flood/infectedcarrier_01/infectedcarrier_01_d"
+                "$bumpmap" "models/hc/halo-wars/flood/infectedcarrier_01/infectedcarrier_01_d_nrm"
+
+	"$model" 1
+	"$halflambert" 1
+	"$nodecal" 1
+	"$nocull" 1
+
+	"$phong" 1
+	"$phongboost" 5.73
+	"$phongexponent" 60
+	"$phongfresnelranges"  "[.16 .9 .5]"
+	"$phongtint" "[5 3 1]"
+
+	"$phongalbedotint" 0
+	
+	"$detail"  "detail\noise_detail_01"
+	"$detailscale" 15
+	"$detailblendfactor" 1
+	"$detailblendmode" 0
+}
