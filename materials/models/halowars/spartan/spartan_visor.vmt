@@ -1,6 +1,6 @@
 "VertexLitGeneric"
 {
-	"$baseTexture" "models/halowars/spartan/spartan_01_df"
+	"$baseTexture" "models/halowars/spartan/spartan_01_visor_df"
 	"$bumpmap" "models/halowars/spartan/spartan_01_visor_nm"
 	"$envmap" "models/halowars/shared/cyborg_reflection_armor.hdr"
 	"$normalmapalphaenvmapmask"	"1"
@@ -10,7 +10,7 @@
 	"$envmapsaturation "	"0.85"
 	"$halflambert" "1"
 	"$nodecal" "1"
-
+	"$color2"		"[.7 .7 .7]"
 
 	"$blendtintbybasealpha"	"1"
 

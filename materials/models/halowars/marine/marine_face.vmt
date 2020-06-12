@@ -1,6 +1,6 @@
 "VertexLitGeneric"
 {
-	"$baseTexture" "models/halowars/marine/marine_01_df"
+	"$baseTexture" "models/halowars/marine/marine_01_visor_df"
 	"$bumpmap" "models/halowars/marine/marine_01_visor_nm"
 	"$envmap" "models/halowars/shared/cyborg_reflection_armor.hdr"
 	"$normalmapalphaenvmapmask"	"1"
