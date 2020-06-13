@@ -22,7 +22,15 @@ end
 function ENT:CustomOnInitialize()
 	ParticleEffectAttach("vj_impact1_yellow", PATTACH_ABSORIGIN_FOLLOW, self, 0) 
 	ParticleEffectAttach("vj_impact1_yellow", PATTACH_ABSORIGIN_FOLLOW, self, 0)
-
+	local bullet = {}
+	bullet.Damage = self.DirectDamage
+	bullet.Attacker = self:GetOwner()
+	bullet.Src = self:GetPos()
+	bullet.IgnoreEntity = self:GetOwner()
+	bullet.Dir = self:GetAngles():Forward()
+	--bullet.Tracer = "vj_impact1_yellow"
+	self:FireBullets(bullet)
+	self:Remove()
 end
 ---------------------------------------------------------------------------------------------------------------------------------------------
 function ENT:CustomOnThink()

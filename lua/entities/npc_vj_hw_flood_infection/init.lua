@@ -12,6 +12,9 @@ ENT.BloodColor = "Yellow"
 ENT.HasDeathAnimation = false
 ENT.DeathAnimationTime = 2
 ENT.AnimTbl_Death = {"Death_01","Death_02","Death_03"}
+
+ENT.IsHWInfector = true -- Tag so marines know they were infected
+ENT.IsHWPopcorn = true -- Tag so marines know they were stunned
 ---------------------------------------------------------------------------------------------------------------------------------------------
 function ENT:CustomInitialize() 
 self:SetCollisionBounds(Vector(10, 10, 28), Vector(-10, -10, 0))	
