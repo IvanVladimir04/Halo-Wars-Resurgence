@@ -1,0 +1,19 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models/halowars/hornet/hornetupgrade_01_df"
+	"$bumpmap" "models/halowars/hornet/hornetupgrade_01_nm"
+	"$phong" 1
+	"$phongboost" "0.6"
+	"$phongexponent" "25"
+	"$phongtint" "{230 225 215}"
+	"$phongfresnelranges" "[.7 .82 31]"
+	"$halflambert" "1"
+	"$nodecal" "1"
+	"$nocull"		"1"
+	"$rimlight" 1
+	$rimlightboost          0.1
+	"$rimlightexponent"       47
+	"$blendtintbybasealpha"	"1"
+
+
+}
