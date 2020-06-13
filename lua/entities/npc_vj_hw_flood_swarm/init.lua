@@ -5,49 +5,39 @@ include('shared.lua')
 	No parts of this code or any of its contents may be reproduced, copied, modified or adapted,
 	without the prior written consent of the author, unless otherwise indicated for stand-alone materials.
 -----------------------------------------------*/
-ENT.Model = {"models/hc/halo-wars/flood/infectedelite_01/infectedelite_01.mdl"} 
-ENT.StartHealth = 120 
+ENT.Model = {"models/hc/halo-wars/flood/swarm_01/swarm_01.mdl"} 
+ENT.StartHealth = 50 
 ENT.HullType = HULL_HUMAN
 ENT.VJ_NPC_Class = {"CLASS_HALO_FLOOD","CLASS_FLOOD","CLASS_PARASITE"}
 ENT.BloodColor = "Yellow"
+ENT.MovementType = VJ_MOVETYPE_AERIAL 
+ENT.Aerial_AnimTbl_Calm = {"Fly_01_NoPath","Fly_02_NoPath"} 
+ENT.Aerial_AnimTbl_Alerted = {"Fly_01_NoPath","Fly_02_NoPath"}
 ENT.HasDeathAnimation = true
-ENT.DeathAnimationTime = 10
+ENT.DeathAnimationTime = 1
 ENT.AnimTbl_Death = {"Death_01"} 
+ENT.HasMeleeAttack = false
+ENT.HasRangeAttack = true
+ENT.RangeAttackEntityToSpawn = "obj_vj_hw_flood_swarm_spit"
+ENT.NoChaseAfterCertainRange = true
+ENT.NoChaseAfterCertainRange_FarDistance = 1000 
+ENT.NoChaseAfterCertainRange_CloseDistance = 1
 ---------------------------------------------------------------------------------------------------------------------------------------------
 function ENT:CustomInitialize() 
-self:SetCollisionBounds(Vector(21, 21, 82), Vector(-21, -21, 0))	
-self:VJ_ACT_PLAYACTIVITY("vjseq_Birth_01",true,4,true)
+self:SetCollisionBounds(Vector(20, 25, 80), Vector(-20, -25, 0))	
+end
+-------------------------------------------------------------------------------------------------------------------
+function ENT:RangeAttackCode_GetShootPos(TheProjectile)
+	return (self:GetEnemy():GetPos() - self:LocalToWorld(Vector(100,0,0)))*2 + self:GetUp()*250
 end
 ---------------------------------------------------------------------------------------------------------------------------------------------
-function ENT:MultipleMeleeAttacks()
-	local randattack = math.random(1,3)
+function ENT:MultipleRangeAttacks()
+	local randattack = math.random(1,1)
 
 	if randattack == 1 then
-		self.MeleeAttackDistance = 50
-	    self.MeleeAttackDamageDistance = 100
-		self.AnimTbl_MeleeAttack = {"vjseq_Attack_01"}
-		self.TimeUntilMeleeAttackDamage = 0.6
-		self.NextMeleeAttackTime = 1
-		self.MeleeAttackDamage = math.Rand(15,20)
-		self.MeleeAttackDamageType = DMG_SLASH	
-		
-	elseif randattack == 2 then
-		self.MeleeAttackDistance = 50
-	    self.MeleeAttackDamageDistance = 100
-		self.AnimTbl_MeleeAttack = {"vjseq_Attack_02"}
-		self.TimeUntilMeleeAttackDamage = 0.7
-		self.NextMeleeAttackTime = 1
-		self.MeleeAttackDamage = math.Rand(15,20)
-		self.MeleeAttackDamageType = DMG_SLASH	
-		
-	elseif randattack == 3 then
-		self.MeleeAttackDistance = 50
-	    self.MeleeAttackDamageDistance = 100
-		self.AnimTbl_MeleeAttack = {"vjseq_Attack_03"}
-		self.TimeUntilMeleeAttackDamage = 0.5
-		self.NextMeleeAttackTime = 1
-		self.MeleeAttackDamage = math.Rand(15,20)
-		self.MeleeAttackDamageType = DMG_SLASH		
+		self.AnimTbl_RangeAttack = {"vjseq_Attack_01"}
+		self.TimeUntilRangeAttackProjectileRelease = 0.4
+		self.NextRangeAttackTime = 1.5	
 end
 end
 /*-----------------------------------------------

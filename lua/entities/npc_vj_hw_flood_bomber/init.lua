@@ -13,6 +13,7 @@ ENT.MovementType = VJ_MOVETYPE_AERIAL
 ENT.HasMeleeAttck = false
 ENT.NoChaseAfterCertainRange = true
 ENT.NoChaseAfterCertainRange_FarDistance = 1000 
+ENT.NoChaseAfterCertainRange_CloseDistance = 1
 ---------------------------------------------------------------------------------------------------------------------------------------------
 function ENT:CustomOnInitialize()
   self:SetCollisionBounds(Vector(60, 60, 150), Vector(-60, -60, 0))
@@ -23,18 +24,20 @@ function ENT:CustomOnThink_AIEnabled()
 if self.NextEggDrop < CurTime() then
    self.NextEggDrop = CurTime()+20
    self:VJ_ACT_PLAYACTIVITY("vjseq_BombAttack_01",true,2,true)
+   VJ_EmitSound(self,{"physics/flesh/flesh_bloody_impact_hard1.wav"},60,math.random(100,100))
    self:DropTheFlood()
-
 end
-end  
+end
 ---------------------------------------------------------------------------------------------------------------------------------------------
 function ENT:DropTheFlood()
   local egg = ents.Create("prop_physics")
-  egg:SetModel("models/spitball_large.mdl")
+  egg:SetModel("models/xqm/rails/gumball_1.mdl")
+  egg:SetColor(Color(193,163,82,255))
   egg:SetPos(self:GetPos())
   egg:SetOwner(self)
   egg:SetAngles(self:GetAngles())
   egg:AddCallback( "PhysicsCollide", function( ent, data )
+  VJ_EmitSound(self,{"physics/flesh/flesh_bloody_break.wav"},60,math.random(100,100))
   egg:Remove()
     -- When life gives you eggs, make sure they aren't flood
   for i = 1, 6 do
@@ -52,7 +55,7 @@ end
 end)	
 end
 end)
-egg:Spawn()
+    egg:Spawn()
   local prop = egg:GetPhysicsObject()
   if IsValid(prop) then prop:Wake() end
 end
@@ -74,8 +77,7 @@ function ENT:CustomOnPriorToKilled(dmginfo,hitgroup)
 	    bloodspray:SetFlags(3)
 	    bloodspray:SetColor(1)
 	    util.Effect("bloodspray",bloodspray)
-	    util.Effect("bloodspray",bloodspray)
-		
+	    util.Effect("bloodspray",bloodspray)		
 end
 /*-----------------------------------------------
 	*** Copyright (c) 2012-2019 by DrVrej, All rights reserved. ***
