@@ -13,6 +13,15 @@ ENT.BloodColor = "Yellow"
 ENT.HasDeathAnimation = true
 ENT.DeathAnimationTime = 10
 ENT.AnimTbl_Death = {"Death_01"} 
+
+ENT.Passive_RunOnDamage = false
+ENT.Passive_RunOnTouch = false
+ENT.Passive_RunOnDamage = false
+ENT.MoveOutOfFriendlyPlayersWay = false
+ENT.CallForBackUpOnDamage = false
+ENT.RunAwayOnUnknownDamage = true
+
+ENT.NextRunAwayOnDamageT = math.huge -- Parry this you filthy casual
 ---------------------------------------------------------------------------------------------------------------------------------------------
 function ENT:CustomInitialize() 
 self:SetCollisionBounds(Vector(21, 21, 82), Vector(-21, -21, 0))	

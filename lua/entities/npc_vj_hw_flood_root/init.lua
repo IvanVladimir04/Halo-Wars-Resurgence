@@ -6,7 +6,7 @@ include('shared.lua')
 	without the prior written consent of the author, unless otherwise indicated for stand-alone materials.
 -----------------------------------------------*/
 ENT.Model = {"models/hc/halo-wars/flood/floodtentacle_01/floodtentacle_01.mdl"}
-ENT.StartHealth = 300
+ENT.StartHealth = 500
 ENT.VJ_IsHugeMonster = true
 ENT.MovementType = VJ_MOVETYPE_STATIONARY
 ENT.CanTurnWhileStationary = true

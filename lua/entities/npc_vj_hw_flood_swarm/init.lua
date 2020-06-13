@@ -161,6 +161,8 @@ function ENT:AAMove_ChaseEnemy(ShouldPlayAnim,UseCalmVariables)
 	
 		dir = self:GetRight()*(0.2*self.TurnNumber)+self:GetForward()
 		
+		--self:FaceCertainEntity(self:GetEnemy(),true)
+		
 		self:SetAngles(Angle(self:GetAngles().p,dir:Angle().y,self:GetAngles().r))
 	
 	else
