@@ -1,0 +1,22 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/hc/halo-wars/covenant/brute_01/brute_01_d"
+                "$bumpmap" "models/hc/halo-wars/covenant/brute_01/brute_01_d_nrm"
+
+	"$model" 1
+	"$halflambert" 1
+	"$nodecal" 1
+	"$nocull" 1
+
+	"$phong" 1
+	"$phongboost" 4.74
+	"$phongexponent" 60
+	"$phongfresnelranges"  "[.12 .7 .6]"
+
+	"$phongalbedotint" 1
+	
+	"$detail"  "detail\noise_detail_01"
+	"$detailscale" 15
+	"$detailblendfactor" 1
+	"$detailblendmode" 0
+}
