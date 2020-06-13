@@ -19,5 +19,8 @@ if VJExists == true then
 	local vCat = "Halo Wars Resurgence"
 	
 	VJ.AddNPC("Flood Root","npc_vj_hw_flood_root",vCat )
+	VJ.AddNPC("Infected Elite","npc_vj_hw_flood_elite",vCat )
+	VJ.AddNPC("Flood Bomber Form","npc_vj_hw_flood_bomber",vCat )
+	VJ.AddNPC("Flood Infection Form","npc_vj_hw_flood_infection",vCat )
 	
 end
