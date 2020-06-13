@@ -170,6 +170,35 @@ function ENT:GetInfected()
 
 end
 
+function ENT:DetermineDeath(dmg)
+	local seq
+	--print(dmg:GetDamageType())
+	if dmg:GetDamageType() == DMG_BULLET then
+	
+		seq = "Death Machinegun "..math.random(1,3)..""
+		
+	elseif dmg:GetDamageType() == DMG_SLASH then
+	
+		seq = "Death Melee "..math.random(1,4)..""
+		
+	elseif ( dmg:GetDamageType() == DMG_BURN or self:IsOnFire() ) then
+	
+		seq = "Death Fire "..math.random(1,3)..""
+		
+		
+	else
+		
+		if math.random(1,2) == 1 then
+			seq = "Death "..math.random(1,4)..""
+		else
+			seq = "Death Headshot "..math.random(1,5)..""
+		end
+	
+	end
+	
+	return seq
+end
+
 function ENT:CreateRagdoll(dmg)
 	if dmg:GetAttacker().IsHWPopcorn then return self:GetInfected() end
 	local corpse = ents.Create("prop_dynamic")
@@ -177,9 +206,11 @@ function ENT:CreateRagdoll(dmg)
 	corpse:SetModel(self:GetModel())
 	corpse:SetAngles(self:GetAngles())
 	corpse:Spawn()
+	corpse:SetColor(self:GetColor())
 	corpse:Activate()
 	corpse:ResetSequenceInfo()
-	corpse:SetSequence("Death")
+	local seq = self:DetermineDeath(dmg)
+	corpse:SetSequence(seq)
 	corpse:SetCycle(1)
 	--corpse.IsOSWCorpse = true
 	corpse.Faction = self.Faction
