@@ -1,0 +1,19 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models/halowars/airpad_01/airpad_decal_df"
+	"$bumpmap"	"models/halowars/airpad_01/airpad_decal_nm"
+
+	"$alphatest" 1
+	"$alphatestreference" 	0.75
+	"$allowAlphaToCoverage" 1
+	"$phong" 1
+	"$phongboost" "1.8"
+	"$phongexponent" "8"
+	"$phongtint" "{230 225 255}"
+	"$phongfresnelranges" "[.7 .82 31]"
+
+	"$halflambert" "1"
+	"$nodecal" "1"
+//	"$blendtintbybasealpha"	"1"
+
+}
