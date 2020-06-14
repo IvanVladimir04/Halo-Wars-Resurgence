@@ -153,6 +153,53 @@ function ENT:OnKilled( dmginfo ) -- When killed
 	coroutine.resume( self.DieThread )
 end
 
+list.Set( "NPC", "npc_iv04_hw_flamer", {
+	Name = "Flamethrower",
+	Class = "npc_iv04_hw_flamer",
+	Category = "Halo Wars Resurgence"
+} )
+
+function ENT:DieUpdate( fInterval )
+	
+	if !self.DieThread then return end
+
+	local ok, message = coroutine.resume( self.DieThread )
+
+end
+
+function ENT:BehaveUpdate( fInterval )
+
+	if ( !self.BehaveThread ) then return self:DieUpdate(fInterval) end
+
+	--
+	-- Give a silent warning to developers if RunBehaviour has returned
+	--
+	if ( coroutine.status( self.BehaveThread ) == "dead" and self:Health() > 0 ) then
+
+		self.BehaveThread = nil
+		Msg( self, " Warning: ENT:RunBehaviour() has finished executing\n" )
+
+		return
+
+	end
+	if self.ShouldResetAI and CurTime() > self.ResetAITime then
+		self.ResetAITime = CurTime()+self.ResetAIDelay
+		--print("Reseted AI")
+		self:ResetAI()
+	end
+	--
+	-- Continue RunBehaviour's execution
+	--
+	local ok, message = coroutine.resume( self.BehaveThread )
+	if ( ok == false ) then
+
+		self.BehaveThread = nil
+		ErrorNoHalt( self, " Error: ", message, "\n" )
+
+	end
+
+end
+
 function ENT:DoKilledAnim()
 	--local anim
 	--anim = "Death"
@@ -165,9 +212,72 @@ function ENT:DoKilledAnim()
 	--self:PlaySequenceAndWait(anim, 1)
 end
 
+function ENT:BodyUpdate()
+	local act = self:GetActivity()
+	if self.BeenInfected and !self.loco:GetVelocity():IsZero() then
+		self:BodyMoveXY()
+	end
+	self:FrameAdvance()
+end
 
-function ENT:GetInfected()
-
+function ENT:GetInfected(dmg)
+	local id, len = self:LookupSequence("Death Flood")
+	self.Faction = "FACTION_FLOOD"
+	dmg:GetAttacker():Remove()
+	if math.random(1,2) == 1 then
+		local dir = self:GetForward()*math.Rand(-1,1)+self:GetRight()*math.Rand(-1,1)
+		local stop = false
+		timer.Simple( math.random(1,3), function()
+			if IsValid(self) then
+				stop = true
+			end
+		end )
+		self:ResetSequenceInfo()
+		self:ResetSequence(self:LookupSequence("Death Flood Jog"))
+		self.loco:SetDesiredSpeed(self.MoveSpeed*self.MoveSpeedMultiplier)
+		while (!stop) do
+			if self:GetCycle() == 1 then
+				self:SetCycle(0)
+			end
+			self.loco:FaceTowards(self:GetPos()+dir)
+			self.loco:Approach(dir+self:GetPos(),1)
+			coroutine.wait(0.01)
+		end
+		-- Why do you enjoy breaking so fcking much?
+		local p = ents.Create("prop_dynamic")
+		p:SetPos(self:GetPos())
+		p:SetColor(self:GetColor())
+		p:SetModel(self:GetModel())
+		p:SetAngles(self:GetAngles())
+		p:Spawn()
+		p:Activate()
+		p:ResetSequenceInfo()
+		p:SetSequence(id)
+		undo.ReplaceEntity(self,p)
+		timer.Simple( len, function()
+			if IsValid(p) then
+				local flood = ents.Create("npc_vj_hw_flood_marine")
+				flood:SetPos(p:GetPos())
+				flood:SetAngles(p:GetAngles())
+				flood:Spawn()
+				undo.ReplaceEntity(p,flood)
+				p:Remove()
+			end
+		end )
+		self:Remove()
+	else
+		timer.Simple( len, function()
+			if IsValid(self) then
+				local flood = ents.Create("npc_vj_hw_flood_marine")
+				flood:SetPos(self:GetPos())
+				flood:SetAngles(self:GetAngles())
+				flood:Spawn()
+				undo.ReplaceEntity(self,flood)
+				self:Remove()
+			end
+		end )
+		self:PlaySequenceAndWait("Death Flood")
+	end
 end
 
 function ENT:DetermineDeath(dmg)
@@ -200,7 +310,7 @@ function ENT:DetermineDeath(dmg)
 end
 
 function ENT:CreateRagdoll(dmg)
-	if dmg:GetAttacker().IsHWPopcorn then return self:GetInfected() end
+	if dmg:GetAttacker().IsHWInfector then self.BeenInfected = true return self:GetInfected(dmg) end
 	local corpse = ents.Create("prop_dynamic")
 	corpse:SetPos(self:GetPos())
 	corpse:SetModel(self:GetModel())
@@ -242,8 +352,54 @@ function ENT:CreateRagdoll(dmg)
 	end
 end
 
-list.Set( "NPC", "npc_iv04_hw_flamer", {
-	Name = "Flamethrower",
-	Class = "npc_iv04_hw_flamer",
-	Category = "Halo Wars Resurgence"
-} )
+
+function ENT:SearchEnemy()
+	if GetConVar( "ai_disabled" ):GetInt() == 1 then return end
+	local _ents
+	if self:GetValue(self.SightType) == 1 then
+		_ents = ents.FindInSphere(self:WorldSpaceCenter(), self.SightDistance)
+	end
+	if self:GetValue(self.SightType) == 2 then
+		_ents = ents.FindInCone(self:WorldSpaceCenter(), self:GetForward(), self.SightDistance,  math.cos( math.rad( self.ConeAngle ) ))
+	end
+	if self:GetValue(self.SightType) == 3 then
+		_ents = ents.GetAll()
+	end	
+	table.Empty(self.temptbl)
+	local p = Path( "Follow" )
+	for k, v in pairs( _ents ) do
+		if ( (v.IsVJBaseSNPC == true or v.CPTBase_NPC == true or v.IsSLVBaseNPC == true or v:GetNWBool( "bZelusSNPC" ) == true) or (v:IsNPC() && v:GetClass() != "npc_bullseye" ) or (v:IsPlayer() and v:Alive()) or (v:IsNextBot() and v != self ) ) and v:Health() > 0 and v:IsOnGround() then
+			if self:CheckRelationships(v) == "foe" then
+				p:Invalidate()
+				p:Compute(self,v:GetPos())
+				local dist = p:GetLength()
+				if dist < self.LoseEnemyDistance then
+					if self.UseLineOfSight then
+						if !self:IsLineOfSightClear(v:GetPos()+v:OBBCenter()) then
+							continue
+						end
+					end
+					local tbl = {vector=v:GetPos(),ent=v,distance = dist}
+					table.insert(self.temptbl,tbl)
+					if (v:IsPlayer() and !v:Alive()) then
+						table.remove(self.temptbl,table.Count(self.temptbl))
+					end
+				end
+			end
+		end
+	end
+	if IsValid(self:GetClosestEntity(self.temptbl)) then
+		local ent = self:GetClosestEntity(self.temptbl)
+		if ent:IsPlayer() and (!ent:Alive() or GetConVar("ai_ignoreplayers"):GetInt() == 1) then return false end
+		if self.CustomValidateEnemy == true then
+			return self:CustomValidate(ent)
+		end
+		if !IsValid(self.Enemy) then
+			self:SetEnemy(ent)
+			self:OnHaveEnemy(ent)
+		else
+			self:SetEnemy(ent)
+		end
+		return true
+	end
+end

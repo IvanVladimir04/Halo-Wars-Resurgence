@@ -1,0 +1,8 @@
+ENT.Base 			= "npc_vj_creature_base"
+ENT.Type 			= "ai"
+ENT.PrintName 		= "Thrasher Form"
+ENT.Author 			= "Headcrab"
+ENT.Contact 		= "https://steamcommunity.com/id/XenHeadcrab/"
+ENT.Purpose 		= "SNPC."
+ENT.Instructions 	= "Spawn it."
+ENT.Category		= "Halo Wars Resurgence"

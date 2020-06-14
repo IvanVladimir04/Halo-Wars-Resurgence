@@ -6,7 +6,7 @@ include('shared.lua')
 	without the prior written consent of the author, unless otherwise indicated for stand-alone materials.
 -----------------------------------------------*/
 ENT.Model = {"models/hc/halo-wars/flood/infectedmarine_01/infectedmarine_01.mdl"} 
-ENT.StartHealth = 80 
+ENT.StartHealth = 50 
 ENT.HullType = HULL_HUMAN
 ENT.VJ_NPC_Class = {"CLASS_HALO_FLOOD","CLASS_FLOOD","CLASS_PARASITE"}
 ENT.BloodColor = "Yellow"
@@ -24,6 +24,15 @@ ENT.NoChaseAfterCertainRange_FarDistance = 600
 ENT.NoChaseAfterCertainRange_CloseDistance = 1
 --custom
 ENT.InfectedMarine_Fired = false
+
+ENT.Passive_RunOnDamage = false
+ENT.Passive_RunOnTouch = false
+ENT.Passive_RunOnDamage = false
+ENT.MoveOutOfFriendlyPlayersWay = false
+ENT.CallForBackUpOnDamage = false
+ENT.RunAwayOnUnknownDamage = true
+
+ENT.NextRunAwayOnDamageT = math.huge -- Parry this you filthy casual
 ---------------------------------------------------------------------------------------------------------------------------------------------
 function ENT:CustomInitialize() 
 self:SetCollisionBounds(Vector(16, 16, 70), Vector(-16, -16, 0))	
@@ -47,7 +56,7 @@ function ENT:CustomRangeAttackCode()
 		bullet.Tracer = 1
 		bullet.TracerName = "Tracer"
 		bullet.Force = 5
-		bullet.Damage = math.Rand(6,8)
+		bullet.Damage = (7)
 		bullet.AmmoType = "SMG1"
 	self:FireBullets(bullet)
 	self.InfectedMarine_Fired = true
