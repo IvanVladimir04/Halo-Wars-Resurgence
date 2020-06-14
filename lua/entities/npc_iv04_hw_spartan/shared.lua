@@ -1,7 +1,7 @@
 AddCSLuaFile()
 ENT.Base 			= "npc_iv04_base"
 ENT.Models  = {"models/halowars1/unsc/spartan.mdl"}
-ENT.StartHealth = 50
+ENT.StartHealth = 300
 ENT.Relationship = 4
 ENT.MeleeDamage = 30
 ENT.RunAnim = {ACT_RUN}
