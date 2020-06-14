@@ -28,6 +28,10 @@ function ENT:CustomInitialize()
 self:SetCollisionBounds(Vector(22, 22, 92), Vector(-22, -22, 0))	
 --self:VJ_ACT_PLAYACTIVITY("vjseq_Birth_01",true,5,true)
 end
+
+function ENT:CustomRangeAttackCode_AfterProjectileSpawn(TheProjectile) 
+	TheProjectile.RadiusDamage = 30
+end
 -------------------------------------------------------------------------------------------------------------------
 function ENT:RangeAttackCode_GetShootPos(TheProjectile)
 	return (self:GetEnemy():GetPos() - self:LocalToWorld(Vector(100,0,0)))*2 + self:GetUp()*150
