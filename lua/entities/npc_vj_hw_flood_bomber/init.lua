@@ -17,7 +17,7 @@ ENT.NoChaseAfterCertainRange_CloseDistance = 1
 ---------------------------------------------------------------------------------------------------------------------------------------------
 function ENT:CustomOnInitialize()
   self:SetCollisionBounds(Vector(60, 60, 150), Vector(-60, -60, 0))
-  self.NextEggDrop = CurTime()+20
+  self.NextEggDrop = CurTime()+2
 end
 ---------------------------------------------------------------------------------------------------------------------------------------------
 function ENT:CustomOnThink_AIEnabled()
@@ -37,14 +37,17 @@ function ENT:DropTheFlood()
   egg:SetOwner(self)
   egg:SetAngles(self:GetAngles())
   egg:AddCallback( "PhysicsCollide", function( ent, data )
-  VJ_EmitSound(self,{"physics/flesh/flesh_bloody_break.wav"},60,math.random(100,100))
-  egg:Remove()
+	if IsValid(self) then
+		VJ_EmitSound(self,{"physics/flesh/flesh_bloody_break.wav"},60,math.random(100,100))
+	end
+	egg:Remove()
     -- When life gives you eggs, make sure they aren't flood
   for i = 1, 6 do
     local ent = ents.Create("npc_vj_hw_flood_infection")
     local pos = egg:GetPos()
-    if i < 4 then pos = pos+egg:GetRight()*(40*i) end
-    if i > 3 then pos = pos+egg:GetForward()*(40*i) end
+	local e = i
+	 if i > 3 then pos = pos+egg:GetForward()*(40) e = e-3 end
+    pos = pos+egg:GetRight()*(40*e)
     ent:SetPos(pos)
     ent:SetAngles(Angle(0,egg:GetAngles().y,0))
     ent:Spawn()
