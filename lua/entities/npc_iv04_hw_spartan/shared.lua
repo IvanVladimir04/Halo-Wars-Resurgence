@@ -445,29 +445,9 @@ end
 function ENT:DetermineDeath(dmg)
 	local seq
 	--print(dmg:GetDamageType())
-	if dmg:GetDamageType() == DMG_BULLET then
-	
-		seq = "Death Machinegun "..math.random(1,3)..""
-		
-	elseif dmg:GetDamageType() == DMG_SLASH then
-	
-		seq = "Death Melee "..math.random(1,4)..""
-		
-	elseif ( dmg:GetDamageType() == DMG_BURN or self:IsOnFire() ) then
-	
-		seq = "Death Fire "..math.random(1,3)..""
-		
-		
-	else
-		
-		if math.random(1,2) == 1 then
-			seq = "Death "..math.random(1,4)..""
-		else
-			seq = "Death Headshot "..math.random(1,5)..""
-		end
-	
-	end
-	
+
+		seq = "Death "..math.random(1,2)..""
+
 	return seq
 end
 
