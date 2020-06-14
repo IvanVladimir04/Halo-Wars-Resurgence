@@ -16,7 +16,7 @@ function ENT:FireAt()
 	bullet.Tracer = 1
 	bullet.Force = 1
 	--bullet.TracerName = self.TracerName
-	bullet.Damage = 3
+	bullet.Damage = 4
 	bullet.Callback = function(attacker, tr, info) -- Small function to set it as we are who caused the damage
 
 	end
