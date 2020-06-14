@@ -25,11 +25,11 @@ if VJExists == true then
 	VJ.AddNPC("Flood Carrier Form","npc_vj_hw_flood_carrier",vCat )
 	VJ.AddNPC("Infected Elite","npc_vj_hw_flood_elite",vCat )
 	VJ.AddNPC("Thrasher Form","npc_hw1r_rhinodillo",vCat) -- Adds a NPC to the spawnmenu
-	--VJ.AddNPC("Infected Brute","npc_vj_hw_flood_brute",vCat )
-	--VJ.AddNPC("Infected Grunt","npc_vj_hw_flood_grunt",vCat )
+	VJ.AddNPC("Infected Brute","npc_vj_hw_flood_brute",vCat )
+	VJ.AddNPC("Infected Grunt","npc_vj_hw_flood_grunt",vCat )
 	--VJ.AddNPC("Infected Jackal","npc_vj_hw_flood_grunt",vCat )
 	VJ.AddNPC("Infected Marine","npc_vj_hw_flood_marine",vCat )
-	--VJ.AddNPC("Infected Flamethrower","npc_vj_hw_flood_flamethrower",vCat )
+	VJ.AddNPC("Infected Flamethrower","npc_vj_hw_flood_flamethrower",vCat )
 	
 		-- Precache Models
 	util.PrecacheModel("models/halowars1/covenant/brute.mdl")
