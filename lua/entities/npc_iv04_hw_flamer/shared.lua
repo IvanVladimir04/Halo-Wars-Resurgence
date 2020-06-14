@@ -256,7 +256,7 @@ function ENT:GetInfected(dmg)
 		undo.ReplaceEntity(self,p)
 		timer.Simple( len, function()
 			if IsValid(p) then
-				local flood = ents.Create("npc_vj_hw_flood_marine")
+				local flood = ents.Create("npc_vj_hw_flood_flamethrower")
 				flood:SetPos(p:GetPos())
 				flood:SetAngles(p:GetAngles())
 				flood:Spawn()
@@ -268,7 +268,7 @@ function ENT:GetInfected(dmg)
 	else
 		timer.Simple( len, function()
 			if IsValid(self) then
-				local flood = ents.Create("npc_vj_hw_flood_marine")
+				local flood = ents.Create("npc_vj_hw_flood_flamethrower")
 				flood:SetPos(self:GetPos())
 				flood:SetAngles(self:GetAngles())
 				flood:Spawn()
