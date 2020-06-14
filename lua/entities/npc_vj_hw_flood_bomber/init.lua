@@ -17,7 +17,7 @@ ENT.NoChaseAfterCertainRange_CloseDistance = 1
 ---------------------------------------------------------------------------------------------------------------------------------------------
 function ENT:CustomOnInitialize()
   self:SetCollisionBounds(Vector(60, 60, 150), Vector(-60, -60, 0))
-  self.NextEggDrop = CurTime()+2
+  self.NextEggDrop = CurTime()+10
 end
 ---------------------------------------------------------------------------------------------------------------------------------------------
 function ENT:CustomOnThink_AIEnabled()
