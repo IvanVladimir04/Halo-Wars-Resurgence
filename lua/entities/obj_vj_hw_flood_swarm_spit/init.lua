@@ -25,7 +25,7 @@ function ENT:CustomOnInitialize()
 	local dir = self:GetAngles():Forward()
 	timer.Simple( 0.3, function()
 		if IsValid(self) then
-			if IsValid(self:GetOwner()) then
+			if IsValid(self:GetOwner()) and IsValid(self:GetOwner():GetEnemy()) then
 				dir = (self:GetOwner():GetEnemy():WorldSpaceCenter()-self:WorldSpaceCenter()):GetNormalized()
 			end
 			local bullet = {}
