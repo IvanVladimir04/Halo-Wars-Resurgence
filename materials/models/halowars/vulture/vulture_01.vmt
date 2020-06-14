@@ -5,7 +5,7 @@
 	"$phong" 1
 	"$phongboost" "0.6"
 	"$phongexponent" "25"
-	"$phongtint" "{230 225 215}"
+	"$phongtint" "{255 255 255}"
 	"$phongfresnelranges" "[.7 .82 31]"
 	"$halflambert" "1"
 	"$nodecal" "1"

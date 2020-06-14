@@ -1,6 +1,6 @@
 "VertexLitGeneric"
 {
-	"$baseTexture" "models/halowars/hornet/hornet_01_df"
+	"$baseTexture" "models/halowars/hornet/hornet_cockpit_01_df"
 	"$bumpmap" "models/halowars/hornet/hornet_cockpit_01_nm"
 	"$envmap" "models/halowars/shared/cyborg_reflection_armor.hdr"
 	"$normalmapalphaenvmapmask"	"1"
