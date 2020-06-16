@@ -1,0 +1,22 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models/halowars/grunt/plasma_pistol_01_df"
+	"$bumpmap" "models/halowars/grunt/plasma_pistol_01_nm"
+	"$detail" "models/halowars/grunt/plasma_pistol_01_em"
+	"$detailscale" "1"
+	"$detailblendfactor" "1"
+	"$detailblendmode" "5"
+
+	"$nocull"		"1"
+	"$ambientocclusion" "1"
+	"$phong" 1
+	"$phongboost" "1.3"
+	"$phongexponent" "8"
+	"$phongtint" "{135 180 255}"
+	"$phongfresnelranges" "[.7 .82 31]"
+	"$model" 1
+	"$phongalbedotint" "1"
+	"$blendtintbybasealpha"	"1"
+
+}
+
