@@ -1,0 +1,19 @@
+"UnlitGeneric"
+{
+	"$basetexture"	"effects/halo3/plasma_electric"
+	"$additive"	1
+	"$vertexcolor"	1
+	"$vertexalpha"	1
+
+"Proxies"
+   {
+      "AnimatedTexture"
+      {
+         "animatedtexturevar" "$basetexture"
+         "animatedtextureframenumvar" "$frame"
+         "animatedtextureframerate" "10"
+      }
+   }
+
+
+}

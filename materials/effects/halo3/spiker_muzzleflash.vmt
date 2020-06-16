@@ -1,0 +1,6 @@
+"UnlitGeneric"
+{
+	"$basetexture"		"effects\halo3\spiker_muzzleflash"
+	"$additive"		"1"
+	"$vertexcolor"	"1"
+}
