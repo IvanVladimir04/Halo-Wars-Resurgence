@@ -2,10 +2,7 @@
 {
 	"$baseTexture" "models/halowars/elite/eliteguard_df"
 	"$bumpmap" "models/halowars/elite/eliteguard_nm"
-	"$detail" "models/halowars/elite/eliteguard_em"
-	"$detailscale" "1"
-	"$detailblendfactor" ".8"
-	"$detailblendmode" "5"
+
 
 	"$nocull"		"1"
 	"$ambientocclusion" "1"
@@ -16,8 +13,29 @@
 	"$phongfresnelranges" "[.7 .82 31]"
 	"$model" 1
 	"$phongalbedotint" "1"
-	"$color2"		"{255 200 1}"
 	"$blendtintbybasealpha"	"1"
 
+	Proxies
+	{
+		PlayerColor
+		{
+			resultVar	$color2 // pass the player color value to Gmod
+			default		0.23 0.35 0.41 // unused for now.
+		}
+		Clamp
+		{
+			min 0.15
+			max 1
+			srcVar1 "$color"
+			resultVar "$phongtint"
+		}
+		Clamp
+		{
+			min 0.25
+			max 1
+			srcVar1 "$color"
+			resultVar "$envmaptint"
+		}
+	}
 }
 
