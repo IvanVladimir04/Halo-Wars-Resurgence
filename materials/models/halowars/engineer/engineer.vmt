@@ -1,0 +1,39 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models/halowars/engineer/engineer_01_df"
+	"$bumpmap" "models/halowars/engineer/engineer_01_nm"
+	"$nocull"		"1"
+	"$ambientocclusion" "1"
+	"$phong" 1
+	"$phongboost" "0.83"
+	"$phongexponent" "4"
+	"$phongtint" "{230 200 255}"
+	"$phongfresnelranges" "[.7 .82 31]"
+	"$model" 1
+	"$phongalbedotint" "1"
+	"$blendtintbybasealpha"	"1"
+
+	Proxies
+	{
+		PlayerColor
+		{
+			resultVar	$color2 // pass the player color value to Gmod
+			default		0.23 0.35 0.41 // unused for now.
+		}
+		Clamp
+		{
+			min 0.15
+			max 1
+			srcVar1 "$color"
+			resultVar "$phongtint"
+		}
+		Clamp
+		{
+			min 0.25
+			max 1
+			srcVar1 "$color"
+			resultVar "$envmaptint"
+		}
+	}
+}
+
