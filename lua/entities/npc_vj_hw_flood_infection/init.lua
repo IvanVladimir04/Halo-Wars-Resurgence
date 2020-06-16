@@ -17,7 +17,10 @@ ENT.IsHWInfector = true -- Tag so marines know they were infected
 ENT.IsHWPopcorn = true -- Tag so marines know they were stunned
 ---------------------------------------------------------------------------------------------------------------------------------------------
 function ENT:CustomInitialize() 
-self:SetCollisionBounds(Vector(10, 10, 28), Vector(-10, -10, 0))	
+	self:SetCollisionBounds(Vector(10, 10, 28), Vector(-10, -10, 0))
+	local r = math.random(1,2)
+	if r == 2 then r = 0 end
+	self:SetSkin(r)
 end
 ---------------------------------------------------------------------------------------------------------------------------------------------
 function ENT:MultipleMeleeAttacks()
