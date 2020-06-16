@@ -1,0 +1,20 @@
+"UnlitGeneric"
+{
+	"$basetexture"	"models/halowars/jackal/jackal_shield_02_em"
+	"$detail"		"models/halowars/jackal/jackal_shield_02_df"
+	"$alphatest" 1
+	"$alphatestreference" 	0.55
+	"$allowAlphaToCoverage" 1
+	"$nodecal"		"1"
+	"$detailscale"		 "1"
+	"$detailblendfactor"		 "8"
+	"$detailblendmode"		 "5"	
+	"$model" 1
+	"$nocull"		1
+	"$additive"	1
+	"$color2"		"{125 185 60}"
+	"$surfaceprop"	"no_decal"
+
+}
+
+

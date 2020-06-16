@@ -1,0 +1,17 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models/halowars/jackal/carbine_01_df"
+	"$bumpmap" "models/halowars/jackal/carbine_01_nm"
+	"$nocull"		"1"
+	"$ambientocclusion" "1"
+	"$phong" 1
+	"$phongboost" "1.3"
+	"$phongexponent" "18"
+	"$phongtint" "{255 200 255}"
+	"$phongfresnelranges" "[.7 .82 31]"
+	"$model" 1
+	"$phongalbedotint" "1"
+	"$blendtintbybasealpha"	"1"
+
+}
+
