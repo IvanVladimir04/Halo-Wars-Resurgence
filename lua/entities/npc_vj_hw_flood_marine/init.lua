@@ -33,6 +33,10 @@ ENT.CallForBackUpOnDamage = false
 ENT.RunAwayOnUnknownDamage = true
 
 ENT.NextRunAwayOnDamageT = math.huge -- Parry this you filthy casual
+
+-- ====== File Path Variables ====== --
+-- Leave blank if you don't want any sounds to play
+ENT.SoundTbl_RangeAttack = {"halowars1/weapons/ar_fire1.ogg","halowars1/weapons/ar_fire2.ogg","halowars1/weapons/ar_fire3.ogg"}
 ---------------------------------------------------------------------------------------------------------------------------------------------
 function ENT:CustomInitialize() 
 self:SetCollisionBounds(Vector(16, 16, 70), Vector(-16, -16, 0))	
