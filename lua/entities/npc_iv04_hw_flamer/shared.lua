@@ -26,6 +26,12 @@ function ENT:OnInitialize()
 	end
 end
 
+function ENT:Wander()
+	if self.IsControlled then return end
+	self:StopParticles()
+	self:WanderToPosition( (self:GetPos() + Vector( math.Rand( -1, 1 ), math.Rand( -1, 1 ), 0 ) * self.WanderDistance), self.WanderAnim[math.random(1,#self.WanderAnim)], self.MoveSpeed )
+end
+
 function ENT:CustomBehaviour(ent)
 	ent = ent or self.Enemy
 	if !IsValid(ent) then return end
