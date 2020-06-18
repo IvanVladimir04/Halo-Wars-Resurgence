@@ -1,0 +1,49 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models/halowars2/mantis/mantis_df"
+	"$bumpmap" "models/halowars2/mantis/mantis_nm"
+	"$detail" "models/halowars2/mantis/detail_metal_scratches"
+	"$detailscale" "25"
+	"$detailblendfactor" ".2"
+	"$detailblendmode" "1"
+//	"$lightwarptexture"		 "models/halowars2/mantis/lightwrap_metallic"
+	"$selfillum"	"1"
+	"$selfillummask"	"models/halowars2/mantis/mantis_em"
+	"$phong" 1
+	"$phongboost" "0.7"
+	"$phongexponent" "5"
+	"$phongtint" "{230 255 215}"
+	"$phongfresnelranges" "[.7 .82 31]"
+	"$halflambert" "1"
+	"$nodecal" "1"
+	"$nocull"		"1"
+	"$rimlight" 1
+	$rimlightboost          .2
+	"$rimlightexponent"       7
+	"$blendtintbybasealpha"	"1"
+	"$color2"		"[0.75 0.75 0.75]"
+
+	Proxies
+	{
+		PlayerColor
+		{
+			resultVar	$color2 // pass the player color value to Gmod
+			default		0.23 0.35 0.41 // unused for now.
+		}
+		Clamp
+		{
+			min 0.15
+			max 1
+			srcVar1 "$color"
+			resultVar "$phongtint"
+		}
+		Clamp
+		{
+			min 0.25
+			max 1
+			srcVar1 "$color"
+			resultVar "$envmaptint"
+		}
+	}
+
+}
