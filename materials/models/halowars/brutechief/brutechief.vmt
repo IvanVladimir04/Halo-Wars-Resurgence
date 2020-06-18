@@ -3,11 +3,13 @@
 	"$baseTexture" "models/halowars/brutechief/brutechief01_df"
 	"$bumpmap"	"models/halowars/brutechief/brutechief01_nm"
 	"$phong" 1
-	"$phongboost" "1"
-	"$phongexponent" "10"
+	"$phongboost" "1.5"
+	"$phongexponent" "4"
 	"$phongtint" "{230 200 255}"
 	"$phongfresnelranges" "[.7 .82 31]"
-
+	"$rimlight" 1
+	$rimlightboost          .5
+	"$rimlightexponent"       17
 	"$halflambert" "1"
 	"$nodecal" "1"
 

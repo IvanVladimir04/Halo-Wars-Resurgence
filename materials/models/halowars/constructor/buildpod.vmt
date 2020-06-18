@@ -3,16 +3,16 @@
 	"$baseTexture" "models/halowars/constructor/buildpod_01_df"
 	"$bumpmap" "models/halowars/constructor/buildpod_01_nm"
 	"$phong" 1
-	"$phongboost" "0.4"
-	"$phongexponent" "35"
+	"$phongboost" "1.4"
+	"$phongexponent" "14"
 	"$phongtint" "{230 255 195}"
 	"$phongfresnelranges" "[.7 .82 31]"
 	"$halflambert" "1"
 	"$nodecal" "1"
 	"$nocull"		"1"
 	"$rimlight" 1
-	$rimlightboost          0.1
-	"$rimlightexponent"       47
+	$rimlightboost          0.15
+	"$rimlightexponent"       45
 	"$blendtintbybasealpha"	"1"
 
 	Proxies

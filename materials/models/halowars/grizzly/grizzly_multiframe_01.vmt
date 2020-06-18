@@ -3,16 +3,16 @@
 	"$baseTexture" "models/halowars/grizzly/grizzly_multiframe_01_df"
 	"$bumpmap" "models/halowars/grizzly/grizzly_multiframe_01_nm"
 	"$phong" 1
-	"$phongboost" "0.85"
-	"$phongexponent" "7"
+	"$phongboost" "1.45"
+	"$phongexponent" "4"
 	"$phongtint" "{230 255 215}"
 	"$phongfresnelranges" "[.7 .82 31]"
 	"$halflambert" "1"
 	"$nodecal" "1"
 	"$nocull"		"1"
 	"$rimlight" 1
-	$rimlightboost          .2
-	"$rimlightexponent"       7
+	$rimlightboost          0.55
+	"$rimlightexponent"       11
 	"$blendtintbybasealpha"	"1"
 //	"$color2"		"[1.5 1.5 1.5]"
 

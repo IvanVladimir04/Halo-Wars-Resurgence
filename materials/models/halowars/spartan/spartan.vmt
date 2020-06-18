@@ -3,14 +3,16 @@
 	"$baseTexture" "models/halowars/spartan/spartan_01_df"
 	"$bumpmap" "models/halowars/spartan/spartan_01_nm"
 	"$phong" 1
-	"$phongboost" "0.85"
-	"$phongexponent" "7"
+	"$phongboost" "1.6"
+	"$phongexponent" "5"
 	"$phongtint" "{230 255 215}"
 	"$phongfresnelranges" "[.7 .82 31]"
 	"$halflambert" "1"
 	"$nodecal" "1"
 	"$nocull"		"1"
-
+	"$rimlight" 1
+	$rimlightboost          .5
+	"$rimlightexponent"       17
 	"$blendtintbybasealpha"	"1"
 
 	Proxies

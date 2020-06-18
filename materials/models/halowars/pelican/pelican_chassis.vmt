@@ -3,15 +3,15 @@
 	"$baseTexture" "models/halowars/pelican/pelican_multiframe_01_df"
 	"$bumpmap" "models/halowars/pelican/pelican_multiframe_01_nm"
 	"$phong" 1
-	"$phongboost" "0.4"
-	"$phongexponent" "35"
+	"$phongboost" "0.5"
+	"$phongexponent" "10"
 	"$phongtint" "{230 255 195}"
 	"$phongfresnelranges" "[.7 .82 31]"
 	"$halflambert" "1"
 	"$nodecal" "1"
 	"$nocull"		"1"
 	"$rimlight" 1
-	$rimlightboost          0.1
+	$rimlightboost          1.2
 	"$rimlightexponent"       47
 	"$blendtintbybasealpha"	"1"
 

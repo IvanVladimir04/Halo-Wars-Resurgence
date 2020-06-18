@@ -3,15 +3,15 @@
 	"$baseTexture" "models/halowars/scorpion/scorpionupgrade_01_df"
 	"$bumpmap" "models/halowars/scorpion/scorpionupgrade_01_nm"
 	"$phong" 1
-	"$phongboost" "0.85"
-	"$phongexponent" "7"
+	"$phongboost" "1.85"
+	"$phongexponent" "6"
 	"$phongtint" "{230 255 215}"
 	"$phongfresnelranges" "[.7 .82 31]"
 	"$halflambert" "1"
 	"$nodecal" "1"
 	"$nocull"		"1"
 	"$rimlight" 1
-	$rimlightboost          .2
+	$rimlightboost          0.45
 	"$rimlightexponent"       7
 	"$blendtintbybasealpha"	"1"
 //	"$color2"		"[1.5 1.5 1.5]"

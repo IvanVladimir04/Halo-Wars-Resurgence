@@ -3,14 +3,16 @@
 	"$baseTexture" "models/halowars/brute/brute_01_df"
 	"$bumpmap"	"models/halowars/brute/brute_01_nm"
 	"$phong" 1
-	"$phongboost" "1"
-	"$phongexponent" "10"
+	"$phongboost" "1.3"
+	"$phongexponent" "2"
 	"$phongtint" "{230 200 255}"
 	"$phongfresnelranges" "[.7 .82 31]"
 
 	"$halflambert" "1"
 	"$nodecal" "1"
-
+	"$rimlight" 1
+	$rimlightboost          .5
+	"$rimlightexponent"       17
 
 	"$blendtintbybasealpha"	"1"
 

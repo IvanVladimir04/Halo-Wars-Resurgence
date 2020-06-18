@@ -7,11 +7,14 @@
 	"$detailblendfactor" "1"
 	"$detailblendmode" "5"
 	"$phong" 1
-	"$phongboost" "0.85"
-	"$phongexponent" "7"
+	"$phongboost" "1.25"
+	"$phongexponent" "3"
 	"$phongtint" "{230 255 215}"
 	"$phongfresnelranges" "[.7 .82 31]"
 	"$halflambert" "1"
+	"$rimlight" 1
+	$rimlightboost          .1
+	"$rimlightexponent"       17
 	"$nodecal" "1"
 	"$nocull"		"1"
 

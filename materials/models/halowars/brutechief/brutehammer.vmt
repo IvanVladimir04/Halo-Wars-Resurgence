@@ -4,8 +4,8 @@
 	"$bumpmap"	"models/halowars/brutechief/brutehammer01_nm"
 
 	"$phong" 1
-	"$phongboost" "1.15"
-	"$phongexponent" "2"
+	"$phongboost" "1.8"
+	"$phongexponent" "4"
 	"$phongtint" "{230 225 255}"
 	"$phongfresnelranges" "[.7 .82 31]"
 	"$nocull"		"1"
