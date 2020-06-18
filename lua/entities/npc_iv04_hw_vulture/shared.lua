@@ -2,7 +2,7 @@ AddCSLuaFile()
 ENT.Base 			= "npc_iv04_base"
 ENT.Models  = {"models/halowars1/unsc/vulture.mdl"}
 --ENT.Models = {"models/rotr_blackbear/compiled 0.68/models/rotr_blackbear/blackbear.mdl"}
-ENT.StartHealth = 400
+ENT.StartHealth = 800
 ENT.Relationship = 4
 ENT.MeleeDamage = 30
 ENT.RunAnim = {ACT_RUN}
