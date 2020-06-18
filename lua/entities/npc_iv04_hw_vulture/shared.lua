@@ -149,7 +149,8 @@ function ENT:FireAt()
 	--bullet.TracerName = "effect_osw_tracer_sniper_outlaw"
 	bullet.Damage = 50
 	bullet.Callback = function(attacker, tr, info) -- Small function to set it as we are who caused the damage
-
+		info:SetAttacker(self)
+		info:SetDamageType(DMG_BLAST)
 	end
 	deliver:FireBullets(bullet)
 	deliver:Remove()
