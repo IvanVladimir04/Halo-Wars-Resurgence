@@ -1,7 +1,9 @@
 "VertexLitGeneric"
 {
-	"$baseTexture" "models/halowars/scorpion/tread_01_df"
+	"$baseTexture" "models/halowars/scorpion/spc_tread_01_df"
 	"$bumpmap" "models/halowars/scorpion/tread_01_nm"
+
+
 	"$phong" 1
 	"$phongboost" "0.85"
 	"$phongexponent" "7"
@@ -21,8 +23,8 @@
                 "TextureScroll"
                 {
                         "texturescrollvar" "$baseTextureTransform"
-                        "texturescrollrate" 2.0
-                        "texturescrollangle" 90
+                        "texturescrollrate" 0.40
+                        "texturescrollangle" -90
                 }
         }
 }

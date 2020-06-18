@@ -1,28 +1,7 @@
 "UnlitGeneric"
 {
-	"$baseTexture" "models/halowars2/mantis/mantis_df"
-//	"$bumpmap" "models/halowars2/mantis/mantis_nm"
-	"$detail" "models/halowars2/mantis/mantis_em"
-	"$detailscale" "1"
-	"$detailblendfactor" "1"
-	"$detailblendmode" "5"
-	"$lightwarptexture"		 "models/halowars2/mantis/lightwrap_metallic"
- 	"$envmap" "models/halowars2/mantis/standard_reflection.hdr"
-	"$envmaptint" "[0.05 0.05 0.05]"
-	"$envmapcontrast"		"0.3"
-	"$envmapsaturation "	"0.4"
-	"$phong" 1
-	"$phongboost" "0.85"
-	"$phongexponent" "15"
-	"$phongtint" "{230 255 215}"
-	"$phongfresnelranges" "[.7 .82 31]"
-	"$halflambert" "1"
-	"$nodecal" "1"
-	"$nocull"		"1"
-	"$rimlight" 1
-	$rimlightboost          .2
-	"$rimlightexponent"       7
+	"$baseTexture" "models/halowars2/mantis/mantis_camera_df"
 	"$blendtintbybasealpha"	"1"
-//	"$color2"		"[0.75 0.75 0.75]"
+
 
 }
