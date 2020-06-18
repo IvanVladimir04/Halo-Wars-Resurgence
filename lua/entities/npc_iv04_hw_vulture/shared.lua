@@ -1,8 +1,8 @@
 AddCSLuaFile()
 ENT.Base 			= "npc_iv04_base"
-ENT.Models  = {"models/halowars1/unsc/turret.mdl"}
+ENT.Models  = {"models/halowars1/unsc/vulture.mdl"}
 --ENT.Models = {"models/rotr_blackbear/compiled 0.68/models/rotr_blackbear/blackbear.mdl"}
-ENT.StartHealth = 400
+ENT.StartHealth = 800
 ENT.Relationship = 4
 ENT.MeleeDamage = 30
 ENT.RunAnim = {ACT_RUN}
@@ -13,15 +13,15 @@ ENT.Faction = "FACTION_UNSC"
 ENT.MoveSpeed = 160
 ENT.MoveSpeedMultiplier = 1 -- When running, the move speed will be x times faster
 
-ENT.PrintName = "Turret"
+ENT.PrintName = "Vulture"
 
 ENT.ToastRange = 900
 
 ENT.FriendlyToPlayers = true
 
-ENT.SightDistance = 1536
+ENT.SightDistance = 3036
 
-ENT.LoseEnemyDistance = 1736
+ENT.LoseEnemyDistance = 3346
 
 if CLIENT then
 
@@ -34,69 +34,29 @@ end
 function ENT:OnInitialize()
 	self.UpgradeLevel = 1
 	self:SetBloodColor(BLOOD_COLOR_MECH)
+	self.loco:SetGravity(0)
 	if !self.Color then
 		self:SetColor(Color(0,140,9,255))
 	end
-	self.Socket = ents.Create("prop_dynamic")
-	self.Socket:SetModel("models/halowars1/unsc/turret_socket_01.mdl")
-	self.Socket:SetPos(self:GetPos())
-	self.Socket:SetAngles(self:GetAngles())
-	self.Socket:Spawn()
-	self.Socket:SetParent(self)
-	self.Socket:SetOwner(game.GetWorld())
-	self.Socket:SetCollisionGroup(COLLISION_GROUP_IN_VEHICLE)
-	self.Socket:SetCollisionBounds(Vector(0,0,0),Vector(0,0,0))
-	self.Socket:SetRenderMode(RENDERMODE_TRANSALPHA)
-	local attch = self.Socket:GetAttachment(1)
-	self.Clone = ents.Create("prop_dynamic")
-	self.Clone:SetModel(self:GetModel())
-	self.Clone:SetAngles(self:GetAngles())
-	self.Clone:SetPos(attch.Pos)
-	self.Clone:SetColor(self:GetColor())
-	self.Clone:SetParent(self.Socket,nil)
-	self.Clone:SetOwner(self)
-	self.Clone:SetCollisionGroup(COLLISION_GROUP_IN_VEHICLE)
-	self.Clone:SetCollisionBounds(Vector(0,0,0),Vector(0,0,0))
-	self.Clone:SetSequence("Idle")
-	self.Clone:SetRenderMode(RENDERMODE_TRANSALPHA)
-	self.Clone.Draw = function() self.Clone:DrawModel() end
-	local id1, len1 = self.Socket:LookupSequence("Door Open")
-	local id2, len2 = self.Socket:LookupSequence("Platform Raise")
-	self.Socket:ResetSequenceInfo()
-	self.Socket:SetPlaybackRate(1)
-	self.Socket:SetSequence(id1)
-	local pos = self.Clone:GetPos()
-	timer.Simple( len1, function()
-		if IsValid(self.Socket) then
-			self.Socket:SetSequence(id2)
-			for i = 1, 2630 do
-				timer.Simple( i*0.01, function()
-					if IsValid(self.Clone) then
-						pos = pos+self.Clone:GetUp()*0.186
-						self.Clone:SetPos(pos)
-						--print(i)
-					end
-				end )
+end
+
+if SERVER then
+
+	function ENT:Think()
+		if !self.Goal then
+			self.loco:SetVelocity(Vector(0,0,0))
+		end
+		if self.NeedsToTurn then
+			self.NeedsToTurn = false
+			if self.NeedsToTurnTo == "Left" then
+				self:SetAngles(self:GetAngles()+Angle(0,-1,0))
+			elseif self.NeedsToTurnTo == "Right" then
+				self:SetAngles(self:GetAngles()+Angle(0,1,0))
 			end
+			self.NeedsToTurnTo = nil
 		end
-	end )
-	self:SetNoDraw(true)
-	local done = false
-	timer.Simple( len1+len2, function()
-		if IsValid(self) then
-			self.Socket:SetSequence("Idle")
-			done = true
-		end
-	end )
-	local func = function()
-		while (!done) do
-			coroutine.wait(0.01)
-		end
-		self:SetNoDraw(false)
-		if IsValid(self.Clone) then self.Clone:Remove() end
-		--if IsValid(self.Socket) then self.Socket:SetSequence("Idle") end
 	end
-	table.insert(self.StuffToRunInCoroutine,func)
+	
 end
 
 function ENT:CustomBehaviour(ent)
@@ -111,10 +71,7 @@ ENT.IsUpgraded = false
 function ENT:Attack(ent)
 	ent = ent or self.Enemy
 	if !IsValid(ent) then return end
-	for i = 1, 4 do
-		self:FireAt()
-		coroutine.wait(0.3)
-	end
+	self:FireAt()
 end
 
 function ENT:Wander()
@@ -134,35 +91,70 @@ function ENT:Wander()
 end
 
 ENT.ShootAnimations = {
-	[1] = "Attack Turret 1",
-	[2] = "Attack Turret 2",
-	[3] = "Attack Turret 3"
+	["Left"] = {
+		[1] = "Attack Cannon Left 1",
+		[2] = "Attack Cannon Left 2"
+	},
+	["Right"] = {
+		[1] = "Attack Cannon Right 1",
+		[2] = "Attack Cannon Right 2"
+	}
+}
+
+ENT.ShootAttachment = {
+	["Left"] = {
+		[1] = "turret_01_muzzle_left",
+		[2] = "turret_02_muzzle_left"
+	},
+	["Right"] = {
+		[1] = "turret_01_muzzle_right",
+		[2] = "turret_02_muzzle_right"
+	}
+}
+
+ENT.Shot = "Left"
+
+ENT.NextShot = {
+	["Right"] = "Left",
+	["Left"] = "Right"
 }
 
 
 function ENT:FireAt()
 	if !IsValid(self.Enemy) then return end
-	local a = self:LookupSequence(self.ShootAnimations[self.UpgradeLevel])
+	local r = math.random(1,2)
+	local anim = self.ShootAnimations[self.Shot]
+	local a = self:LookupSequence(anim[r])
 	local gest = self:AddGestureSequence(a)
 	self:SetLayerPriority(gest,2)
 	self:SetLayerPlaybackRate(gest,1)
 	self:SetLayerCycle(gest,0)
-	local att = self:GetAttachment(1)
+	coroutine.wait(0.5)
+	local at = self.ShootAttachment
+	local att = self:GetAttachment(self:LookupAttachment(at[self.Shot][r]))
 	local start = att.Pos
 	local normal = att.Ang:Forward()
 	local bullet = {}
+	local deliver = ents.Create("prop_dynamic")
+	deliver:SetPos(start)
+	deliver:SetAngles(self:GetAngles())
 	bullet.Num = 1
 	bullet.Src = start
 	bullet.Dir = (self.Enemy:WorldSpaceCenter()-start):GetNormalized()
 	bullet.Spread =  Vector( 0, 0 )
 	bullet.Tracer = 1
 	bullet.Force = 1
+	bullet.IgnoreEntity = self
+	bullet.Attacker = self
 	--bullet.TracerName = "effect_osw_tracer_sniper_outlaw"
-	bullet.Damage = 10
+	bullet.Damage = 50
 	bullet.Callback = function(attacker, tr, info) -- Small function to set it as we are who caused the damage
 
 	end
-	self:FireBullets(bullet)
+	deliver:FireBullets(bullet)
+	deliver:Remove()
+	self.Shot = self.NextShot[self.Shot]
+	--print(self.Shot)
 end
 
 function ENT:Face(ent)
@@ -283,20 +275,29 @@ end
 function ENT:BodyUpdate()
 	local act = self:GetActivity()
 	if IsValid(self.Enemy) then
-		local ang = self:GetAimVector():Angle()
+		local ang = (self.Enemy:WorldSpaceCenter()-(self:GetPos()+self:GetForward()*400)):GetNormalized():Angle()
 		--if ang.p < -45 then ang.p = -45 elseif ang.p > 45 then ang.p = 45 end
 		local ang1 = self:GetAngles()
-		local dif = math.AngleDifference( ang.y, ang1.y )
+		local dif = math.AngleDifference( ang1.y, ang.y )
 		local dif2 = math.AngleDifference( ang.p, ang1.p )
+		local dif1 = dif
+		if dif < -45 then dif = -45 elseif dif > 45 then dif = 45 end
+		if dif1 <= 0 then dif1 = dif1+360 end
+		if dif1 < 270 and dif1 > 180 then dif1 = 270 self.NeedsToTurn = true self.NeedsToTurnTo = "Right" elseif dif1 > 90 and dif1 <= 180 then dif1 = 90 self.NeedsToTurn = true self.NeedsToTurnTo = "Left" end
 		if dif2 < -45 then dif2 = -45 elseif dif2 > 45 then dif2 = 45 end
 		self:SetPoseParameter("aim_pitch",dif2)
-		self:SetPoseParameter("aim_yaw",dif)
+		self:SetPoseParameter("aim_yaw",-(dif/2))
 	else
 		self:SetPoseParameter("aim_pitch",0)
 		self:SetPoseParameter("aim_yaw",0)
 	end
 	self:FrameAdvance()
 end
+
+local thingstoavoid = {
+	["prop_physics"] = true,
+	["prop_ragdoll"] = true
+}
 
 function ENT:OnContact( ent ) -- When we touch someBODY
 	if ent == game.GetWorld() then return "no" end
@@ -329,8 +330,8 @@ function ENT:OnContact( ent ) -- When we touch someBODY
 	end
 end
 
-list.Set( "NPC", "npc_iv04_hw_turret", {
-	Name = "Turret",
-	Class = "npc_iv04_hw_turret",
+list.Set( "NPC", "npc_iv04_hw_vulture", {
+	Name = "Vulture",
+	Class = "npc_iv04_hw_vulture",
 	Category = "Halo Wars Resurgence"
 } )
