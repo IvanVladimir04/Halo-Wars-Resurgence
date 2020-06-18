@@ -23,8 +23,22 @@ ENT.RangeToMeleeDistance = 1
 ENT.NoChaseAfterCertainRange = true
 ENT.NoChaseAfterCertainRange_FarDistance = 600
 ENT.NoChaseAfterCertainRange_CloseDistance = 1
+
+ENT.Passive_RunOnDamage = false
+ENT.Passive_RunOnTouch = false
+ENT.Passive_RunOnDamage = false
+ENT.MoveOutOfFriendlyPlayersWay = false
+ENT.CallForBackUpOnDamage = false
+ENT.RunAwayOnUnknownDamage = true
+
+ENT.NextRunAwayOnDamageT = math.huge -- Parry this you filthy casual
+
 --custom
 ENT.InfectedGrunt_Fired = false
+
+-- ====== File Path Variables ====== --
+-- Leave blank if you don't want any sounds to play
+ENT.SoundTbl_RangeAttack = {"halowars1/weapons/plasmarifle1_ster.ogg"}
 ---------------------------------------------------------------------------------------------------------------------------------------------
 function ENT:CustomInitialize() 
 self:SetCollisionBounds(Vector(18, 18, 65), Vector(-18, -18, 0))	
