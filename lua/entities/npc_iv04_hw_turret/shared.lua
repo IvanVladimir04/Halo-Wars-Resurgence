@@ -298,6 +298,11 @@ function ENT:BodyUpdate()
 	self:FrameAdvance()
 end
 
+local thingstoavoid = {
+	["prop_physics"] = true,
+	["prop_ragdoll"] = true
+}
+
 function ENT:OnContact( ent ) -- When we touch someBODY
 	if ent == game.GetWorld() then return "no" end
 	if (ent:GetClass() == "prop_door_rotating" or ent:GetClass() == "func_door" or ent:GetClass() == "func_door_rotating" ) then
