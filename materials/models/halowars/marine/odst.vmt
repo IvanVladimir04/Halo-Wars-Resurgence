@@ -4,7 +4,7 @@
 	"$bumpmap" "models/halowars/marine/odst_01_nm"
 	"$phong" 1
 	"$phongboost" ".95"
-	"$phongexponent" "2"
+	"$phongexponent" "4"
 	"$phongtint" "{230 255 215}"
 	"$phongfresnelranges" "[.7 .82 31]"
 	"$halflambert" "1"
@@ -17,11 +17,6 @@
 
 	Proxies
 	{
-		PlayerColor
-		{
-			resultVar	$color2 // pass the player color value to Gmod
-			default		0.23 0.35 0.41 // unused for now.
-		}
 		Clamp
 		{
 			min 0.15

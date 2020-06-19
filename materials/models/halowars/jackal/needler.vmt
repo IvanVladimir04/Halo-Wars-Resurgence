@@ -12,7 +12,7 @@
 	"$phong" 1
 	"$phongboost" "1.3"
 	"$phongexponent" "18"
-	"$phongtint" "{255 200 255}"
+	"$phongtint" "{255 100 255}"
 	"$phongfresnelranges" "[.7 .82 31]"
 	"$model" 1
 	"$phongalbedotint" "1"

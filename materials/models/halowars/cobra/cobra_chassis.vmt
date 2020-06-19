@@ -3,8 +3,8 @@
 	"$baseTexture" "models/halowars/cobra/cobra_multiframe_01_df"
 	"$bumpmap" "models/halowars/cobra/cobra_multiframe_01_nm"
 	"$phong" 1
-	"$phongboost" "0.85"
-	"$phongexponent" "7"
+	"$phongboost" "1.45"
+	"$phongexponent" "6"
 	"$phongtint" "{230 255 215}"
 	"$phongfresnelranges" "[.7 .82 31]"
 	"$halflambert" "1"
@@ -18,11 +18,7 @@
 
 	Proxies
 	{
-		PlayerColor
-		{
-			resultVar	$color2 // pass the player color value to Gmod
-			default		0.23 0.35 0.41 // unused for now.
-		}
+
 		Clamp
 		{
 			min 0.15
