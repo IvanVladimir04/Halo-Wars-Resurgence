@@ -153,7 +153,7 @@ function ENT:FireFromAttachment(attch,dmg)
 	--bullet.TracerName = self.TracerName
 	bullet.Damage = dmg or 5
 	bullet.Callback = function(attacker, tr, info) -- Small function to set it as we are who caused the damage
-	
+
 	end
 	prop:Remove()
 	self:FireBullets(bullet)
