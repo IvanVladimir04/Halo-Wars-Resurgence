@@ -22,9 +22,6 @@ ENT.RangeToMeleeDistance = 1
 ENT.NoChaseAfterCertainRange = true
 ENT.NoChaseAfterCertainRange_FarDistance = 150
 ENT.NoChaseAfterCertainRange_CloseDistance = 1
---custom
-ENT.InfectedFlamethrower_Fired = false
-
 ENT.Passive_RunOnDamage = false
 ENT.Passive_RunOnTouch = false
 ENT.Passive_RunOnDamage = false
@@ -32,9 +29,14 @@ ENT.MoveOutOfFriendlyPlayersWay = false
 ENT.CallForBackUpOnDamage = false
 ENT.RunAwayOnUnknownDamage = false
 
+--custom
+ENT.InfectedFlamethrower_Fired = false
 ENT.FlameRange = 300
-
 ENT.NextRunAwayOnDamageT = math.huge -- Parry this you filthy casual
+
+-- ====== File Path Variables ====== --
+-- Leave blank if you don't want any sounds to play
+ENT.SoundTbl_RangeAttack = {"ambient/fire/ignite.wav"}
 ---------------------------------------------------------------------------------------------------------------------------------------------
 function ENT:CustomInitialize() 
 self:SetCollisionBounds(Vector(16, 16, 70), Vector(-16, -16, 0))	

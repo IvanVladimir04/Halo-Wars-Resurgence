@@ -13,7 +13,6 @@ ENT.BloodColor = "Yellow"
 ENT.HasDeathAnimation = true
 ENT.DeathAnimationTime = 10
 ENT.AnimTbl_Death = {"Death_01"} 
-
 ENT.Passive_RunOnDamage = false
 ENT.Passive_RunOnTouch = false
 ENT.Passive_RunOnDamage = false
@@ -21,11 +20,17 @@ ENT.MoveOutOfFriendlyPlayersWay = false
 ENT.CallForBackUpOnDamage = false
 ENT.RunAwayOnUnknownDamage = true
 
+--custom
 ENT.NextRunAwayOnDamageT = math.huge -- Parry this you filthy casual
+
+-- ====== File Path Variables ====== --
+-- Leave blank if you don't want any sounds to play
+ENT.SoundTbl_MeleeAttack = {"npc/zombie/claw_strike1.wav","npc/zombie/claw_strike2.wav","npc/zombie/claw_strike3.wav"}
+ENT.SoundTbl_MeleeAttackMiss = {"npc/zombie/claw_miss1.wav","npc/zombie/claw_miss2.wav"}
 ---------------------------------------------------------------------------------------------------------------------------------------------
 function ENT:CustomInitialize() 
 self:SetCollisionBounds(Vector(21, 21, 82), Vector(-21, -21, 0))	
-self:VJ_ACT_PLAYACTIVITY("vjseq_Birth_01",true,4,true)
+self:VJ_ACT_PLAYACTIVITY("vjseq_Birth_01",true,5,true)
 end
 ---------------------------------------------------------------------------------------------------------------------------------------------
 function ENT:MultipleMeleeAttacks()
