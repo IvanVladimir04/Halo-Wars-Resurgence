@@ -130,6 +130,7 @@ function ENT:FireAt()
 	self:SetLayerPlaybackRate(gest,1)
 	self:SetLayerCycle(gest,0)
 	coroutine.wait(0.5)
+	if !IsValid(self.Enemy) then return end
 	local at = self.ShootAttachment
 	local att = self:GetAttachment(self:LookupAttachment(at[self.Shot][r]))
 	local start = att.Pos
