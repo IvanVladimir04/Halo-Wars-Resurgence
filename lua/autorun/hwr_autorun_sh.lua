@@ -31,7 +31,16 @@ if VJExists == true then
 	VJ.AddNPC("Infected Marine","npc_vj_hw_flood_marine",vCat )
 	VJ.AddNPC("Infected Flamethrower","npc_vj_hw_flood_flamethrower",vCat )
 	
-		-- Precache Models
+	--Squads
+	VJ.AddNPC("Infected Marine Squad","sent_vj_hw_flood_marine_squad",vCat)
+	VJ.AddNPC("Infected Flamethrower Duo","sent_vj_hw_flood_flamethrower_duo",vCat)
+	VJ.AddNPC("Infected Grunt Squad","sent_vj_hw_flood_grunt_squad",vCat)
+	VJ.AddNPC("Infected Brute Duo","sent_vj_hw_flood_brute_duo",vCat)
+	VJ.AddNPC("Flood Infection Form Squad","sent_vj_hw_flood_infection_squad",vCat)
+	VJ.AddNPC("Flood Swarm Form Flock","sent_vj_hw_flood_swarm_flock",vCat)
+	
+	
+	-- Precache Models
 	util.PrecacheModel("models/halowars1/covenant/brute.mdl")
 	util.PrecacheModel("models/halowars1/covenant/locust.mdl")
 	util.PrecacheModel("models/halowars1/rebel/rebel_infantry.mdl")
@@ -56,6 +65,30 @@ if VJExists == true then
 	util.PrecacheModel("models/hc/halo-wars/flood/infectionform_01/infectionform_01.mdl")
 	util.PrecacheModel("models/hc/halo-wars/flood/rhinodillo_01/rhinodillo_01.mdl")
 	util.PrecacheModel("models/hc/halo-wars/flood/swarm_01/swarm_01.mdl")
+	util.PrecacheModel("models/halowars1/covenant/arbiter.mdl")
+	util.PrecacheModel("models/halowars1/covenant/brute.mdl")
+	util.PrecacheModel("models/halowars1/covenant/elite.mdl")
+	util.PrecacheModel("models/halowars1/covenant/elite_honor_guard.mdl")
+	util.PrecacheModel("models/halowars1/covenant/engineer.mdl")
+	util.PrecacheModel("models/halowars1/covenant/grunt.mdl")
+	util.PrecacheModel("models/halowars1/covenant/hunter.mdl")
+	util.PrecacheModel("models/halowars1/covenant/jackal.mdl")
+	util.PrecacheModel("models/halowars1/unsc/airpad.mdl")
+	util.PrecacheModel("models/halowars1/unsc/barracks.mdl")
+	util.PrecacheModel("models/halowars1/unsc/cobra.mdl")
+	util.PrecacheModel("models/halowars1/unsc/cyclops.mdl")
+	util.PrecacheModel("models/halowars1/unsc/fortress.mdl")	
+	util.PrecacheModel("models/halowars1/unsc/grizzly.mdl")
+	util.PrecacheModel("models/halowars1/unsc/hawk.mdl")
+	util.PrecacheModel("models/halowars1/unsc/hornet.mdl")
+	util.PrecacheModel("models/halowars1/unsc/scorpion.mdl")
+	util.PrecacheModel("models/halowars1/unsc/socket_01.mdl")
+	util.PrecacheModel("models/halowars1/unsc/supply_pad.mdl")
+	util.PrecacheModel("models/halowars1/unsc/turret.mdl")
+	util.PrecacheModel("models/halowars1/unsc/turret_socket_01.mdl")
+	util.PrecacheModel("models/halowars1/unsc/vehicle_depot.mdl")
+	util.PrecacheModel("models/halowars1/unsc/vulture.mdl")
+	util.PrecacheModel("models/halowars2/unsc/mantis.mdl")
 	
 	-- ====== Particles  ====== --
 	game.AddParticles("particles/hwr_particles.pcf")
