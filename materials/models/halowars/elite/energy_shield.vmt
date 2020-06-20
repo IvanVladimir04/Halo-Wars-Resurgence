@@ -1,26 +1,34 @@
-"UnlitGeneric"
+"VertexlitGeneric"
 {
-	"$basetexture2" "models/halowars/elite/shield_noise"
-	"$basetexture"	"models/halowars/elite/shield_mask"
-	"$detail"		"models/halowars/elite/shield_noise"
-	"$detailscale"		 "1"
-	"$detailblendfactor"		 ".2"
-	"$detailblendmode"		 "5"	
-	"$model" 1
-	"$nocull"		1
-	"$additive"	1
+	"$additive" 1
+//	"$translucent" 1
+	"$vertexcolor" 1
+//	"$vertexalpha" 1
+	"$decal" 1
+
+//	"$alpha" 1	
+	"$color2"		"[2 10 15]"
+	"$basetexture" "models/halowars/elite\Electric_Field"
+	"$selfillum"	"1"
+	$emissiveBlendEnabled 1
+	$emissiveBlendTexture     "models/halowars/elite\Electric_Field"
+	$emissiveBlendBaseTexture		"models/halowars/elite\Electric_Field"
+	$emissiveBlendFlowTexture     "models/halowars/elite/particle_glow_04"
+	$emissiveBlendTint "[.1 35 50]"
+	$emissiveBlendStrength 1
+	$emissiveBlendScrollVector "[.5 .5]"
+	"$basetexturetransform"	"center .5 .5 scale 1.2 1.2 rotate 0  translate 0 0"
+	
+
 
         "Proxies"
         {
-                "TextureScroll"
+                "AnimatedTexture"
                 {
-                        "texturescrollvar" "$baseTextureTransform"
-                        "texturescrollrate" 2.0
-                        "texturescrollangle" 90
+                         "animatedtexturevar" "$basetexture"
+                         "animatedtextureframenumvar" "$frame"
+                         "animatedtextureframerate" 25.00
                 }
+
         }
-
 }
-
-
-
