@@ -7,17 +7,17 @@
 	"$decal" 1
 
 //	"$alpha" 1	
-	"$color2"		"[2 10 15]"
+	"$color2"		"[4 2 .5]"
 	"$basetexture" "models/halowars/elite\Electric_Field"
 	"$selfillum"	"1"
-	$emissiveBlendEnabled 1
-	$emissiveBlendTexture     "models/halowars/elite\Electric_Field"
-	$emissiveBlendBaseTexture		"models/halowars/elite\Electric_Field"
-	$emissiveBlendFlowTexture     "models/halowars/elite/particle_glow_04"
-	$emissiveBlendTint "[.1 35 50]"
-	$emissiveBlendStrength 1
-	$emissiveBlendScrollVector "[.5 .5]"
-	"$basetexturetransform"	"center .5 .5 scale 1.2 1.2 rotate 0  translate 0 0"
+//	$emissiveBlendEnabled 1
+//	$emissiveBlendTexture     "models/halowars/elite\Electric_Field"
+//	$emissiveBlendBaseTexture		"models/halowars/elite\Electric_Field"
+//	$emissiveBlendFlowTexture     "models/halowars/elite/particle_glow_04"
+//	$emissiveBlendTint "[5 3 .1]"
+//	$emissiveBlendStrength 1
+//	$emissiveBlendScrollVector "[.25 .25]"
+	"$basetexturetransform"	"center .5 .5 scale 2 2 rotate 0  translate 0 0"
 	
 
 
