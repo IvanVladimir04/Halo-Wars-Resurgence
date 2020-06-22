@@ -54,11 +54,24 @@ ENT.AnimsList = {
 	}
 }
 
+ENT.Muzzles = {
+	[1] = {1,2},
+	[2] = {4},
+	[3] = {3},
+	[4] = {5}
+}
+
+function ENT:GetShootPos()
+	local tbl = self.Muzzles[self.MuzzleTyp]
+	return self:GetAttachment(tbl[math.random(#tbl)]).Pos
+end
+
 function ENT:OnInitialize()
 	if !self.Color then
 		self:SetColor(Color(155,166,90,255))
 	end
 	local r = math.random(1,4)
+	self.MuzzleTyp = r
 	local typ = self.PossibleWeapons[r]
 	self.WeaponType = typ
 	self:SetBodygroup(1,r-1)
@@ -120,7 +133,7 @@ function ENT:CustomBehaviour(ent)
 	else
 		--self:StopParticles()
 		self.Attacking = false
-		self:StartMovingAnimations(self:GetSequenceActivity(self.RunAnim[math.random(1,#self.RunAnim)]),self.MoveSpeed*self.MoveSpeedMultiplier)
+		self:StartMovingAnimations(self.RunAnim[math.random(1,#self.RunAnim)],self.MoveSpeed*self.MoveSpeedMultiplier)
 		return self:ChaseEnt(ent)
 	end
 end
@@ -147,7 +160,7 @@ function ENT:FireFromAttachment(attch,dmg)
 	bullet.Num = 1
 	bullet.Src = prop:GetPos()
 	bullet.Dir = self:GetAimVector()
-	bullet.Spread =  Vector( 0.01, 0.01 )
+	bullet.Spread =  Vector( 0, 0 )
 	bullet.Tracer = 1
 	bullet.Force = 1
 	--bullet.TracerName = self.TracerName
@@ -163,12 +176,24 @@ function ENT:FireAt()
 	self:Face(self.Enemy)
 	if self.WeaponType == "Minigun" then
 		self:PlaySequenceAndWait("Attack Minigun Start")
-		for i = 1, 10 do
-			timer.Simple( i*0.1, function()
-				if IsValid(self) then
-					self:FireFromAttachment(3)
+		local stop = false
+		while (!stop) do
+			if !self.Checked then
+				self.Checked = true
+				timer.Simple( 0.5, function()
+					if IsValid(self) then
+						self.Checked = false
+					end
+				end )
+				if IsValid(self.Enemy) then
+					if !self:IsLineOfSightClear(self.Enemy) then stop = true end
+					if self:GetRangeSquaredTo(self.Enemy:GetPos()) > self.AttackRange^2 then stop = true end
+				else
+					stop = true
 				end
-			end )
+			end
+			self:FireFromAttachment(3)
+			coroutine.wait(0.1)
 		end
 		self:PlaySequenceAndWait("Attack Minigun Loop")
 		self:PlaySequenceAndWait("Attack Minigun End")
