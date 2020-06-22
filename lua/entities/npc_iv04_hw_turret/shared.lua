@@ -35,7 +35,7 @@ function ENT:OnInitialize()
 	self.UpgradeLevel = 1
 	self:SetBloodColor(BLOOD_COLOR_MECH)
 	if !self.Color then
-		self:SetColor(Color(0,140,9,255))
+		self:SetColor(Color(155,166,90,255))
 	end
 	self.Socket = ents.Create("prop_dynamic")
 	self.Socket:SetModel("models/halowars1/unsc/turret_socket_01.mdl")

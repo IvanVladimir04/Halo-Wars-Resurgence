@@ -56,7 +56,7 @@ ENT.AnimsList = {
 
 function ENT:OnInitialize()
 	if !self.Color then
-		self:SetColor(Color(0,140,9,255))
+		self:SetColor(Color(155,166,90,255))
 	end
 	local r = math.random(1,4)
 	local typ = self.PossibleWeapons[r]
@@ -267,7 +267,9 @@ function ENT:FireAt()
 		timer.Simple( 0.7, function()
 			if IsValid(self) then
 				local tr = util.TraceLine( { start = self:GetAttachment(5).Pos, endpos = self:GetAttachment(5).Pos+self:GetAimVector()*9999, filter = self } )
-				tr.Entity:TakeDamage(120, self, self)
+				if IsValid(tr.Entity) then
+					tr.Entity:TakeDamage(120, self, self)
+				end
 				local prop = ents.Create("prop_dynamic")
 				local att = self:GetAttachment(5)
 				local start = att.Pos

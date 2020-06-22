@@ -36,7 +36,7 @@ function ENT:OnInitialize()
 	self:SetBloodColor(BLOOD_COLOR_MECH)
 	self.loco:SetGravity(0)
 	if !self.Color then
-		self:SetColor(Color(0,140,9,255))
+		self:SetColor(Color(155,166,90,255))
 	end
 end
 

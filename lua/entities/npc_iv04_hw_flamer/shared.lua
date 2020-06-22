@@ -22,7 +22,7 @@ ENT.SightDistance = 512
 
 function ENT:OnInitialize()
 	if !self.Color then
-		self:SetColor(Color(0,140,9,255))
+		self:SetColor(Color(155,166,90,255))
 	end
 end
 
