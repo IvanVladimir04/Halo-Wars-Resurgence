@@ -20,10 +20,60 @@ ENT.FriendlyToPlayers = true
 
 ENT.SightDistance = 512
 
+ENT.Quotes = {
+	["Created"] = {
+		"halowars1/characters/Flame Thrower/flamer _ ready to burn.mp3",
+		"halowars1/characters/Flame Thrower/flamer_good to go.mp3",
+		"halowars1/characters/Flame Thrower/flamer_ on the ground.mp3",
+		"halowars1/characters/Flame Thrower/flamer_Flamethrower ready.mp3",
+		"halowars1/characters/Flame Thrower/flamer_ fueld and ready.mp3"
+	},
+	["FireEffect"] = {
+		"halowars1/characters/Flame Thrower/Flamer Thrower Fire sound effect.mp3"
+	},
+	["Selected"] = {
+		"halowars1/characters/Flame Thrower/flaer standing by.mp3",
+		"halowars1/characters/Flame Thrower/flamer good to go sir.mp3",
+		"halowars1/characters/Flame Thrower/flamer standing by 2.mp3",
+		"halowars1/characters/Flame Thrower/flamer waiting for orders.mp3",
+		"halowars1/characters/Flame Thrower/flamer where to.mp3",
+		"halowars1/characters/Flame Thrower/flamer you point I burn.mp3",
+		"halowars1/characters/Flame Thrower/flamer_ give us an order.mp3",
+		"halowars1/characters/Flame Thrower/flamer_order(question).mp3"
+	},
+	["Move"] = {
+		"halowars1/characters/Flame Thrower/flamer_waypoint.mp3",
+		"halowars1/characters/Flame Thrower/flamer_on the way.mp3",
+		"halowars1/characters/Flame Thrower/flamer_ moving out.mp3",
+		"halowars1/characters/Flame Thrower/flamer_ give us an order.mp3",
+		"halowars1/characters/Flame Thrower/flamer_waypoint.mp3",
+		"halowars1/characters/Flame Thrower/flamer were going.mp3",
+		"halowars1/characters/Flame Thrower/flamer moving.mp3",
+		"halowars1/characters/Flame Thrower/flamer moving up.mp3"
+	}
+}
+
+function ENT:Speak(quote)
+	local tbl = self.Quotes[quote]
+	if tbl then
+		local snd = tbl[math.random(#tbl)]
+		self:EmitSound(snd,100)
+	end
+end
+
+function ENT:OnSelected(selector)
+	self:Speak("Selected")
+end
+
+function ENT:OnMoved(mover)
+	self:Speak("Move")
+end
+
 function ENT:OnInitialize()
 	if !self.Color then
 		self:SetColor(Color(155,166,90,255))
 	end
+	self:Speak("Created")
 end
 
 function ENT:Wander()
@@ -55,6 +105,7 @@ function ENT:Grill(ent)
 	if !self.Grilling then
 		self.Grilling = true
 		self:PlaySequenceAndWait("Prefire")
+		self:Speak("FireEffect")
 	end
 	self:Face(ent)
 	local seq = "Attack "..math.random(1,2)..""
@@ -80,7 +131,7 @@ function ENT:Burn()
 	local start = att.Pos
 	local normal = att.Ang:Forward()
 	for k, v in pairs(ents.FindInCone(start,normal,self.FlameRange,math.cos( math.rad( 30 ) ))) do
-		if v:Health() > 1 and self:CheckRelationships(v) != "friend" then
+		if v:Health() > 0 and self:CheckRelationships(v) != "friend" then
 			local num = math.random(2,5)
 			if self.IsUpgraded then
 				num = num+math.random(2,5)

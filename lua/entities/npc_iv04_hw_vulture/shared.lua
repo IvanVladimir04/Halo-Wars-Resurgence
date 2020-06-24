@@ -23,14 +23,6 @@ ENT.SightDistance = 3036
 
 ENT.LoseEnemyDistance = 3346
 
-if CLIENT then
-
-	function ENT:Initialize()
-
-	end
-
-end
-
 function ENT:OnInitialize()
 	self.UpgradeLevel = 1
 	self:SetBloodColor(BLOOD_COLOR_MECH)
@@ -72,6 +64,31 @@ function ENT:Attack(ent)
 	ent = ent or self.Enemy
 	if !IsValid(ent) then return end
 	self:FireAt()
+end
+
+ENT.NMove = 0
+
+function ENT:StartMovingAnimations( no1, no2 )
+
+end
+
+function ENT:MoveToPos(pos)
+	self.Goal = pos
+	local stop = false
+	local dir = (Vector(pos.x,pos.y,0)-Vector(self:GetPos().x,self:GetPos().y,0)):GetNormalized()
+	while (!stop) do
+		if self.NMove < CurTime() then
+			self.NMove = CurTime()+0.5
+			local xy1 = self:GetPos().x + self:GetPos().y
+			local xy2 = pos.x + pos.y
+			local dif = math.abs(xy2-xy1)
+			if dif < 40 then stop = true end
+		end
+		self.loco:FaceTowards(pos)
+		self.loco:SetVelocity(dir*self.MoveSpeed)
+		coroutine.wait(0.01)
+	end
+	self.Goal = nil
 end
 
 function ENT:Wander()

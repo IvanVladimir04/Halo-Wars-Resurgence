@@ -23,14 +23,6 @@ ENT.SightDistance = 1536
 
 ENT.LoseEnemyDistance = 1736
 
-if CLIENT then
-
-	function ENT:Initialize()
-
-	end
-
-end
-
 function ENT:OnInitialize()
 	self.UpgradeLevel = 1
 	self:SetBloodColor(BLOOD_COLOR_MECH)
@@ -97,6 +89,14 @@ function ENT:OnInitialize()
 		--if IsValid(self.Socket) then self.Socket:SetSequence("Idle") end
 	end
 	table.insert(self.StuffToRunInCoroutine,func)
+end
+
+function ENT:StartMovingAnimations( no1, no2 )
+
+end
+
+function ENT:MoveToPos(pos)
+	return "NO!"
 end
 
 function ENT:CustomBehaviour(ent)
