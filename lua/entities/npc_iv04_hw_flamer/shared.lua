@@ -45,11 +45,32 @@ ENT.Quotes = {
 		"halowars1/characters/Flame Thrower/flamer_waypoint.mp3",
 		"halowars1/characters/Flame Thrower/flamer_on the way.mp3",
 		"halowars1/characters/Flame Thrower/flamer_ moving out.mp3",
-		"halowars1/characters/Flame Thrower/flamer_ give us an order.mp3",
 		"halowars1/characters/Flame Thrower/flamer_waypoint.mp3",
 		"halowars1/characters/Flame Thrower/flamer were going.mp3",
 		"halowars1/characters/Flame Thrower/flamer moving.mp3",
 		"halowars1/characters/Flame Thrower/flamer moving up.mp3"
+	},
+	["Special"] = {
+		"halowars1/characters/Flame Thrower/flamer FLASHBANGS OUT.mp3",
+		"halowars1/characters/Flame Thrower/Flamer_Smoek em out (flamer version).mp3",
+		"halowars1/characters/flamer_ FLASHBANG ON MY MARK.ogg"
+	},
+	["Attack"] = {
+		"halowars1/characters/Flame Thrower/flamer (hyped) were going in!.mp3",
+		"halowars1/characters/Flame Thrower/flamer bringign the heat.mp3",
+		"halowars1/characters/Flame Thrower/flamer fire em up.mp3",
+		"halowars1/characters/Flame Thrower/flamer light em up.mp3",
+		"halowars1/characters/Flame Thrower/flamer ready to burn.mp3",
+		"halowars1/characters/Flame Thrower/flamer ROAST EM.mp3",
+		"halowars1/characters/Flame Thrower/flamer they will burn.mp3",
+		"halowars1/characters/Flame Thrower/flamer toast em.mp3",
+		"halowars1/characters/Flame Thrower/flamer well get em.mp3",
+		"halowars1/characters/Flame Thrower/flamer were goin in.mp3",
+		"halowars1/characters/Flame Thrower/flamer yeah we got em.mp3",
+		"halowars1/characters/Flame Thrower/flamer YESSIR.mp3",
+		"halowars1/characters/Flame Thrower/flamer_ fire is lit (it is).mp3",
+		"halowars1/characters/Flame Thrower/flamer_bring in the fire (ringing the fire).mp3",
+		"halowars1/characters/Flame Thrower/flamer_here comes the heat.mp3"
 	}
 }
 
@@ -63,16 +84,29 @@ end
 
 function ENT:OnSelected(selector)
 	self:Speak("Selected")
+	return true
 end
 
 function ENT:OnMoved(mover)
 	self:Speak("Move")
+	return true
+end
+
+function ENT:OnOrderedToAttack(mover)
+	self:Speak("Attack")
+	return true
+end
+
+function ENT:OnSpecialAttack(mover)
+	self:Speak("Special")
+	return true
 end
 
 function ENT:OnInitialize()
 	if !self.Color then
 		self:SetColor(Color(155,166,90,255))
 	end
+	self:SetCollisionBounds(Vector(-15,-15,0),Vector(15,15,60))
 	self:Speak("Created")
 end
 
