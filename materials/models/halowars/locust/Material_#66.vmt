@@ -5,18 +5,21 @@
 	"$nocull"		"1"
 	"$ambientocclusion" "1"
 	"$phong" 1
-	"$phongboost" "1.9"
-	"$phongexponent" "4"
+	"$phongboost" "1.45"
+	"$phongexponent" "10"
 	"$phongtint" "{230 200 255}"
 	"$phongfresnelranges" "[.7 .82 31]"
 	"$model" 1
 	"$phongalbedotint" "1"
 	"$blendtintbybasealpha"	"1"
-	"$rimlight" 1
-	$rimlightboost          1.8
-	"$rimlightexponent"       25
+
 	Proxies
 	{
+		PlayerColor
+		{
+			resultVar	$color2 // pass the player color value to Gmod
+			default		0.23 0.35 0.41 // unused for now.
+		}
 		Clamp
 		{
 			min 0.15
