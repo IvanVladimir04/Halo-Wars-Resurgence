@@ -45,7 +45,6 @@ ENT.Quotes = {
 		"halowars1/characters/Flame Thrower/flamer_waypoint.mp3",
 		"halowars1/characters/Flame Thrower/flamer_on the way.mp3",
 		"halowars1/characters/Flame Thrower/flamer_ moving out.mp3",
-		"halowars1/characters/Flame Thrower/flamer_waypoint.mp3",
 		"halowars1/characters/Flame Thrower/flamer were going.mp3",
 		"halowars1/characters/Flame Thrower/flamer moving.mp3",
 		"halowars1/characters/Flame Thrower/flamer moving up.mp3"
@@ -53,7 +52,7 @@ ENT.Quotes = {
 	["Special"] = {
 		"halowars1/characters/Flame Thrower/flamer FLASHBANGS OUT.mp3",
 		"halowars1/characters/Flame Thrower/Flamer_Smoek em out (flamer version).mp3",
-		"halowars1/characters/flamer_ FLASHBANG ON MY MARK.ogg"
+		"halowars1/characters/Flame Thrower/flamer_ FLASHBANG ON MY MARK.ogg"
 	},
 	["Attack"] = {
 		"halowars1/characters/Flame Thrower/flamer (hyped) were going in!.mp3",
@@ -374,7 +373,7 @@ end
 function ENT:DetermineDeath(dmg)
 	local seq
 	--print(dmg:GetDamageType())
-	if dmg:GetDamageType() == DMG_BULLET then
+	if dmg:IsBulletDamage() then
 	
 		seq = "Death Machinegun "..math.random(1,3)..""
 		

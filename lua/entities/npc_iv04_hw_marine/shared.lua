@@ -22,10 +22,98 @@ ENT.SightDistance = 512
 
 ENT.WepDamage = 7
 
+ENT.Quotes = {
+	["Created"] = {
+		"halowars1/characters/Marine/marines ready sir!.mp3",
+		"halowars1/characters/Marine/Marines_good_to_go.mp3",
+		"halowars1/characters/Marine/marines_on the ground sir.mp3",
+		"halowars1/characters/Marine/Marines_ooh_rah.mp3",
+		"halowars1/characters/Marine/marines_reporting_for_duty.mp3",
+	},
+	["FireEffectBig"] = {
+		"halowars1/characters/Marine/Assault rifle 3.mp3",
+		"halowars1/characters/Marine/assult_rifle_fire.mp3",
+		"halowars1/characters/Marine/Marine_Assault_Rifle.mp3"
+	},
+	["FireEffectSmall"] = {
+		"halowars1/characters/Marine/assault_rifle_fire short.mp3"
+	},
+	["FireEffectShotgun"] = {
+		"halowars1/characters/Marine/shotgun fire.mp3"
+	},
+	["ReloadShotgun"] = {
+		"halowars1/characters/Marine/shotgun load.mp3"
+	},
+	["CockShotgun"] = {
+		"halowars1/characters/Marine/shotgun c0ck.mp3"
+	},
+	["Selected"] = {
+		"halowars1/characters/Marine/marine_standing by 2.mp3"
+	},
+	["Move"] = {
+		"halowars1/characters/Marine/Marines_were going.mp3"
+	},
+	["Death"] = {
+		"halowars1/characters/Marine/Generic_death.mp3",
+		"halowars1/characters/Marine/Generic_death 2.mp3",
+		"halowars1/characters/Marine/Generic_death 3.mp3"
+	},
+	["Special"] = {
+		"halowars1/characters/Marine/marien_ Grenades ON MY MARK.mp3",
+		"halowars1/characters/Marine/marine_ GRENADES DO IT.mp3",
+		"halowars1/characters/Marine/marine_fire_in_the_hole.mp3",
+		"halowars1/characters/Marine/Marine_Grenade out.mp3"
+	},
+	["SpecialRocket"] = {
+		"halowars1/characters/Marine/Marine_Locking on.mp3",
+		"halowars1/characters/Marine/marine_rockets out.mp3",
+		"halowars1/characters/Marine/marine_rpg OUT.mp3",
+		"halowars1/characters/Marine/marine_smoke_em_out.mp3"
+	},
+	["Attack"] = {
+		"halowars1/characters/Marine/marien_were going in.mp3",
+		"halowars1/characters/Marine/Marine_fireing.mp3"
+	}
+}
+
+function ENT:Speak(quote)
+	local tbl = self.Quotes[quote]
+	if tbl then
+		local snd = tbl[math.random(#tbl)]
+		self:EmitSound(snd,100)
+	end
+end
+
+function ENT:OnSelected(selector)
+	self:Speak("Selected")
+	return true
+end
+
+function ENT:OnMoved(mover)
+	self:Speak("Move")
+	return true
+end
+
+function ENT:OnOrderedToAttack(mover)
+	self:Speak("Attack")
+	return true
+end
+
+function ENT:OnSpecialAttack(mover)
+	if self.IsUpgraded then
+		self:Speak("SpecialRocket")
+	else
+		self:Speak("Special")
+	end
+	return true
+end
+
 function ENT:OnInitialize()
 	if !self.Color then
 		self:SetColor(Color(155,166,90,255))
 	end
+	self:SetCollisionBounds(Vector(-15,-15,0),Vector(15,15,60))
+	self:Speak("Created")
 end
 
 function ENT:CustomBehaviour(ent)
@@ -57,9 +145,18 @@ function ENT:Shoot(ent)
 	--if self.IsUpgraded then seq = "Attack Napalm" effect = "flame_halowars_napalm" end
 	--ParticleEffectAttach( effect, PATTACH_POINT_FOLLOW, self, 1 )
 	local id, len = self:LookupSequence(seq)
-	for i = 1, len*2 do
-		timer.Simple( 0.4*i, function()
+	local ra = math.random(2,3)
+	local r = ra == 2
+	for i = 1, ra do
+		timer.Simple( 0.2*i, function()
 			if IsValid(self) then
+				if i == 1 then
+					if r then
+						self:Speak("FireEffectSmall")
+					else
+						self:Speak("FireEffectBig")
+					end
+				end
 				self:FireAt()
 			end
 		end )
@@ -315,7 +412,7 @@ end
 function ENT:DetermineDeath(dmg)
 	local seq
 	--print(dmg:GetDamageType())
-	if dmg:GetDamageType() == DMG_BULLET then
+	if dmg:IsBulletDamage() then
 	
 		seq = "Death Machinegun "..math.random(1,3)..""
 		
@@ -343,6 +440,7 @@ end
 
 function ENT:CreateRagdoll(dmg)
 	if dmg:GetAttacker().IsHWInfector then self.BeenInfected = true return self:GetInfected(dmg) end
+	self:Speak("Death")
 	local corpse = ents.Create("prop_dynamic")
 	corpse:SetPos(self:GetPos())
 	corpse:SetModel(self:GetModel())
