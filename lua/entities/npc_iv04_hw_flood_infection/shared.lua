@@ -141,6 +141,7 @@ end
 ENT.MeleeCheckDelay = 0.5
 
 function ENT:ComputeAPath(ent,path)
+	if !IsValid(ent) then return end
 	path:Compute( self, ent:GetPos(), function( area, fromArea, ladder, elevator, length )
 	if ( !IsValid( fromArea ) ) then
 

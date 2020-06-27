@@ -53,7 +53,7 @@ ENT.MeleeAttackKnockBack_Up2 = 200
 ENT.StopMeleeAttackAfterFirstHit = true
 
 function ENT:CustomOnInitialize()
-	self.DoFade = GetConVar("hwr_flood_buildings_regrow"):GetInt() == 1
+	self.DoFade = GetConVar("hwr_flood_buildings_regrow"):GetInt() == 0
 	self:SetCollisionBounds(Vector(-50,-50,0),Vector(50,50,170))
 	local root = ents.Create("prop_dynamic")
 	root:SetOwner(self)
