@@ -72,19 +72,15 @@ function ENT:Shoot(ent)
 	local id, len = self:LookupSequence(seq)
 	timer.Simple( 0.2, function()
 		if IsValid(self) then
-			self:Speak("FireEffectShotgun")
+			if i == 1 then
+				self:Speak("FireShotgun")
+			end
 			self:FireAt()
-		end
-	end )
-	timer.Simple( 0.8, function()
-		if IsValid(self) then
-			self:Speak("CockShotgun")
 		end
 	end )
 	self:PlaySequenceAndWait(id)
 	if math.random(1,2) == 1 then
-		self:Speak("ReloadShotgun")
-		self:PlaySequenceAndWait("Idle Combat 3")
+		self:PlaySequenceAndWait("Idle Combat "..math.random(1,5).."")
 	end
 	--[[if !IsValid(self.Enemy) then
 		self:StopParticles()

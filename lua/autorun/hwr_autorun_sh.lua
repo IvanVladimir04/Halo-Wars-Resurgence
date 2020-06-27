@@ -3,10 +3,6 @@ game.AddParticles( "particles/iv04_halowars_flamers.pcf" )
 PrecacheParticleSystem( "flame_halowars_flame" )
 PrecacheParticleSystem( "flame_halowars_napalm" )
 
-CreateConVar( "hwr_flood_infection_climb", 1, FCVAR_ARCHIVE )
-
-CreateConVar( "hwr_flood_buildings_regrow", 1, FCVAR_ARCHIVE )
-
 -- Yes yes there's a literal section of copyright of vrej's here but I'll skip it for now
 
 --------------------------------------------------*/
@@ -25,7 +21,7 @@ if VJExists == true then
 	VJ.AddNPC("Flood Root","npc_vj_hw_flood_root",vCat )
 	VJ.AddNPC("Flood Bomber Form","npc_vj_hw_flood_bomber",vCat )
 	VJ.AddNPC("Flood Swarm Form","npc_vj_hw_flood_swarm",vCat )
-	--VJ.AddNPC("Flood Infection Form","npc_vj_hw_flood_infection",vCat )
+	VJ.AddNPC("Flood Infection Form","npc_vj_hw_flood_infection",vCat )
 	VJ.AddNPC("Flood Carrier Form","npc_vj_hw_flood_carrier",vCat )
 	VJ.AddNPC("Infected Elite","npc_vj_hw_flood_elite",vCat )
 	VJ.AddNPC("Thrasher Form","npc_hw1r_rhinodillo",vCat) -- Adds a NPC to the spawnmenu
