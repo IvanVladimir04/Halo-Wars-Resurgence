@@ -1,0 +1,6 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/halowars/floodvent/forerunnervent_01_df"
+	"$bumpmap" "models/halowars/floodvent/forerunnervent_01_nm"
+	"$phongexponenttexture" "models/halowars/floodvent/forerunnervent_01_sp"
+}

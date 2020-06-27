@@ -1,0 +1,10 @@
+"UnlitGeneric"
+{
+	"$basetexture"	"effects/halo3/basic_trail"
+	"$additive"	1
+	"$vertexcolor"	1
+	"$vertexalpha"	1
+
+
+
+}

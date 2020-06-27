@@ -1,0 +1,9 @@
+"UnlitGeneric"
+{
+	"$basetexture"	"effects/halo3/muzzle_flash_round_gaseous"
+	"$additive"	1
+	"$vertexcolor"	1
+	"$vertexalpha"	1
+
+
+}

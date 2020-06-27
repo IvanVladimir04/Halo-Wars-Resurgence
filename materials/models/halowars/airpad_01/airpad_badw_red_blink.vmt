@@ -1,0 +1,16 @@
+"UnlitGeneric"
+{
+	"$baseTexture" "models/halowars/airpad_01/airpad_badw_red_blink_df"
+	"$nocull" "1"
+	"$blendtintbybasealpha"	"1"
+
+    "Proxies"
+    {
+                "TextureScroll"
+                {
+                        "texturescrollvar" "$baseTextureTransform"
+                        "texturescrollrate" 0.5
+                        "texturescrollangle" 45
+                }
+    }
+}

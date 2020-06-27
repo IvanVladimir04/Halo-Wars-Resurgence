@@ -23,7 +23,7 @@ ENT.SightDistance = 1024
 function ENT:OnInitialize()
 	self:SetBloodColor(BLOOD_COLOR_MECH)
 	if !self.Color then
-		self:SetColor(Color(245,0,255,255))
+		self:SetColor(Color(193,74,201,255))
 	end
 end
 

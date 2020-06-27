@@ -1,7 +1,7 @@
 AddCSLuaFile("shared.lua")
 include("shared.lua")
 /*-----------------------------------------------
-	*** Copyright (c) 2012-2018 by DrVrej, All rights reserved. ***
+	*** Copyright (c) 2012-2020 by DrVrej, All rights reserved. ***
 	No parts of this code or any of its contents may be reproduced, copied, modified or adapted,
 	without the prior written consent of the author, unless otherwise indicated for stand-alone materials.
 -----------------------------------------------*/
@@ -22,7 +22,23 @@ end
 function ENT:CustomOnInitialize()
 	ParticleEffectAttach("vj_impact1_yellow", PATTACH_ABSORIGIN_FOLLOW, self, 0) 
 	ParticleEffectAttach("vj_impact1_yellow", PATTACH_ABSORIGIN_FOLLOW, self, 0)
-
+	local dir = self:GetAngles():Forward()
+	timer.Simple( 0.3, function()
+		if IsValid(self) then
+			if IsValid(self:GetOwner()) and IsValid(self:GetOwner():GetEnemy()) then
+				dir = (self:GetOwner():GetEnemy():WorldSpaceCenter()-self:WorldSpaceCenter()):GetNormalized()
+			end
+			local bullet = {}
+			bullet.Damage = self.DirectDamage
+			bullet.Attacker = self:GetOwner()
+			bullet.Src = self:GetPos()
+			bullet.IgnoreEntity = self:GetOwner()
+			bullet.Dir = dir
+			--bullet.Tracer = "vj_impact1_yellow"
+			self:FireBullets(bullet)
+			self:Remove()
+		end
+	end )
 end
 ---------------------------------------------------------------------------------------------------------------------------------------------
 function ENT:CustomOnThink()

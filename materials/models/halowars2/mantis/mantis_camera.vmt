@@ -1,0 +1,7 @@
+"UnlitGeneric"
+{
+	"$baseTexture" "models/halowars2/mantis/mantis_camera_df"
+	"$blendtintbybasealpha"	"1"
+	"$color2"		"[2.5 2.5 2.5]"
+
+}

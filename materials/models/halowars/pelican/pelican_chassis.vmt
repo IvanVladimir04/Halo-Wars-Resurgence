@@ -3,25 +3,20 @@
 	"$baseTexture" "models/halowars/pelican/pelican_multiframe_01_df"
 	"$bumpmap" "models/halowars/pelican/pelican_multiframe_01_nm"
 	"$phong" 1
-	"$phongboost" "0.4"
-	"$phongexponent" "35"
+	"$phongboost" "0.95"
+	"$phongexponent" "10"
 	"$phongtint" "{230 255 195}"
 	"$phongfresnelranges" "[.7 .82 31]"
 	"$halflambert" "1"
 	"$nodecal" "1"
 	"$nocull"		"1"
 	"$rimlight" 1
-	$rimlightboost          0.1
+	$rimlightboost          0.2
 	"$rimlightexponent"       47
 	"$blendtintbybasealpha"	"1"
 
 	Proxies
 	{
-		PlayerColor
-		{
-			resultVar	$color2 // pass the player color value to Gmod
-			default		0.23 0.35 0.41 // unused for now.
-		}
 		Clamp
 		{
 			min 0.15
