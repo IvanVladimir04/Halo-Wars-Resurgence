@@ -3,4 +3,13 @@
 	"$basetexture" "models/halowars/floodvent/forerunnervent_01_df"
 	"$bumpmap" "models/halowars/floodvent/forerunnervent_01_nm"
 	"$phongexponenttexture" "models/halowars/floodvent/forerunnervent_01_sp"
+	"$nocull"		"1"
+	"$ambientocclusion" "1"
+	"$phong" 1
+	"$phongboost" "2.9"
+	"$phongexponent" "10"
+	"$phongtint" "{125 185 255}"
+	"$phongfresnelranges" "[.7 .82 31]"
+	"$model" 1
+	"$phongalbedotint" "1"
 }
