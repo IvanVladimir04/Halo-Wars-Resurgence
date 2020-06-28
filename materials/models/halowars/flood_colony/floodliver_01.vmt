@@ -1,0 +1,16 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models/halowars/flood_colony/floodliver_01_df"
+	"$bumpmap" "models/halowars/flood_colony/floodliver_01_nm"
+	"$nocull"		"1"
+	"$ambientocclusion" "1"
+	"$phong" 1
+	"$phongboost" "2.5"
+	"$phongexponent" "9"
+	"$phongtint" "{225 215 125}"
+	"$phongfresnelranges" "[.7 .82 31]"
+	"$model" 1
+	"$phongalbedotint" "1"
+
+}
+
