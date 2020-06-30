@@ -7,6 +7,58 @@ CreateConVar( "hwr_flood_infection_climb", 1, FCVAR_ARCHIVE )
 
 CreateConVar( "hwr_flood_buildings_regrow", 1, FCVAR_ARCHIVE )
 
+CreateConVar( "hwr_flood_buildings_squads", 3, FCVAR_ARCHIVE )
+
+CreateConVar( "hwr_flood_buildings_limit", 5, FCVAR_ARCHIVE )
+
+if SERVER then
+
+	FloodBuildingsTbl = {}
+
+	FloodUnits = {}
+	
+	UsedNavs = {}
+
+	FloodClasses = {
+		["CLASS_HALO_FLOOD"] = true,
+		["CLASS_FLOOD"] = true,
+		["CLASS_PARASITE"] = true
+	}
+
+	function CanBeClassifiedAsFlood(ent)
+		local yes = false
+		if ent.Faction == "FACTION_FLOOD" then
+			yes = true
+		elseif ent.VJ_NPC_Class then
+			local tbl = ent.VJ_NPC_Class
+			for i = 1, #tbl do
+				if FloodClasses[tbl[i]] then
+					yes = true
+					break
+				end
+			end
+		end
+		return yes
+	end
+
+	hook.Add( "OnEntityCreated", "FloodRegisteringCreate", function(ent)
+		if ent.IsFloodBuilding then
+			FloodBuildingsTbl[ent] = true
+		elseif CanBeClassifiedAsFlood(ent) then
+			FloodUnits[ent] = true
+		end
+	end )
+
+	hook.Add( "EntityRemoved", "FloodRegisteringDelete", function(ent)
+		if ent.IsFloodBuilding then
+			FloodBuildingsTbl[ent] = nil
+		elseif CanBeClassifiedAsFlood(ent) then
+			FloodUnits[ent] = nil
+		end
+	end )
+
+end
+
 -- Yes yes there's a literal section of copyright of vrej's here but I'll skip it for now
 
 --------------------------------------------------*/

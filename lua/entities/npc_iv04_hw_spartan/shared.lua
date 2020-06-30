@@ -192,7 +192,7 @@ function ENT:FireAt()
 					stop = true
 				end
 			end
-			self:FireFromAttachment(3)
+			self:FireFromAttachment(5)
 			coroutine.wait(0.1)
 		end
 		self:PlaySequenceAndWait("Attack Minigun Loop")

@@ -35,6 +35,8 @@ ENT.DoFade = true
 
 ENT.MeleeAttackDamage = 40
 
+ENT.IsFloodBuilding = true
+
 ENT.MeleeAttackDistance = 300
 
 ENT.MeleeAttackDamageDistance = 350
@@ -170,6 +172,10 @@ function ENT:CreateDeathCorpse(dmginfo,hitgroup,comeback)
 					en:Remove()
 				end
 			end )
+		else
+			self.Corpse.FadeCorpseType = fadetype
+			self.FadeCorpse = true
+			self.Corpse.FadeCorpseTime = math.random(20,30)
 		end
 
 		cleanup.ReplaceEntity(self,self.Corpse) -- Delete on cleanup

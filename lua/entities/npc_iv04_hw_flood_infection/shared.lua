@@ -31,6 +31,8 @@ ENT.UseLineOfSight = false
 
 ENT.SearchJustAsSpawned = true
 
+ENT.VJ_EnhancedFlood = true
+
 ENT.Quotes = {
 	["Death"] = {
 		"halowars1/characters/The Flood/infection form die 2.mp3",
@@ -54,6 +56,7 @@ end
 function ENT:OnInitialize()
 	self:SetSkin(math.random(0,1))
 	self:SetCollisionBounds(Vector(8,8,15),Vector(-8,-8,0))
+	self:SetSolidMask(MASK_NPCSOLID)
 	self.DoClimb = GetConVar("hwr_flood_infection_climb"):GetInt() == 1
 end
 
