@@ -76,6 +76,20 @@ function ENT:CustomOnInitialize()
 			root:Remove()
 		end
 	end )
+	if !self.WasSpawned then
+		local goal = self:GetPos()
+		local navs = navmesh.Find( goal, 1024, 100, 20 )
+		local tbl = navs
+		for i = 1, #tbl do
+			local nv = tbl[i]
+			local x = nv:GetSizeX()
+			local y = nv:GetSizeY()
+			if ( !UsedNavs[nv:GetID()] or !IsValid(UsedNavs[nv:GetID()]) ) and x > 200 and y > 200 then
+				UsedNavs[nv:GetID()] = self
+				break
+			end
+		end
+	end
 	--local id, len = self:LookupSequence("Emerge_01")
 	--local act = self:GetSequenceActivity(id)
 	--self:VJ_ACT_PLAYACTIVITY(act,true,len,false,0)
