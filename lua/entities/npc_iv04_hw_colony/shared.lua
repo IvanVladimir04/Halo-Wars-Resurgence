@@ -21,9 +21,9 @@ ENT.ToastRange = 900
 
 ENT.FriendlyToPlayers = false
 
-ENT.SightDistance = 5000
+ENT.SightDistance = 15000
 
-ENT.LoseEnemyDistance = 15000
+ENT.LoseEnemyDistance = 30000
 
 ENT.UseLineOfSight = false
 
@@ -62,6 +62,7 @@ function ENT:PreInit()
 			local y = nv:GetSizeY()
 			if ( !UsedNavs[nv:GetID()] or !IsValid(UsedNavs[nv:GetID()]) ) and x > 200 and y > 200 then
 				UsedNavs[nv:GetID()] = self
+				self.UsedNav = nv:GetID()
 				break
 			end
 		end
@@ -233,6 +234,7 @@ function ENT:DoBuildingAndStuff()
 				ent:Spawn()
 				ent.WasSpawned = true
 				UsedNavs[nv:GetID()] = ent
+				ent.UsedNav = nv:GetID()
 				break
 			end
 		end
@@ -259,7 +261,7 @@ function ENT:Wander()
 	end
 	if !self.HasCreated and GetConVar( "hwr_flood_buildings_limit" ):GetInt() > #FloodBuildingsTbl then
 		self.HasCreated = true
-		timer.Simple( 10, function() --math.random(self.CreateDelayMin,self.CreateDelayMax), function()
+		timer.Simple( math.random(self.CreateDelayMin,self.CreateDelayMax), function()
 			if IsValid(self) then
 				self.HasCreated = false
 			end
@@ -449,6 +451,8 @@ function ENT:CreateRagdoll(dmg)
 	--local snd = table.Random(self.SoundDeath)
 	--corpse:EmitSound(snd,100)
 	local en = corpse
+	corpse.UsedNav = self.UsedNav
+	UsedNavs[corpse.UsedNav] = nav
 	if !self.DoFade then
 		--local tim = math.random(120,180)
 		local tim = math.random(240,300)

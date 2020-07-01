@@ -33,7 +33,7 @@ ENT.SearchJustAsSpawned = true
 
 ENT.VJ_EnhancedFlood = true
 
-ENT.Quotes = {
+ENT.Voices = {
 	["Death"] = {
 		"halowars1/characters/The Flood/infection form die 2.mp3",
 		"halowars1/characters/The Flood/infection form die.mp3",
@@ -45,7 +45,7 @@ function ENT:CustomRelationshipsSetUp()
 end
 
 function ENT:Speak(quote)
-	local tbl = self.Quotes[quote]
+	local tbl = self.Voices[quote]
 	if tbl then
 		local snd = tbl[math.random(#tbl)]
 		self:EmitSound(snd,100)
@@ -83,11 +83,61 @@ function ENT:FireAnimationEvent(pos,ang,event,name)
 	print(name)]]
 end
 
+function ENT:CanInfectTarget( victim )
+	local can = false
+	local class
+	if victim.IsCEMarine then
+		can = true
+		class = "npc_vj_hw_flood_marine"
+	elseif (  victim.Voices and !victim.GetInfected and (victim.Voices["Grunt"] or victim.Voices["Elite"])) then
+		can = true
+		if victim.Voices["Elite"] then 
+			class = "npc_vj_hw_flood_elite" 
+		elseif victim.Voices["Grunt"] then
+			class = "npc_vj_hw_flood_grunt"
+		end
+	end
+	return can ,class
+end
+
+function ENT:Infect(victim,class)
+	local pos = victim:GetPos()
+	local ang = victim:GetAngles()
+	victim:Remove()
+	local ent = ents.Create(class)
+	ent:SetPos(pos)
+	ent:SetAngles(ang)
+	ent:Spawn()
+	self:Remove()
+end
+
 function ENT:OnOtherKilled( victim, info )
 	if !IsValid(victim) then return end -- Check if the victim is valid
-	if self:Health() < 1 then return end		
+	if self:Health() <= 0 then return end		
 	if self.Enemy == victim then
+		
 		-- On killed enemy
+		local found = false
+		if !istable(self.temptbl) then self.temptbl = {} end
+		for i=1, #self.temptbl do
+			local v = self.temptbl[i]
+			if istable(v) then
+				local ent = v.ent
+				if IsValid(ent) then
+					if ent:Health() < 1 then
+						self.temptbl[v] = nil
+						self:SetEnemy(nil)
+					end
+					if IsValid(ent) and ent != victim then
+						found = true
+						self:SetEnemy(ent)
+						break
+					end
+				else
+					self.temptbl[i] = nil
+				end
+			end
+		end
 	end
 end
 
@@ -106,6 +156,13 @@ function ENT:DoMeleeDamage()
 	local damage = self.MeleeDamage
 	for	k,v in pairs(ents.FindInCone(self:GetPos()+self:OBBCenter(), self:GetForward(), self.MeleeRange,  math.cos( math.rad( self.MeleeConeAngle ) ))) do
 		if v != self and self:CheckRelationships(v) != "friend" and (v:IsNPC() or v.Type == "nextbot" or v.NEXTBOT or v:IsPlayer()) then
+			if v:Health() - damage <= 0 and !v.IsInfected then
+				v.IsInfected = true
+				local can, class = self:CanInfectTarget( v )
+				if can then
+					return self:Infect( v, class )
+				end
+			end
 			v:TakeDamage( damage, self, self )
 			--v:EmitSound( self.OnMeleeSoundTbl[math.random(1,#self.OnMeleeSoundTbl)] )
 			if v:IsPlayer() then

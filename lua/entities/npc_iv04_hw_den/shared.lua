@@ -62,6 +62,7 @@ function ENT:PreInit()
 			local y = nv:GetSizeY()
 			if ( !UsedNavs[nv:GetID()] or !IsValid(UsedNavs[nv:GetID()]) ) and x > 200 and y > 200 then
 				UsedNavs[nv:GetID()] = self
+				self.UsedNav = nv:GetID()
 				break
 			end
 		end
@@ -249,6 +250,8 @@ function ENT:CreateRagdoll(dmg)
 	end )
 	--local snd = table.Random(self.SoundDeath)
 	--corpse:EmitSound(snd,100)
+	corpse.UsedNav = self.UsedNav
+	UsedNavs[corpse.UsedNav] = nav
 	local en = corpse
 	if !self.DoFade then
 		--local tim = math.random(120,180)

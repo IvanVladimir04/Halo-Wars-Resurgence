@@ -86,6 +86,7 @@ function ENT:CustomOnInitialize()
 			local y = nv:GetSizeY()
 			if ( !UsedNavs[nv:GetID()] or !IsValid(UsedNavs[nv:GetID()]) ) and x > 200 and y > 200 then
 				UsedNavs[nv:GetID()] = self
+				self.UsedNav = nv:GetID()
 				break
 			end
 		end
@@ -173,6 +174,8 @@ function ENT:CreateDeathCorpse(dmginfo,hitgroup,comeback)
 			self:SpawnBloodPool(dmginfo,hitgroup)
 		end]]
 		local en = self.Corpse
+		self.Corpse.UsedNav = self.UsedNav
+		UsedNavs[corpse.UsedNav] = nav
 		if !comeback then
 			local tim = math.random(120,180)
 			timer.Simple( tim, function()

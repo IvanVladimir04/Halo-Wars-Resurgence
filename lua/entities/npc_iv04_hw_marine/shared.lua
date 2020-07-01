@@ -121,7 +121,7 @@ function ENT:CustomBehaviour(ent)
 	if !IsValid(ent) then return end
 	--print(ent)
 	local range = self:GetRangeSquaredTo(Vector(ent:GetPos().x,ent:GetPos().y,self:GetPos().z))
-	if range < self.AttackRange^2 then
+	if range < self.AttackRange^2 and self:IsLineOfSightClear(ent) then
 		return self:Shoot(ent)
 	else
 		self.Grilling = false

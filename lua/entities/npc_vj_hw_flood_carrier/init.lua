@@ -15,8 +15,8 @@ ENT.DeathAnimationTime = 10
 ENT.AnimTbl_Death = {"Death_01","Death_02"} 
 ENT.HasMeleeAttack = true 
 ENT.MeleeAttackDistance = 85 
-ENT.MeleeAttackDamageDistance = 120 
-ENT.MeleeAttackDamage = 50
+ENT.MeleeAttackDamageDistance = 0 
+ENT.MeleeAttackDamage = 0
 ENT.MeleeAttackDamageType = DMG_POISON 
 --custom
 ENT.CarrierExplode = false
@@ -34,6 +34,11 @@ function ENT:CustomOnPriorToKilled(dmginfo,hitgroup)
 
     timer.Simple(1.4,function()
 		if IsValid(self) then -- Will error if the carrier is unspawned, always add an IsValid()
+			for k, v in pairs(ents.FindInSphere(self:GetPos(),150)) do
+				if self:Disposition(v) == D_HT then
+					v:TakeDamage(70,self,self)
+				end
+			end
 			self:EmitSound(Sound("vj_gib/gibbing2.wav",250))
 			self:EmitSound(Sound("vj_gib/gibbing3.wav",250))
 			self:EmitSound(Sound("vj_gib/gibbing1.wav",250))
