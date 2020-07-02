@@ -114,13 +114,6 @@ function ENT:DoMeleeDamage()
 	local damage = self.MeleeDamage
 	for	k,v in pairs(ents.FindInCone(self:GetPos()+self:OBBCenter(), self:GetForward(), self.MeleeRange,  math.cos( math.rad( self.MeleeConeAngle ) ))) do
 		if v != self and self:CheckRelationships(v) != "friend" and (v:IsNPC() or v.Type == "nextbot" or v.NEXTBOT or v:IsPlayer()) then
-			if v:Health() - damage <= 0 and !v.IsInfected then
-				v.IsInfected = true
-				local can, class = self:CanInfectTarget( v )
-				if can then
-					return self:Infect( v, class )
-				end
-			end
 			v:TakeDamage( damage, self, self )
 			--v:EmitSound( self.OnMeleeSoundTbl[math.random(1,#self.OnMeleeSoundTbl)] )
 			if v:IsPlayer() then
