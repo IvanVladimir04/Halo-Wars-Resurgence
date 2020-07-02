@@ -57,7 +57,7 @@ ENT.Squad = {
 	["npc_iv04_hw_flood_marine"] = 1,
 	["npc_vj_hw_flood_brute"] = 1,
 	["npc_iv04_hw_flood_elite"] = 1,
-	["npc_iv04_hw_flood_flamethrower"] = 1
+	["npc_iv04_hw_flood_flamer"] = 1
 }
 
 ENT.Squads = {
