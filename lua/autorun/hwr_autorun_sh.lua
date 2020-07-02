@@ -11,6 +11,8 @@ CreateConVar( "hwr_flood_buildings_squads", 3, FCVAR_ARCHIVE )
 
 CreateConVar( "hwr_flood_buildings_limit", 5, FCVAR_ARCHIVE )
 
+CreateConVar( "hwr_flood_buildings_time", 0, FCVAR_ARCHIVE )
+
 if SERVER then
 
 	FloodBuildingsTbl = {}
@@ -79,13 +81,13 @@ if VJExists == true then
 	VJ.AddNPC("Flood Swarm Form","npc_vj_hw_flood_swarm",vCat )
 	--VJ.AddNPC("Flood Infection Form","npc_vj_hw_flood_infection",vCat )
 	VJ.AddNPC("Flood Carrier Form","npc_vj_hw_flood_carrier",vCat )
-	VJ.AddNPC("Infected Elite","npc_vj_hw_flood_elite",vCat )
+	--VJ.AddNPC("Infected Elite","npc_vj_hw_flood_elite",vCat )
 	VJ.AddNPC("Thrasher Form","npc_hw1r_rhinodillo",vCat) -- Adds a NPC to the spawnmenu
 	VJ.AddNPC("Infected Brute","npc_vj_hw_flood_brute",vCat )
-	VJ.AddNPC("Infected Grunt","npc_vj_hw_flood_grunt",vCat )
+	--VJ.AddNPC("Infected Grunt","npc_vj_hw_flood_grunt",vCat )
 	--VJ.AddNPC("Infected Jackal","npc_vj_hw_flood_grunt",vCat )
-	VJ.AddNPC("Infected Marine","npc_vj_hw_flood_marine",vCat )
-	VJ.AddNPC("Infected Flamethrower","npc_vj_hw_flood_flamethrower",vCat )
+	--VJ.AddNPC("Infected Marine","npc_vj_hw_flood_marine",vCat )
+	--VJ.AddNPC("Infected Flamethrower","npc_vj_hw_flood_flamethrower",vCat )
 	
 	--Squads
 	VJ.AddNPC("Infected Marine Squad","sent_vj_hw_flood_marine_squad",vCat)

@@ -1,18 +1,18 @@
 AddCSLuaFile()
 ENT.Base 			= "npc_iv04_base"
-ENT.Models  = {"models/halowars1/unsc/flamer.mdl"}
+ENT.Models = {"models/hc/halo-wars/flood/infectedflame_01/infectedflame_01.mdl"} 
 ENT.StartHealth = 50
 ENT.Relationship = 4
 ENT.MeleeDamage = 30
 ENT.RunAnim = {ACT_RUN}
 ENT.SightType = 2
 ENT.BehaviourType = 3
-ENT.Faction = "FACTION_UNSC"
+ENT.Faction = "FACTION_FLOOD"
 --ENT.MeleeSoundTbl = {"npc/zombie/zo_attack1.wav","npc/zombie/zo_attack2.wav"}
 ENT.MoveSpeed = 80
 ENT.MoveSpeedMultiplier = 2 -- When running, the move speed will be x times faster
 
-ENT.PrintName = "Flamethrower"
+ENT.PrintName = "Infected Flamethrower"
 
 ENT.FlameRange = 300
 
@@ -20,58 +20,34 @@ ENT.FriendlyToPlayers = true
 
 ENT.SightDistance = 512
 
-ENT.Quotes = {
-	["Created"] = {
-		"halowars1/characters/Flame Thrower/flamer _ ready to burn.mp3",
-		"halowars1/characters/Flame Thrower/flamer_good to go.mp3",
-		"halowars1/characters/Flame Thrower/flamer_ on the ground.mp3",
-		"halowars1/characters/Flame Thrower/flamer_Flamethrower ready.mp3",
-		"halowars1/characters/Flame Thrower/flamer_ fueld and ready.mp3"
-	},
-	["FireEffect"] = {
-		"halowars1/characters/Flame Thrower/Flamer Thrower Fire sound effect.mp3"
-	},
-	["Selected"] = {
-		"halowars1/characters/Flame Thrower/flaer standing by.mp3",
-		"halowars1/characters/Flame Thrower/flamer good to go sir.mp3",
-		"halowars1/characters/Flame Thrower/flamer standing by 2.mp3",
-		"halowars1/characters/Flame Thrower/flamer waiting for orders.mp3",
-		"halowars1/characters/Flame Thrower/flamer where to.mp3",
-		"halowars1/characters/Flame Thrower/flamer you point I burn.mp3",
-		"halowars1/characters/Flame Thrower/flamer_ give us an order.mp3",
-		"halowars1/characters/Flame Thrower/flamer_order(question).mp3"
-	},
-	["Move"] = {
-		"halowars1/characters/Flame Thrower/flamer_waypoint.mp3",
-		"halowars1/characters/Flame Thrower/flamer_on the way.mp3",
-		"halowars1/characters/Flame Thrower/flamer_ moving out.mp3",
-		"halowars1/characters/Flame Thrower/flamer were going.mp3",
-		"halowars1/characters/Flame Thrower/flamer moving.mp3",
-		"halowars1/characters/Flame Thrower/flamer moving up.mp3"
-	},
-	["Special"] = {
-		"halowars1/characters/Flame Thrower/flamer FLASHBANGS OUT.mp3",
-		"halowars1/characters/Flame Thrower/Flamer_Smoek em out (flamer version).mp3",
-		"halowars1/characters/Flame Thrower/flamer_ FLASHBANG ON MY MARK.ogg"
-	},
-	["Attack"] = {
-		"halowars1/characters/Flame Thrower/flamer (hyped) were going in!.mp3",
-		"halowars1/characters/Flame Thrower/flamer bringign the heat.mp3",
-		"halowars1/characters/Flame Thrower/flamer fire em up.mp3",
-		"halowars1/characters/Flame Thrower/flamer light em up.mp3",
-		"halowars1/characters/Flame Thrower/flamer ready to burn.mp3",
-		"halowars1/characters/Flame Thrower/flamer ROAST EM.mp3",
-		"halowars1/characters/Flame Thrower/flamer they will burn.mp3",
-		"halowars1/characters/Flame Thrower/flamer toast em.mp3",
-		"halowars1/characters/Flame Thrower/flamer well get em.mp3",
-		"halowars1/characters/Flame Thrower/flamer were goin in.mp3",
-		"halowars1/characters/Flame Thrower/flamer yeah we got em.mp3",
-		"halowars1/characters/Flame Thrower/flamer YESSIR.mp3",
-		"halowars1/characters/Flame Thrower/flamer_ fire is lit (it is).mp3",
-		"halowars1/characters/Flame Thrower/flamer_bring in the fire (ringing the fire).mp3",
-		"halowars1/characters/Flame Thrower/flamer_here comes the heat.mp3"
+function ENT:PreInit()
+	self.Quotes = {
+		["Created"] = {
+			"halowars1/characters/The Flood/Flood Mutate.mp3",
+			"halowars1/characters/The Flood/flood mutate 2.mp3",
+			"halowars1/characters/The Flood/flood mutate 3.mp3",
+		},
+		["FireEffect"] = {
+			"halowars1/characters/Flame Thrower/Flamer Thrower Fire sound effect.mp3"
+		},
+		["Death"] = {
+			"halowars1/characters/The Flood/Combat form die.mp3",
+			"halowars1/characters/The Flood/Combat form die 2.mp3",
+			"halowars1/characters/The Flood/combat form die 3.mp3",
+			"halowars1/characters/The Flood/flood die all 1.mp3",
+			"halowars1/characters/The Flood/flood die all 2.mp3"
+		}
 	}
-}
+end
+
+function ENT:OnInitialize()
+	self:SetCollisionBounds(Vector(-15,-15,0),Vector(15,15,60))
+	self:Speak("Created")
+	local func = function()
+		self:PlaySequenceAndWait("Birth_01")
+	end
+	table.insert(self.StuffToRunInCoroutine,func)
+end
 
 function ENT:Speak(quote)
 	local tbl = self.Quotes[quote]
@@ -99,14 +75,6 @@ end
 function ENT:OnSpecialAttack(mover)
 	self:Speak("Special")
 	return true
-end
-
-function ENT:OnInitialize()
-	if !self.Color then
-		self:SetColor(Color(155,166,90,255))
-	end
-	self:SetCollisionBounds(Vector(-15,-15,0),Vector(15,15,60))
-	self:Speak("Created")
 end
 
 function ENT:Wander()
@@ -141,9 +109,9 @@ function ENT:Grill(ent)
 		self:Speak("FireEffect")
 	end
 	self:Face(ent)
-	local seq = "Attack "..math.random(1,2)..""
+	local seq = "Attack_01"
 	local effect = "flame_halowars_flame"
-	if self.IsUpgraded then seq = "Attack Napalm" effect = "flame_halowars_napalm" end
+	--if self.IsUpgraded then seq = "Attack Napalm" effect = "flame_halowars_napalm" end
 	ParticleEffectAttach( effect, PATTACH_POINT_FOLLOW, self, 1 )
 	local id, len = self:LookupSequence(seq)
 	for i = 1, len*5 do
@@ -166,9 +134,6 @@ function ENT:Burn()
 	for k, v in pairs(ents.FindInCone(start,normal,self.FlameRange,math.cos( math.rad( 30 ) ))) do
 		if v:Health() > 0 and self:CheckRelationships(v) != "friend" then
 			local num = math.random(2,5)
-			if self.IsUpgraded then
-				num = num+math.random(2,5)
-			end
 			dm = DamageInfo()
 			dm:SetDamage( num/2 )
 			dm:SetAttacker(self)
@@ -243,9 +208,9 @@ function ENT:OnKilled( dmginfo ) -- When killed
 	coroutine.resume( self.DieThread )
 end
 
-list.Set( "NPC", "npc_iv04_hw_flamer", {
-	Name = "Flamethrower",
-	Class = "npc_iv04_hw_flamer",
+list.Set( "NPC", "npc_iv04_hw_flood_flamer", {
+	Name = "Infected Flamethrower",
+	Class = "npc_iv04_hw_flood_flamer",
 	Category = "Halo Wars Resurgence"
 } )
 
@@ -310,97 +275,13 @@ function ENT:BodyUpdate()
 	self:FrameAdvance()
 end
 
-function ENT:GetInfected(dmg)
-	local id, len = self:LookupSequence("Death Flood")
-	self.Faction = "FACTION_FLOOD"
-	dmg:GetAttacker():Remove()
-	if math.random(1,2) == 1 then
-		local dir = self:GetForward()*math.Rand(-1,1)+self:GetRight()*math.Rand(-1,1)
-		local stop = false
-		timer.Simple( math.random(1,3), function()
-			if IsValid(self) then
-				stop = true
-			end
-		end )
-		self:ResetSequenceInfo()
-		self:ResetSequence(self:LookupSequence("Death Flood Jog"))
-		self.loco:SetDesiredSpeed(self.MoveSpeed*self.MoveSpeedMultiplier)
-		while (!stop) do
-			if self:GetCycle() == 1 then
-				self:SetCycle(0)
-			end
-			self.loco:FaceTowards(self:GetPos()+dir)
-			self.loco:Approach(dir+self:GetPos(),1)
-			coroutine.wait(0.01)
-		end
-		-- Why do you enjoy breaking so fcking much?
-		local p = ents.Create("prop_dynamic")
-		p:SetPos(self:GetPos())
-		p:SetColor(self:GetColor())
-		p:SetModel(self:GetModel())
-		p:SetAngles(self:GetAngles())
-		p:Spawn()
-		p:Activate()
-		p:ResetSequenceInfo()
-		p:SetSequence(id)
-		undo.ReplaceEntity(self,p)
-		timer.Simple( len, function()
-			if IsValid(p) then
-				local flood = ents.Create("npc_iv04_hw_flood_flamer")
-				flood:SetPos(p:GetPos())
-				flood:SetAngles(p:GetAngles())
-				flood:Spawn()
-				undo.ReplaceEntity(p,flood)
-				p:Remove()
-			end
-		end )
-		self:Remove()
-	else
-		timer.Simple( len, function()
-			if IsValid(self) then
-				local flood = ents.Create("npc_iv04_hw_flood_flamer")
-				flood:SetPos(self:GetPos())
-				flood:SetAngles(self:GetAngles())
-				flood:Spawn()
-				undo.ReplaceEntity(self,flood)
-				self:Remove()
-			end
-		end )
-		self:PlaySequenceAndWait("Death Flood")
-	end
-end
-
 function ENT:DetermineDeath(dmg)
-	local seq
-	--print(dmg:GetDamageType())
-	if dmg:IsBulletDamage() then
-	
-		seq = "Death Machinegun "..math.random(1,3)..""
-		
-	elseif dmg:GetDamageType() == DMG_SLASH then
-	
-		seq = "Death Melee "..math.random(1,4)..""
-		
-	elseif ( dmg:GetDamageType() == DMG_BURN or self:IsOnFire() ) then
-	
-		seq = "Death Fire "..math.random(1,3)..""
-		
-		
-	else
-		
-		if math.random(1,2) == 1 then
-			seq = "Death "..math.random(1,4)..""
-		else
-			seq = "Death Headshot "..math.random(1,5)..""
-		end
-	
-	end
+	local seq = "Death_01"
 	
 	return seq
 end
 
 function ENT:CreateRagdoll(dmg)
-	if dmg:GetAttacker().IsHWInfector then self.BeenInfected = true return self:GetInfected(dmg) end
 	local corpse = ents.Create("prop_dynamic")
 	corpse:SetPos(self:GetPos())
 	corpse:SetModel(self:GetModel())

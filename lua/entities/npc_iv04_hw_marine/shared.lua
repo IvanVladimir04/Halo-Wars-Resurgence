@@ -215,6 +215,10 @@ function ENT:Wander()
 	end
 end
 
+function ENT:GetShootPos()
+	return self:GetAttachment(1).Pos
+end
+
 function ENT:OnInjured( dmg )
 	if self:Health() < 1 then return end
 	if dmg:GetAttacker().IsHWPopcorn then
@@ -386,7 +390,7 @@ function ENT:GetInfected(dmg)
 		undo.ReplaceEntity(self,p)
 		timer.Simple( len, function()
 			if IsValid(p) then
-				local flood = ents.Create("npc_vj_hw_flood_marine")
+				local flood = ents.Create("npc_iv04_hw_flood_marine")
 				flood:SetPos(p:GetPos())
 				flood:SetAngles(p:GetAngles())
 				flood:Spawn()

@@ -31,6 +31,19 @@ ENT.HealthState = 1 -- 1 = normal, 2 = damaged, 3 = critically damaged
 
 ENT.VJ_EnhancedFlood = true
 
+ENT.Voices = {
+	["Grow"] = {"halowars1/characters/The Flood/flood growth movement.mp3"},
+	["Reduce"] = {"halowars1/characters/The Flood/flood shifting 2.mp3"}
+}
+
+function ENT:Speak(quote)
+	local tbl = self.Voices[quote]
+	if tbl then
+		local snd = tbl[math.random(#tbl)]
+		self:EmitSound(snd,100)
+	end
+end
+
 ENT.SpawnableEntities = {
 	"npc_iv04_hw_flood_infection",
 	"npc_iv04_hw_flood_infection",
@@ -261,7 +274,8 @@ function ENT:Wander()
 	end
 	if !self.HasCreated and GetConVar( "hwr_flood_buildings_limit" ):GetInt() > #FloodBuildingsTbl then
 		self.HasCreated = true
-		timer.Simple( math.random(self.CreateDelayMin,self.CreateDelayMax), function()
+		local c = GetConVar("hwr_flood_buildings_time"):GetInt()
+		timer.Simple( math.random(self.CreateDelayMin+c,self.CreateDelayMax+c), function()
 			if IsValid(self) then
 				self.HasCreated = false
 			end
@@ -284,7 +298,7 @@ function ENT:Wander()
 							end
 						end
 					else
-						tbl[i] = nil
+						table.remove(tbl,v)
 					end
 				end
 			end
@@ -339,6 +353,7 @@ function ENT:OnInjured(dmg)
 	local ht = self:Health()-dmg:GetDamage()
 	if ht > 0 then
 		if ht < self.StartHealth*0.7 and self.HealthState == 1 then
+			self:Speak("Reduce")
 			local func = function()
 				self:PlaySequenceAndWait("Shrink1")
 			end
@@ -346,6 +361,7 @@ function ENT:OnInjured(dmg)
 			table.insert(self.StuffToRunInCoroutine,func)
 			self:ResetAI()
 		elseif ht < self.StartHealth*0.3 and self.HealthState == 2 then
+			self:Speak("Reduce")
 			local func = function()
 				self:PlaySequenceAndWait("Shrink2")
 			end
@@ -453,6 +469,7 @@ function ENT:CreateRagdoll(dmg)
 	local en = corpse
 	corpse.UsedNav = self.UsedNav
 	UsedNavs[corpse.UsedNav] = nav
+	self:Speak("Reduce")
 	if !self.DoFade then
 		--local tim = math.random(120,180)
 		local tim = math.random(240,300)
@@ -470,6 +487,7 @@ function ENT:CreateRagdoll(dmg)
 				en:Remove()
 				imbackbitch.HealthState = 3
 				local func = function()
+					imbackbitch:Speak("Growth")
 					imbackbitch:SetHealth(ht/3)
 					imbackbitch:PlaySequenceAndWait("Growth3")
 				end
@@ -482,6 +500,7 @@ function ENT:CreateRagdoll(dmg)
 				imbackbitch.HealthState = 2
 				imbackbitch:SetHealth(ht*0.66)
 				local func = function()
+					imbackbitch:Speak("Growth")
 					imbackbitch:PlaySequenceAndWait("Growth2")
 				end
 				table.insert(imbackbitch.StuffToRunInCoroutine,func)
@@ -493,6 +512,7 @@ function ENT:CreateRagdoll(dmg)
 				imbackbitch.HealthState = 1
 				imbackbitch:SetHealth(ht)
 				local func = function()
+					imbackbitch:Speak("Growth")
 					imbackbitch:PlaySequenceAndWait("Growth1")
 				end
 				table.insert(imbackbitch.StuffToRunInCoroutine,func)

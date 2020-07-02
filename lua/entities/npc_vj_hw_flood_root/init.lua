@@ -175,7 +175,7 @@ function ENT:CreateDeathCorpse(dmginfo,hitgroup,comeback)
 		end]]
 		local en = self.Corpse
 		self.Corpse.UsedNav = self.UsedNav
-		UsedNavs[corpse.UsedNav] = nav
+		UsedNavs[self.Corpse.UsedNav] = nav
 		if !comeback then
 			local tim = math.random(120,180)
 			timer.Simple( tim, function()
