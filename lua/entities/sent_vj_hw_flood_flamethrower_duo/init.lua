@@ -8,8 +8,8 @@ include('shared.lua')
 ENT.SingleSpawner = true
 ENT.Model = {"models/props_junk/popcan01a.mdl"} 
 ENT.EntitiesToSpawn = {
-	{EntityName = "NPC2",SpawnPosition = {vForward=0,vRight=50,vUp=0},Entities = {"npc_vj_hw_flood_flamethrower"}},
-	{EntityName = "NPC5",SpawnPosition = {vForward=0,vRight=-50,vUp=0},Entities = {"npc_vj_hw_flood_flamethrower"}},
+	{EntityName = "NPC2",SpawnPosition = {vForward=0,vRight=50,vUp=0},Entities = {"npc_iv04_hw_flood_flamer"}},
+	{EntityName = "NPC5",SpawnPosition = {vForward=0,vRight=-50,vUp=0},Entities = {"npc_iv04_hw_flood_flamer"}},
 }
 /*-----------------------------------------------
 	*** Copyright (c) 2012-2017 by DrVrej, All rights reserved. ***
