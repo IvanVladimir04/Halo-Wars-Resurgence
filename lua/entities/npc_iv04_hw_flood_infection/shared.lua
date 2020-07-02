@@ -90,13 +90,13 @@ function ENT:CanInfectTarget( victim )
 	local class
 	if victim.IsCEMarine then
 		can = true
-		class = "npc_vj_hw_flood_marine"
+		class = "npc_iv04_hw_flood_marine"
 	elseif (  victim.Voices and !victim.GetInfected and (victim.Voices["Grunt"] or victim.Voices["Elite"])) then
 		can = true
 		if victim.Voices["Elite"] then 
-			class = "npc_vj_hw_flood_elite" 
+			class = "npc_iv04_hw_flood_elite" 
 		elseif victim.Voices["Grunt"] then
-			class = "npc_vj_hw_flood_grunt"
+			class = "npc_iv04_hw_flood_grunt"
 		end
 	end
 	return can ,class
