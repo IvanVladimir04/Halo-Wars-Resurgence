@@ -29,6 +29,8 @@ ENT.SearchJustAsSpawned = true
 
 ENT.VJ_EnhancedFlood = true
 
+ENT.LoseEnemyDistance = 15000
+
 ENT.Voices = {
 	["Created"] = {
 		"halowars1/characters/The Flood/Flood Mutate.mp3",

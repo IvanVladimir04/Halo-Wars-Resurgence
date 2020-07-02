@@ -20,6 +20,8 @@ ENT.FriendlyToPlayers = true
 
 ENT.SightDistance = 512
 
+ENT.LoseEnemyDistance = 15000
+
 function ENT:PreInit()
 	self.Quotes = {
 		["Created"] = {

@@ -45,7 +45,7 @@ end
 ENT.SpawnableEntities = {
 	"npc_vj_hw_flood_brute",
 	"npc_iv04_hw_flood_elite",
-	"npc_iv04_hw_flood_flamethrower",
+	"npc_iv04_hw_flood_flamer",
 	"npc_iv04_hw_flood_grunt",
 	"npc_iv04_hw_flood_marine",
 	"npc_iv04_hw_flood_marine",

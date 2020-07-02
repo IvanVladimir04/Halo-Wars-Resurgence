@@ -14,6 +14,8 @@ ENT.FriendlyToPlayers = false
 
 ENT.WepDamage = 5
 
+ENT.LoseEnemyDistance = 15000
+
 function ENT:PreInit()
 	self.Quotes = {
 		["Created"] = {

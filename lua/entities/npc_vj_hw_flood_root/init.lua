@@ -320,12 +320,12 @@ function ENT:MeleeAttackCode(IsPropAttack,AttackDist,CustomEnt)
 		end
 	end
 	if hitentity == true then
-		self:MeleeAttackSoundCode()
+		--self:MeleeAttackSoundCode()
 		if self.StopMeleeAttackAfterFirstHit == true then self.AlreadyDoneMeleeAttackFirstHit = true /*self:StopMoving()*/ end
 	else
 		self:CustomOnMeleeAttack_Miss()
 		if self.MeleeAttackWorldShakeOnMiss == true then util.ScreenShake(self:GetPos(),self.MeleeAttackWorldShakeOnMissAmplitude,self.MeleeAttackWorldShakeOnMissFrequency,self.MeleeAttackWorldShakeOnMissDuration,self.MeleeAttackWorldShakeOnMissRadius) end
-		self:MeleeAttackMissSoundCode()
+		--self:MeleeAttackMissSoundCode()
 	end
 	//if self.VJ_IsBeingControlled == false && self.MeleeAttackAnimationFaceEnemy == true then self:FaceCertainEntity(MyEnemy,true) end
 	if self.AlreadyDoneFirstMeleeAttack == false && self.TimeUntilMeleeAttackDamage != false then

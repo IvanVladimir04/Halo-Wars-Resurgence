@@ -12,6 +12,8 @@ ENT.IsUpgraded = true
 
 ENT.FriendlyToPlayers = false
 
+ENT.LoseEnemyDistance = 15000
+
 function ENT:PreInit()
 	self.Quotes = {
 		["Created"] = {
