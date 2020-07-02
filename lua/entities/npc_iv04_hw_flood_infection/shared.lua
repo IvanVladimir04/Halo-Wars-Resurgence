@@ -33,6 +33,8 @@ ENT.SearchJustAsSpawned = true
 
 ENT.VJ_EnhancedFlood = true
 
+ENT.LoseEnemyDistance = 15000
+
 ENT.Voices = {
 	["Death"] = {
 		"halowars1/characters/The Flood/infection form die 2.mp3",
