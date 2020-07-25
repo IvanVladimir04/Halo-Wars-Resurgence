@@ -400,9 +400,7 @@ end
 function ENT:OnKilled( dmginfo ) -- When killed
 	hook.Call( "OnNPCKilled", GAMEMODE, self, dmginfo:GetAttacker(), dmginfo:GetInflictor() )
 	self.KilledDmgInfo = dmginfo
-	self.BehaveThread = nil
-	self.DieThread = coroutine.create( function() self:DoKilledAnim() end )
-	coroutine.resume( self.DieThread )
+	self:CreateRagdoll(dmginfo)
 end
 
 list.Set( "NPC", "npc_iv04_hw_spartan", {
@@ -410,59 +408,6 @@ list.Set( "NPC", "npc_iv04_hw_spartan", {
 	Class = "npc_iv04_hw_spartan",
 	Category = "Halo Wars Resurgence"
 } )
-
-function ENT:DieUpdate( fInterval )
-	
-	if !self.DieThread then return end
-
-	local ok, message = coroutine.resume( self.DieThread )
-
-end
-
-function ENT:BehaveUpdate( fInterval )
-
-	if ( !self.BehaveThread ) then return self:DieUpdate(fInterval) end
-
-	--
-	-- Give a silent warning to developers if RunBehaviour has returned
-	--
-	if ( coroutine.status( self.BehaveThread ) == "dead" and self:Health() > 0 ) then
-
-		self.BehaveThread = nil
-		Msg( self, " Warning: ENT:RunBehaviour() has finished executing\n" )
-
-		return
-
-	end
-	if self.ShouldResetAI and CurTime() > self.ResetAITime then
-		self.ResetAITime = CurTime()+self.ResetAIDelay
-		--print("Reseted AI")
-		self:ResetAI()
-	end
-	--
-	-- Continue RunBehaviour's execution
-	--
-	local ok, message = coroutine.resume( self.BehaveThread )
-	if ( ok == false ) then
-
-		self.BehaveThread = nil
-		ErrorNoHalt( self, " Error: ", message, "\n" )
-
-	end
-
-end
-
-function ENT:DoKilledAnim()
-	--local anim
-	--anim = "Death"
-	--local len = self:SequenceDuration(self:LookupSequence(anim))
-	--timer.Simple(len, function()
-		--if IsValid(self) then
-			self:CreateRagdoll( self.KilledDmgInfo )
-		--end
-	--end)
-	--self:PlaySequenceAndWait(anim, 1)
-end
 
 function ENT:BodyUpdate()
 	local act = self:GetActivity()
@@ -491,6 +436,7 @@ function ENT:CreateRagdoll(dmg)
 	corpse:SetSequence(seq)
 	corpse:SetCycle(1)
 	--corpse.IsOSWCorpse = true
+	corpse:SetBodygroup(1,self:GetBodygroup(1))
 	corpse.Faction = self.Faction
 	if !corpse:IsOnGround() then
 		local tr = util.TraceLine( {
