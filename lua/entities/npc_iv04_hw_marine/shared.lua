@@ -402,7 +402,7 @@ function ENT:GetInfected(dmg)
 	else
 		timer.Simple( len, function()
 			if IsValid(self) then
-				local flood = ents.Create("npc_vj_hw_flood_marine")
+				local flood = ents.Create("npc_iv04_hw_flood_marine")
 				flood:SetPos(self:GetPos())
 				flood:SetAngles(self:GetAngles())
 				flood:Spawn()
