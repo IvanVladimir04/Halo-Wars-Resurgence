@@ -20,8 +20,6 @@ ENT.FriendlyToPlayers = true
 
 ENT.SightDistance = 512
 
-ENT.VJ_NPC_Class = {"CLASS_HALO_FLOOD","CLASS_FLOOD","CLASS_PARASITE"}
-
 ENT.Quotes = {
 	["Created"] = {
 		"halowars1/characters/Flame Thrower/flamer _ ready to burn.mp3",

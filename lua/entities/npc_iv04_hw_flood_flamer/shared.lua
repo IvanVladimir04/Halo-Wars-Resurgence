@@ -22,6 +22,8 @@ ENT.SightDistance = 512
 
 ENT.LoseEnemyDistance = 15000
 
+ENT.VJ_NPC_Class = {"CLASS_HALO_FLOOD","CLASS_FLOOD","CLASS_PARASITE"}
+
 function ENT:PreInit()
 	self.Quotes = {
 		["Created"] = {
