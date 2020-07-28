@@ -316,7 +316,7 @@ function ENT:MultipleMeleeAttacks()
 end 
 ---------------------------------------------------------------------------------------------------------------------------------------------
 function ENT:CustomOnInitialKilled(dmginfo,hitgroup) 
-	if dmginfo:GetDamageType() == DMG_BLAST then 
+	if IsValid(self:GetEnemy()) and dmginfo:GetDamageType() == DMG_BLAST then 
 	self.AnimTbl_Death = {"Clamshell_01"} 
 	self.DeathAnimationTime = false
 	self:SetLocalVelocity(((self:GetEnemy():GetPos() + self:OBBCenter()) -(self:GetPos() + self:OBBCenter())):GetNormal()*400 +self:GetForward()*-1000 +self:GetUp()*200 + self:GetRight()*0)
