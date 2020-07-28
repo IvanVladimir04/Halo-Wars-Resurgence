@@ -88,17 +88,6 @@ function ENT:FireAnimationEvent(pos,ang,event,name)
 	print(name)]]
 end
 
-function ENT:Infect(victim,class)
-	local pos = victim:GetPos()
-	local ang = victim:GetAngles()
-	victim:Remove()
-	local ent = ents.Create(class)
-	ent:SetPos(pos)
-	ent:SetAngles(ang)
-	ent:Spawn()
-	self:Remove()
-end
-
 function ENT:HandleAnimEvent(event,eventTime,cycle,type,options)
 	--[[print(event)
 	print(eventTime)
@@ -178,14 +167,14 @@ function ENT:ChaseEnt(ent) -- Modified MoveToPos to integrate some stuff
 				-- We are stuck, don't bother
 				return "Give up"
 			end
-			local dist = self:GetPos():DistToSqr(ent:GetPos())
+			local dist = self:GetPos():DistToSqr(ent:NearestPoint(self:GetPos()))
 			if dist > self.LoseEnemyDistance^2 then 
 				self:OnLoseEnemy()
 				self:SetEnemy(nil)
 				self.State = "Idle"
 				return "Lost Enemy"
 			end
-			if dist < self.MeleeRange^2 and self.HasMeleeAttack then
+			if self:IsInMeleeRange(dist) then
 				return self:Melee(self.MeleeDamage)
 			end
 		end
@@ -212,7 +201,7 @@ end
 function ENT:OnKilled(dmginfo)
 	hook.Call( "OnNPCKilled", GAMEMODE, self, dmginfo:GetAttacker(), dmginfo:GetInflictor() )
 	local deadguy = ents.Create("prop_dynamic")
-	deadguy:SetPos(self:GetPos()+self:GetUp()*-10)
+	deadguy:SetPos(self:GetPos())
 	deadguy:SetModel(self:GetModel())
 	deadguy:SetAngles(self:GetAngles()+Angle(0,math.random(360),0))
 	deadguy:SetColor(self:GetColor())

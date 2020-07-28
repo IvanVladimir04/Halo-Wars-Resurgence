@@ -230,6 +230,11 @@ function ENT:ComputeAPath(ent,path)
 		end
 
 		local cost = dist + fromArea:GetCostSoFar()
+		
+		local deltaZ = fromArea:ComputeAdjacentConnectionHeightChange( area )
+		if ( !self.DoClimb and deltaZ >= self.loco:GetStepHeight() ) then
+			return -1
+		end
 
 		return cost
 	end
