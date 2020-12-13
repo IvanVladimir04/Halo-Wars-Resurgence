@@ -1,0 +1,15 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models/halowars/marine/rocket_launcher_df"
+	"$bumpmap"	"models/halowars/marine/rocket_launcher_nm"
+	"$phong" 1
+	"$phongboost" "1.85"
+	"$phongexponent" "8"
+	"$phongtint" "{230 225 255}"
+	"$phongfresnelranges" "[.7 .82 31]"
+	"$nocull"		"1"
+	"$halflambert" "1"
+	"$nodecal" "1"
+	"$blendtintbybasealpha"	"1"
+
+}
