@@ -5,4 +5,4 @@ Dopey - Porter
 Ivan04 - Porter and coding Halo Wars 1/2 UNSC and Halo Wars 1 Covenant on IV04 Base.
 Headcrab - Porter and coding Halo Wars 1/2 Flood and Halo Wars 2 Banished on VJ Base.
 Darkborn Emperor - Coding and setting up halo wars 1 flood units
-DoggoWolf23101 - Coding Melee Units and making new materials for units
+DoggoWolf23101 - Coding HW1 Units on IV04 and making and updating materials
