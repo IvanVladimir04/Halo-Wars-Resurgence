@@ -89,6 +89,7 @@ function ENT:OnInitialize()
 		--if IsValid(self.Socket) then self.Socket:SetSequence("Idle") end
 	end
 	table.insert(self.StuffToRunInCoroutine,func)
+		self:Speak("Created")
 end
 
 function ENT:StartMovingAnimations( no1, no2 )
@@ -113,6 +114,7 @@ function ENT:Attack(ent)
 	if !IsValid(ent) then return end
 	for i = 1, 4 do
 		self:FireAt()
+		self:Speak("FireEffectSmall")
 		coroutine.wait(0.3)
 	end
 end
@@ -164,6 +166,7 @@ function ENT:FireAt()
 		info:SetDamageType(DMG_BLAST)
 	end
 	self:FireBullets(bullet)
+	self:Speak("FireEffectSmall")
 end
 
 function ENT:Face(ent)
@@ -242,6 +245,7 @@ function ENT:DoKilledAnim()
 end
 
 function ENT:CreateRagdoll(dmg)
+	self:Speak("Death")
 	local corpse = ents.Create("prop_dynamic")
 	corpse:SetPos(self:GetPos())
 	corpse:SetModel(self:GetModel())
@@ -334,6 +338,27 @@ function ENT:OnContact( ent ) -- When we touch someBODY
 		ent:PhysicsCollide(tbl,self:GetPhysicsObject())
 	end
 end
+
+function ENT:Speak(quote)
+	local tbl = self.Quotes[quote]
+	if tbl then
+		local snd = tbl[math.random(#tbl)]
+		self:EmitSound(snd,100)
+	end
+end
+
+ENT.Quotes = {
+	["Created"] = {
+		"halowars1/buildings/Base Noises/Building Deployment.mp3"
+	},
+	["Death"] = {
+		"halowars1/buildings/Base Noises/Building Destroyed.mp3",
+		"halowars1/buildings/Base Noises/Building and Turret Explode.mp3",
+	},
+	["FireEffectSmall"] = {
+		"halowars1/buildings/Base Noises/UNSC Turret Fire SFX.mp3"
+	}
+}
 
 list.Set( "NPC", "npc_iv04_hw_turret", {
 	Name = "Turret",
