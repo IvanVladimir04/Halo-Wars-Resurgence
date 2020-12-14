@@ -3,7 +3,7 @@ ENT.Base 			= "npc_iv04_base"
 ENT.Models  = {"models/halowars1/covenant/elite_honor_guard.mdl"}
 ENT.StartHealth = 50
 ENT.Relationship = 2
-ENT.MeleeDamage = 30
+ENT.MeleeDamage = 45
 ENT.WanderAnim = {ACT_RUN}
 ENT.SightType = 2
 ENT.BehaviourType = 3
@@ -16,7 +16,7 @@ ENT.PrintName = "Elite Honor Guard"
 
 ENT.AttackRange = 500
 
-ENT.FriendlyToPlayers = true
+ENT.FriendlyToPlayers = false
 
 ENT.SightDistance = 512
 

@@ -16,7 +16,7 @@ ENT.PrintName = "Grunt"
 
 ENT.AttackRange = 500
 
-ENT.FriendlyToPlayers = true
+ENT.FriendlyToPlayers = false
 
 ENT.SightDistance = 512
 

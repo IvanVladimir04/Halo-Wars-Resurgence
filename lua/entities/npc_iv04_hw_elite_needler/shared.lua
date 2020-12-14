@@ -16,7 +16,7 @@ ENT.PrintName = "Elite Needler"
 
 ENT.AttackRange = 500
 
-ENT.FriendlyToPlayers = true
+ENT.FriendlyToPlayers = false
 
 ENT.SightDistance = 512
 
@@ -30,12 +30,12 @@ ENT.Quotes = {
 		"halowars1/characters/Elite - Honor Guard/Sounds_2774.mp3"
 	},
 	["FireEffectBig"] = {
-		"halowars1/Covenant guns/Sounds_1679.mp3",
-		"halowars1/Covenant guns/Sounds_1679.mp3",
-		"halowars1/Covenant guns/Sounds_1679.mp3"
+		"halowars1/Covenant guns/Sounds_1839.mp3",
+		"halowars1/Covenant guns/Sounds_1839.mp3",
+		"halowars1/Covenant guns/Sounds_1839.mp3"
 	},
 	["FireEffectSmall"] = {
-		"halowars1/Covenant guns/Sounds_1679.mp3"
+		"halowars1/Covenant guns/Sounds_2004.mp3"
 	},
 	["Death"] = {
 		"halowars1/characters/Elite - Honor Guard/Sounds_509.ogg",

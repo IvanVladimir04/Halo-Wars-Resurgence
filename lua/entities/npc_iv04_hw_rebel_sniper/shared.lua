@@ -16,11 +16,11 @@ ENT.PrintName = "Rebel Sniper"
 
 ENT.AttackRange = 500
 
-ENT.FriendlyToPlayers = true
+ENT.FriendlyToPlayers = false
 
 ENT.SightDistance = 512
 
-ENT.WepDamage = 7
+ENT.WepDamage = 10
 
 ENT.Quotes = {
 	["Created"] = {

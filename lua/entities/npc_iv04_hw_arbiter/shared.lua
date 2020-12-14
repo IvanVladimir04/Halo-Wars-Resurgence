@@ -9,7 +9,7 @@ ENT.SightType = 2
 ENT.BehaviourType = 1
 ENT.Faction = "FACTION_COVENANT"
 --ENT.MeleeSound = { "doom_3/zombie2/zombie_attack1.ogg", "doom_3/zombie2/zombie_attack2.ogg", "doom_3/zombie2/zombie_attack3.ogg" }
-ENT.MoveSpeed = 150
+ENT.MoveSpeed = 250
 ENT.MoveSpeedMultiplier = 1 -- When running, the move speed will be x times faster
 ENT.PrintName = "Arbiter"
 

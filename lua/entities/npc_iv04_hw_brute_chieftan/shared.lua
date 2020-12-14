@@ -13,7 +13,7 @@ ENT.MoveSpeed = 100
 ENT.MoveSpeedMultiplier = 1 -- When running, the move speed will be x times faster
 ENT.PrintName = "Chieftan"
 
-ENT.MeleeRange = 100
+ENT.MeleeRange = 200
 
 ENT.IdleSoundDelay = 8
 
@@ -313,7 +313,7 @@ function ENT:OnKilled(dmginfo)
 	deadguy:SetColor(self:GetColor())
 	deadguy:Spawn()
 	deadguy:ResetSequenceInfo()
-	local id, len = self:LookupSequence("Death "..math.random(1,1).."")
+	local id, len = self:LookupSequence("Death")
 	self:Speak("Death")
 	deadguy:SetSequence(id)
 	if self:IsOnFire() then deadguy:Ignite(math.random(5,10), 0) end
