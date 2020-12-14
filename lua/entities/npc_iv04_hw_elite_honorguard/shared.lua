@@ -177,6 +177,7 @@ function ENT:Melee(damage) -- This section is really cancerous and a mess, if yo
 			self:DoMeleeDamage()
 		end
 	end )
+	self:Speak("FireEffectSmall")
 	self:PlaySequenceAndWait( id )
 end
 
@@ -325,7 +326,6 @@ function ENT:OnKilled(dmginfo)
 			end
 		end)
 	end
-	self:Speak("FireEffectSmall")
 	self:Remove()
 end
 

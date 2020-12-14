@@ -70,7 +70,7 @@ function ENT:OnInitialize()
 	self:SetBloodColor( BLOOD_COLOR_MECH )
 	self:SetColor(Color(155,166,90,255))
 	end
-	self:SetCollisionBounds(Vector(-15,-15,0),Vector(15,15,60))
+	self:SetCollisionBounds(Vector(-15,-15,0),Vector(15,15,100))
 	self:Speak("Created")
 end
 
@@ -174,7 +174,7 @@ function ENT:Melee(damage) -- This section is really cancerous and a mess, if yo
 			self:DoMeleeDamage()
 		end
 	end )
-	self:Speak("FireEffectSmall")
+	self:Speak("FireEffect")
 	self:PlaySequenceAndWait( id )
 end
 
