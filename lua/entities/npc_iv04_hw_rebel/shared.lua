@@ -5,6 +5,8 @@ ENT.Models  = {"models/halowars1/rebel/rebel_infantry.mdl"}
 ENT.StartHealth = 60
 ENT.Faction = "FACTION_REBELS"
 
+ENT.FriendlyToPlayers = false
+
 function ENT:OnInitialize()
 	if !self.Color then
 		self:SetColor(Color(74,0,0,255))

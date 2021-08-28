@@ -3,13 +3,13 @@ ENT.Base 			= "npc_iv04_base"
 ENT.StartHealth = 75
 ENT.Models  = {"models/halowars1/covenant/elite_honor_guard.mdl"}
 ENT.Relationship = 4
-ENT.MeleeDamage = 10
+ENT.MeleeDamage = 20
 --ENT.RunAnim = {ACT_WALK}
 ENT.SightType = 2
 ENT.BehaviourType = 1
 ENT.Faction = "FACTION_COVENANT"
 --ENT.MeleeSound = { "doom_3/zombie2/zombie_attack1.ogg", "doom_3/zombie2/zombie_attack2.ogg", "doom_3/zombie2/zombie_attack3.ogg" }
-ENT.MoveSpeed = 80
+ENT.MoveSpeed = 95
 ENT.MoveSpeedMultiplier = 1 -- When running, the move speed will be x times faster
 ENT.PrintName = "Honor Guard"
 
@@ -304,29 +304,105 @@ function ENT:ChaseEnt(ent) -- Modified MoveToPos to integrate some stuff
 	return "ok"
 end
 
-function ENT:OnKilled(dmginfo)
-	hook.Call( "OnNPCKilled", GAMEMODE, self, dmginfo:GetAttacker(), dmginfo:GetInflictor() )
-	local deadguy = ents.Create("prop_dynamic")
-	deadguy:SetPos(self:GetPos()+self:GetUp()*-10)
-	deadguy:SetModel(self:GetModel())
-	deadguy:SetAngles(self:GetAngles()+Angle(0,math.random(360),0))
-	deadguy:SetColor(self:GetColor())
-	deadguy:Spawn()
-	deadguy:ResetSequenceInfo()
-	local id, len = self:LookupSequence("Death "..math.random(1,2).."")
+function ENT:DetermineDeath(dmg)
+	local seq
+	--print(dmg:GetDamageType())
+	if dmg:IsBulletDamage() then
+	
+		seq = "Death Machinegun "..math.random(1,3)..""
+		
+	elseif dmg:GetDamageType() == DMG_SLASH then
+	
+		seq = "Death Melee "..math.random(1,4)..""
+		
+	elseif ( dmg:GetDamageType() == DMG_BURN or self:IsOnFire() ) then
+	
+		seq = "Death Fire "..math.random(1,3)..""
+		
+		
+	else
+		
+		if math.random(1,2) == 1 then
+			seq = "Death "..math.random(1,2)..""
+		else
+			seq = "Death Headshot "..math.random(1,3)..""
+		end
+	
+	end
+	
+	return seq
+end
+
+function ENT:CreateRagdoll(dmg)
+	if dmg:GetAttacker().IsHWInfector then self.BeenInfected = true return self:GetInfected(dmg) end
 	self:Speak("Death")
-	deadguy:SetSequence(id)
-	if self:IsOnFire() then deadguy:Ignite(math.random(5,10), 0) end
+	local corpse = ents.Create("prop_dynamic")
+	corpse:SetPos(self:GetPos())
+	corpse:SetModel(self:GetModel())
+	corpse:SetAngles(self:GetAngles())
+	corpse:Spawn()
+	corpse:SetColor(self:GetColor())
+	corpse:Activate()
+	corpse:ResetSequenceInfo()
+	local seq = self:DetermineDeath(dmg)
+	corpse:SetSequence(seq)
+	corpse:SetCycle(1)
+	--corpse.IsOSWCorpse = true
+	corpse.Faction = self.Faction
+	if !corpse:IsOnGround() then
+		local tr = util.TraceLine( {
+			start = self:GetPos(),
+			endpos = self:GetPos()+self:GetUp()*-999999,
+			filter = {self,corpse}
+		} )
+		if tr.Hit then
+			corpse:SetPos(tr.HitPos)
+		end
+	end
+	--local snd = table.Random(self.SoundDeath)
+	--corpse:EmitSound(snd,100)
+	undo.ReplaceEntity( self, corpse )
 	self:Remove()
-	undo.ReplaceEntity(self, deadguy)
+	--[[timer.Simple( 15, function()
+		if IsValid(corpse) then
+			corpse:SetColor(Color(127+math.random(100,-100),95+math.random(100,-100),0,255))
+		end
+	end)]]
 	if GetConVar( "ai_serverragdolls" ):GetInt() == 0 then
-		timer.Simple( 15, function()
-			if IsValid(deadguy) then
-				deadguy:Remove()
+		timer.Simple( 30, function()
+			if IsValid(corpse) then
+				corpse:Remove()
 			end
 		end)
 	end
-	self:Remove()
+end
+
+function ENT:DoKilledAnim()
+	--local anim
+	--anim = "Death"
+	--local len = self:SequenceDuration(self:LookupSequence(anim))
+	--timer.Simple(len, function()
+		--if IsValid(self) then
+			self:CreateRagdoll( self.KilledDmgInfo )
+		--end
+	--end)
+	--self:PlaySequenceAndWait(anim, 1)
+end
+
+function ENT:BodyUpdate()
+	local act = self:GetActivity()
+	if self.BeenInfected and !self.loco:GetVelocity():IsZero() then
+		self:BodyMoveXY()
+	end
+	self:FrameAdvance()
+end
+
+function ENT:OnKilled( dmginfo ) -- When killed
+	hook.Call( "OnNPCKilled", GAMEMODE, self, dmginfo:GetAttacker(), dmginfo:GetInflictor() )
+	self.KilledDmgInfo = dmginfo
+	self.BehaveThread = nil
+	self.DieThread = coroutine.create( function() self:DoKilledAnim() end )
+	coroutine.resume( self.DieThread )
 end
 
 list.Set( "NPC", "npc_iv04_hw_elite_honorguard", {
@@ -334,3 +410,63 @@ list.Set( "NPC", "npc_iv04_hw_elite_honorguard", {
 	Class = "npc_iv04_hw_elite_honorguard",
 	Category = "Halo Wars Resurgence"
 } )
+
+function ENT:GetInfected(dmg)
+	local id, len = self:LookupSequence("Death Flood")
+	self.Faction = "FACTION_FLOOD"
+	dmg:GetAttacker():Remove()
+	if math.random(1,2) == 1 then
+		local dir = self:GetForward()*math.Rand(-1,1)+self:GetRight()*math.Rand(-1,1)
+		local stop = false
+		timer.Simple( math.random(1,3), function()
+			if IsValid(self) then
+				stop = true
+			end
+		end )
+		self:ResetSequenceInfo()
+		self:ResetSequence(self:LookupSequence("Death Flood Jog"))
+		self.loco:SetDesiredSpeed(self.MoveSpeed*self.MoveSpeedMultiplier)
+		while (!stop) do
+			if self:GetCycle() > 0.9 then
+				self:SetCycle(0)
+			end
+			self.loco:FaceTowards(self:GetPos()+dir)
+			self.loco:Approach(dir+self:GetPos(),1)
+			coroutine.wait(0.01)
+		end
+		-- why in the fucking hell do only the elites fly into space when they get infected?!?!
+		local p = ents.Create("prop_dynamic")
+		p:SetPos(self:GetPos())
+		p:SetColor(self:GetColor())
+		p:SetModel(self:GetModel())
+		p:SetAngles(self:GetAngles())
+		p:Spawn()
+		p:Activate()
+		p:ResetSequenceInfo()
+		p:SetSequence(id)
+		undo.ReplaceEntity(self,p)
+		timer.Simple( len, function()
+			if IsValid(p) then
+				local flood = ents.Create("npc_iv04_hw_flood_elite")
+				flood:SetPos(p:GetPos())
+				flood:SetAngles(p:GetAngles())
+				flood:Spawn()
+				undo.ReplaceEntity(p,flood)
+				p:Remove()
+			end
+		end )
+		self:Remove()
+	else
+		timer.Simple( len, function()
+			if IsValid(self) then
+				local flood = ents.Create("npc_iv04_hw_flood_elite")
+				flood:SetPos(self:GetPos())
+				flood:SetAngles(self:GetAngles())
+				flood:Spawn()
+				undo.ReplaceEntity(self,flood)
+				self:Remove()
+			end
+		end )
+		self:PlaySequenceAndWait("Death Flood")
+	end
+end

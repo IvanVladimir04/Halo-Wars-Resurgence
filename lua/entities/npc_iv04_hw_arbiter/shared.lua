@@ -304,30 +304,105 @@ function ENT:ChaseEnt(ent) -- Modified MoveToPos to integrate some stuff
 	return "ok"
 end
 
-function ENT:OnKilled(dmginfo)
+function ENT:DoKilledAnim()
+	--local anim
+	--anim = "Death"
+	--local len = self:SequenceDuration(self:LookupSequence(anim))
+	--timer.Simple(len, function()
+		--if IsValid(self) then
+			self:CreateRagdoll( self.KilledDmgInfo )
+		--end
+	--end)
+	--self:PlaySequenceAndWait(anim, 1)
+end
+
+function ENT:DetermineDeath(dmg)
+	local seq
+	--print(dmg:GetDamageType())
+	if dmg:IsBulletDamage() then
+	
+		seq = "Death"
+		
+	elseif dmg:GetDamageType() == DMG_SLASH then
+	
+		seq = "Death"
+		
+	elseif ( dmg:GetDamageType() == DMG_BURN or self:IsOnFire() ) then
+	
+		seq = "Death"
+		
+		
+	else
+		
+		if math.random(1,2) == 1 then
+			seq = "Death"
+		else
+			seq = "Death"
+		end
+	
+	end
+	
+	return seq
+end
+
+function ENT:OnKilled( dmginfo ) -- When killed
 	hook.Call( "OnNPCKilled", GAMEMODE, self, dmginfo:GetAttacker(), dmginfo:GetInflictor() )
-	local deadguy = ents.Create("prop_dynamic")
-	deadguy:SetPos(self:GetPos()+self:GetUp()*-10)
-	deadguy:SetModel(self:GetModel())
-	deadguy:SetAngles(self:GetAngles()+Angle(0,math.random(360),0))
-	deadguy:SetColor(self:GetColor())
-	deadguy:Spawn()
-	deadguy:ResetSequenceInfo()
-	local id, len = self:LookupSequence("Death")
+	self.KilledDmgInfo = dmginfo
+	self.BehaveThread = nil
+	self.DieThread = coroutine.create( function() self:DoKilledAnim() end )
+	coroutine.resume( self.DieThread )
+end
+
+function ENT:CreateRagdoll(dmg)
+	if dmg:GetAttacker().IsHWInfector then self.BeenInfected = true return self:GetInfected(dmg) end
 	self:Speak("Death")
-	deadguy:SetSequence(id)
-	if self:IsOnFire() then deadguy:Ignite(math.random(5,10), 0) end
+	local corpse = ents.Create("prop_dynamic")
+	corpse:SetPos(self:GetPos())
+	corpse:SetModel(self:GetModel())
+	corpse:SetAngles(self:GetAngles())
+	corpse:Spawn()
+	corpse:SetColor(self:GetColor())
+	corpse:Activate()
+	corpse:ResetSequenceInfo()
+	local seq = self:DetermineDeath(dmg)
+	corpse:SetSequence(seq)
+	corpse:SetCycle(1)
+	--corpse.IsOSWCorpse = true
+	corpse.Faction = self.Faction
+	if !corpse:IsOnGround() then
+		local tr = util.TraceLine( {
+			start = self:GetPos(),
+			endpos = self:GetPos()+self:GetUp()*-999999,
+			filter = {self,corpse}
+		} )
+		if tr.Hit then
+			corpse:SetPos(tr.HitPos)
+		end
+	end
+	--local snd = table.Random(self.SoundDeath)
+	--corpse:EmitSound(snd,100)
+	undo.ReplaceEntity( self, corpse )
 	self:Remove()
-	undo.ReplaceEntity(self, deadguy)
+	--[[timer.Simple( 15, function()
+		if IsValid(corpse) then
+			corpse:SetColor(Color(127+math.random(100,-100),95+math.random(100,-100),0,255))
+		end
+	end)]]
 	if GetConVar( "ai_serverragdolls" ):GetInt() == 0 then
-		timer.Simple( 15, function()
-			if IsValid(deadguy) then
-				deadguy:Remove()
+		timer.Simple( 30, function()
+			if IsValid(corpse) then
+				corpse:Remove()
 			end
 		end)
 	end
-	
-	self:Remove()
+end
+
+function ENT:BodyUpdate()
+	local act = self:GetActivity()
+	if self.BeenInfected and !self.loco:GetVelocity():IsZero() then
+		self:BodyMoveXY()
+	end
+	self:FrameAdvance()
 end
 
 list.Set( "NPC", "npc_iv04_hw_arbiter", {

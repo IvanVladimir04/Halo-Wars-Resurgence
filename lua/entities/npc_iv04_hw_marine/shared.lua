@@ -56,7 +56,8 @@ ENT.Quotes = {
 	["Death"] = {
 		"halowars1/characters/Marine/Generic_death.mp3",
 		"halowars1/characters/Marine/Generic_death 2.mp3",
-		"halowars1/characters/Marine/Generic_death 3.mp3"
+		"halowars1/characters/Marine/Generic_death 3.mp3",
+		"halowars1/characters/Death Screams - Updated/Marine-Rebel - Generic Death Scream 4 (or 5).ogg"
 	},
 	["Special"] = {
 		"halowars1/characters/Marine/marien_ Grenades ON MY MARK.mp3",
@@ -114,6 +115,7 @@ function ENT:OnInitialize()
 	end
 	self:SetCollisionBounds(Vector(-15,-15,0),Vector(15,15,60))
 	self:Speak("Created")
+	self:SetSkin(1)
 end
 
 function ENT:CustomBehaviour(ent)
