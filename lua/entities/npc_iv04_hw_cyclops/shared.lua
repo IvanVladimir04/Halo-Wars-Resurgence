@@ -10,7 +10,7 @@ ENT.BehaviourType = 1
 ENT.Faction = "FACTION_UNSC"
 --ENT.MeleeSound = { "doom_3/zombie2/zombie_attack1.ogg", "doom_3/zombie2/zombie_attack2.ogg", "doom_3/zombie2/zombie_attack3.ogg" }
 ENT.MoveSpeed = 80
-ENT.MoveSpeedMultiplier = 1 -- When running, the move speed will be x times faster
+ENT.MoveSpeedMultiplier = 2 -- When running, the move speed will be x times faster
 ENT.PrintName = "Cyclops"
 
 ENT.MeleeRange = 100
@@ -58,9 +58,12 @@ end
 
 function ENT:Speak(quote)
 	local tbl = self.Quotes[quote]
+	if self.CurSound then self.CurSound:Stop() end
 	if tbl then
 		local snd = tbl[math.random(#tbl)]
-		self:EmitSound(snd,100)
+		self.CurSound = CreateSound( self, snd )
+		self.CurSound:SetSoundLevel( 100 )
+		self.CurSound:Play()
 	end
 end
 
@@ -172,9 +175,9 @@ function ENT:Melee(damage) -- This section is really cancerous and a mess, if yo
 	timer.Simple( len/2, function()
 		if IsValid(self) then
 			self:DoMeleeDamage()
+			self:Speak("FireEffect")
 		end
 	end )
-	self:Speak("FireEffect")
 	self:PlaySequenceAndWait( id )
 end
 
@@ -182,50 +185,8 @@ ENT.MeleeCheckDelay = 0.5
 
 function ENT:ComputeAPath(ent,path)
 	if !IsValid(ent) then return end
-	path:Compute( self, ent:GetPos(), function( area, fromArea, ladder, elevator, length )
-	if ( !IsValid( fromArea ) ) then
-
-		-- first area in path, no cost
-		return 0
-	
-	else
-	
-		if ( !self.loco:IsAreaTraversable( area ) ) then
-			-- our locomotor says we can't move here
-			return -1
-		end
-
-		-- compute distance traveled along path so far
-		local dist = 0
-
-		if ( IsValid( ladder ) ) then
-			dist = ladder:GetLength()
-		elseif ( length > 0 ) then
-			-- optimization to avoid recomputing length
-			dist = length
-		else
-			dist = ( area:GetCenter() - fromArea:GetCenter() ):GetLength()
-		end
-
-		local cost = dist + fromArea:GetCostSoFar()
-		
-		local deltaZ = fromArea:ComputeAdjacentConnectionHeightChange( area )
-		if ( !self.DoClimb and deltaZ >= self.loco:GetStepHeight() ) then
-			return -1
-		end
-
-		return cost
-	end
-end )
+	path:Compute( self, ent:GetPos() )
 end
-
-ENT.DisDelay = 0.3
-
-ENT.ClimbAbleStuff = {
-	["prop_physics"] = true,
-	["prop_ragdoll"] = true,
-	["worldspawn"] = true
-}
 
 function ENT:BodyUpdate()
 	local act = self:GetActivity()
@@ -263,22 +224,6 @@ function ENT:ChaseEnt(ent) -- Modified MoveToPos to integrate some stuff
 			end
 			if dist < self.MeleeRange^2 and self.HasMeleeAttack then
 				return self:Melee(self.MeleeDamage)
-			end
-		end
-		if self.DoClimb and	!self.DoneDis then
-			self.DoneDis = true
-			timer.Simple( self.DisDelay, function()
-				if IsValid(self) then
-					self.DoneDis = false
-				end
-			end )
-			goal = path:GetCurrentGoal().pos
-			dis = math.abs(self:GetPos().x-goal.x)+math.abs(self:GetPos().y-goal.y)
-			--print(dis,self.loco:GetVelocity().x,path:GetCurrentGoal().type)
-			local climb = self:CanClimb()
-			--print(climb)
-			if climb then
-				self:Climb(path)
 			end
 		end
 		if ent:IsPlayer() then
