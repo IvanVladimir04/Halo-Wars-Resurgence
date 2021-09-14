@@ -9,7 +9,7 @@ ENT.SightType = 2
 ENT.BehaviourType = 3
 ENT.Faction = "FACTION_COVENANT"
 --ENT.MeleeSoundTbl = {"npc/zombie/zo_attack1.wav","npc/zombie/zo_attack2.wav"}
-ENT.MoveSpeed = 160
+ENT.MoveSpeed = 200
 ENT.MoveSpeedMultiplier = 1 -- When running, the move speed will be x times faster
 
 ENT.PrintName = "Elite Needler"
@@ -52,9 +52,12 @@ ENT.Quotes = {
 
 function ENT:Speak(quote)
 	local tbl = self.Quotes[quote]
+	if self.CurSound then self.CurSound:Stop() end
 	if tbl then
 		local snd = tbl[math.random(#tbl)]
-		self:EmitSound(snd,100)
+		self.CurSound = CreateSound( self, snd )
+		self.CurSound:SetSoundLevel( 100 )
+		self.CurSound:Play()
 	end
 end
 

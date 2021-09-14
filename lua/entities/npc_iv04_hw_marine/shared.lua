@@ -79,9 +79,12 @@ ENT.Quotes = {
 
 function ENT:Speak(quote)
 	local tbl = self.Quotes[quote]
+	if self.CurSound then self.CurSound:Stop() end
 	if tbl then
 		local snd = tbl[math.random(#tbl)]
-		self:EmitSound(snd,100)
+		self.CurSound = CreateSound( self, snd )
+		self.CurSound:SetSoundLevel( 100 )
+		self.CurSound:Play()
 	end
 end
 
